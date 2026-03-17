@@ -7,6 +7,7 @@ import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
 import 'package:boxing/features/timer/domain/timer_state.dart';
+import 'package:boxing/features/timer/data/timer_lifecycle_service.dart';
 import 'package:boxing/features/timer/presentation/timer_controller.dart';
 import 'package:boxing/features/timer/presentation/widgets/countdown_display.dart';
 import 'package:boxing/features/timer/presentation/widgets/phase_label.dart';
@@ -26,6 +27,7 @@ class TimerScreen extends ConsumerStatefulWidget {
 class _TimerScreenState extends ConsumerState<TimerScreen> {
   SessionModel? _session;
   bool _started = false;
+  TimerLifecycleService? _lifecycleService;
 
   @override
   void initState() {
@@ -33,14 +35,35 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
     // Session is looked up in build via provider
   }
 
-  void _startSession() {
+  @override
+  void dispose() {
+    _lifecycleService?.onSessionEnd();
+    _lifecycleService?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _startSession() async {
     final session = _session;
     if (session == null) return;
 
     final engine = ref.read(timerEngineProvider);
     final audioService = ref.read(audioServiceProvider);
-    audioService.preload(soundPack: session.soundPack);
+
+    // Attach engine to audio handler for notification media controls
+    audioService.handler?.attachEngine(engine);
+
+    // Pre-load sounds before starting (await to avoid missing first bell)
+    await audioService.preload(soundPack: session.soundPack);
+
     engine.start(session);
+
+    // Wire lifecycle service for wake lock, keep-alive, and notifications
+    _lifecycleService = TimerLifecycleService(
+      engine: engine,
+      audioService: audioService,
+    );
+    await _lifecycleService!.onSessionStart();
+
     setState(() => _started = true);
   }
 
@@ -63,6 +86,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
           TextButton(
             onPressed: () {
               ref.read(timerEngineProvider).stop();
+              _lifecycleService?.onSessionEnd();
               Navigator.of(ctx).pop();
               context.go('/');
             },
@@ -79,7 +103,13 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
     if (_session == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Timer')),
+        appBar: AppBar(
+          title: const Text('Timer'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.go('/'),
+          ),
+        ),
         body: const Center(child: Text('Session not found')),
       );
     }
@@ -94,33 +124,30 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
     final asyncState = ref.watch(timerStateProvider);
 
-    return asyncState.when(
-      data: (timerState) => _ActiveTimerView(
-        session: _session!,
-        timerState: timerState,
-        onPauseResume: () {
-          final engine = ref.read(timerEngineProvider);
-          if (engine.isPaused) {
-            engine.resume();
-          } else {
-            engine.pause();
-          }
-        },
-        onSkipBack: () => ref.read(timerEngineProvider).skipBack(),
-        onSkipForward: () => ref.read(timerEngineProvider).skipForward(),
-        onStop: _confirmStop,
-        onRepeat: _startSession,
-        onDone: () {
-          ref.read(timerEngineProvider).stop();
-          context.go('/');
-        },
-      ),
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (_, __) => const Scaffold(
-        body: Center(child: Text('Timer error')),
-      ),
+    // Use engine's current state as fallback during loading
+    final timerState = asyncState.valueOrNull ??
+        ref.read(timerEngineProvider).currentState;
+
+    return _ActiveTimerView(
+      session: _session!,
+      timerState: timerState,
+      onPauseResume: () {
+        final engine = ref.read(timerEngineProvider);
+        if (engine.isPaused) {
+          engine.resume();
+        } else {
+          engine.pause();
+        }
+      },
+      onSkipBack: () => ref.read(timerEngineProvider).skipBack(),
+      onSkipForward: () => ref.read(timerEngineProvider).skipForward(),
+      onStop: _confirmStop,
+      onRepeat: _startSession,
+      onDone: () {
+        ref.read(timerEngineProvider).stop();
+        _lifecycleService?.onSessionEnd();
+        context.go('/');
+      },
     );
   }
 }

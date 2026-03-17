@@ -81,9 +81,14 @@ class SessionListScreen extends ConsumerWidget {
               title: const Text('Duplicate'),
               onTap: () async {
                 Navigator.of(ctx).pop();
-                await ref
+                final dup = await ref
                     .read(sessionsControllerProvider)
                     .duplicateSession(session);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Created "${dup.name}"')),
+                  );
+                }
               },
             ),
             ListTile(
@@ -113,9 +118,14 @@ class SessionListScreen extends ConsumerWidget {
               title: const Text('Duplicate as Custom'),
               onTap: () async {
                 Navigator.of(ctx).pop();
-                await ref
+                final dup = await ref
                     .read(sessionsControllerProvider)
                     .duplicateSession(session);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Created "${dup.name}"')),
+                  );
+                }
               },
             ),
           ],
@@ -139,9 +149,14 @@ class SessionListScreen extends ConsumerWidget {
           TextButton(
             onPressed: () async {
               Navigator.of(ctx).pop();
-              await ref
+              final deleted = await ref
                   .read(sessionsControllerProvider)
                   .deleteSession(session.id);
+              if (context.mounted && deleted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Deleted "${session.name}"')),
+                );
+              }
             },
             child: const Text('DELETE', style: TextStyle(color: Colors.red)),
           ),

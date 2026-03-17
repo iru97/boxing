@@ -7,6 +7,7 @@ import 'package:boxing/core/constants/app_constants.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
+import 'package:boxing/features/settings/presentation/settings_controller.dart';
 
 class SessionEditorScreen extends ConsumerStatefulWidget {
   final String? sessionId;
@@ -30,6 +31,8 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
   bool _autoAdvance = true;
   bool _keepScreenOn = true;
   String? _editingId;
+  bool _defaultsApplied = false;
+  bool _isPresetCustomize = false;
 
   @override
   void initState() {
@@ -41,10 +44,21 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
     }
   }
 
+  void _applySettingsDefaults() {
+    if (_defaultsApplied || widget.sessionId != null) return;
+    _defaultsApplied = true;
+    final settings = ref.read(appSettingsProvider);
+    _warningTimeSec = settings.defaultWarningSec;
+    _warmupDurationSec = settings.defaultWarmupSec;
+    _autoAdvance = settings.defaultAutoAdvance;
+    _keepScreenOn = settings.defaultKeepScreenOn;
+  }
+
   void _loadSession() {
     final session = ref.read(sessionByIdProvider(widget.sessionId!));
     if (session != null) {
       setState(() {
+        _isPresetCustomize = session.isPreset;
         _editingId = session.isPreset ? null : session.id;
         _nameController.text = session.name;
         _rounds = session.rounds;
@@ -55,6 +69,14 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
         _autoAdvance = session.autoAdvance;
         _keepScreenOn = session.keepScreenOn;
       });
+    } else {
+      // Session not found (deleted or invalid ID)
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Session not found')),
+        );
+        context.go('/');
+      }
     }
   }
 
@@ -88,16 +110,26 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
     );
 
     await ref.read(sessionsControllerProvider).saveSession(session);
-    if (mounted) context.go('/');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Saved "${session.name}"')),
+      );
+      context.go('/');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    _applySettingsDefaults();
     final isEditing = _editingId != null;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Edit Session' : 'New Session'),
+        title: Text(isEditing
+            ? 'Edit Session'
+            : _isPresetCustomize
+                ? 'Customize Preset'
+                : 'New Session'),
         actions: [
           TextButton(
             onPressed: _save,

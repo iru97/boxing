@@ -36,10 +36,20 @@ class BoxingAudioService {
   /// Get the handler for engine attachment.
   BoxingAudioHandler? get handler => _handler;
 
-  /// Pre-load sounds. For handler mode, sounds are loaded on demand.
+  /// Pre-load sounds so first cue plays without latency.
   Future<void> preload({String soundPack = 'classic_bell'}) async {
     if (!_useHandler) {
-      _fallbackPlayer = AudioPlayer();
+      _fallbackPlayer ??= AudioPlayer();
+    }
+    // Pre-load the round start sound (most latency-critical)
+    try {
+      if (_useHandler) {
+        await _handler?.preloadAssets();
+      } else {
+        await _fallbackPlayer?.setAsset('assets/sounds/round_start.wav');
+      }
+    } catch (_) {
+      // Non-fatal — sounds will load on demand
     }
     _loaded = true;
   }

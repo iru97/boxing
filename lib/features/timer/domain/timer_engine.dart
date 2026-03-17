@@ -119,17 +119,16 @@ class TimerEngine {
     if (_pausedAt != null || _session == null) return;
     if (_enginePhase == _EnginePhase.completed || _enginePhase == _EnginePhase.idle) return;
 
-    // Restart current round's work phase
-    if (_enginePhase == _EnginePhase.rest) {
-      // During rest after round N, go back to round N work
-    } else if (_enginePhase == _EnginePhase.work && _currentRound > 1) {
-      _currentRound--;
-    }
-    // For warmup, just restart warmup
-
     if (_enginePhase == _EnginePhase.warmup) {
+      // Restart warmup
       _startPhase(_EnginePhase.warmup, Duration(seconds: _session!.warmupDurationSec));
-    } else {
+    } else if (_enginePhase == _EnginePhase.rest) {
+      // During rest after round N: go back to round N work phase
+      final roundDuration = Duration(seconds: _session!.durationForRound(_currentRound));
+      _startPhase(_EnginePhase.work, roundDuration);
+      onAudioCue?.call(AudioCue.roundStart);
+    } else if (_enginePhase == _EnginePhase.work) {
+      // During work: restart current round (don't go to previous)
       final roundDuration = Duration(seconds: _session!.durationForRound(_currentRound));
       _startPhase(_EnginePhase.work, roundDuration);
       onAudioCue?.call(AudioCue.roundStart);

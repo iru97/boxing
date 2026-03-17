@@ -527,12 +527,12 @@ void main() {
         async.elapse(const Duration(seconds: 16)); // 10s work + 5s rest + 1s
         expect(engine.currentState.currentRound, 2);
 
-        // Skip back — should restart round 1 (go back one round during work)
+        // Skip back — should restart current round (round 2), not go to round 1
         engine.skipBack();
         async.elapse(const Duration(milliseconds: 100));
 
         expect(engine.currentState.phase, isA<TimerWork>());
-        expect(engine.currentState.currentRound, 1);
+        expect(engine.currentState.currentRound, 2);
         // Should have ~10s remaining (restarted)
         final work = engine.currentState.phase as TimerWork;
         expect(work.remaining.inSeconds, greaterThanOrEqualTo(9));

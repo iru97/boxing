@@ -17,6 +17,15 @@ class BoxingAudioHandler extends BaseAudioHandler {
     _engine = engine;
   }
 
+  /// Pre-load the most latency-critical sound asset.
+  Future<void> preloadAssets() async {
+    try {
+      await _bellPlayer.setAsset('assets/sounds/round_start.wav');
+    } catch (_) {
+      // Non-fatal
+    }
+  }
+
   /// Start silent audio loop to keep the foreground service alive.
   Future<void> startKeepAlive() async {
     if (_silentLooping) return;

@@ -29,7 +29,7 @@ class TimerControls extends StatelessWidget {
             icon: Icons.skip_previous_rounded,
             size: 64,
             color: accentColor,
-            onTap: onSkipBack,
+            onTap: isPaused ? null : onSkipBack,
           ),
         ),
         const SizedBox(width: 24),
@@ -52,7 +52,7 @@ class TimerControls extends StatelessWidget {
             icon: Icons.skip_next_rounded,
             size: 64,
             color: accentColor,
-            onTap: onSkipForward,
+            onTap: isPaused ? null : onSkipForward,
           ),
         ),
       ],
@@ -65,7 +65,7 @@ class _ControlButton extends StatelessWidget {
   final double size;
   final Color color;
   final bool filled;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const _ControlButton({
     required this.icon,
@@ -77,23 +77,30 @@ class _ControlButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDisabled = onTap == null;
+    final displayColor = isDisabled
+        ? color.withValues(alpha: 0.3)
+        : color;
+
     return SizedBox(
       width: size,
       height: size,
       child: Material(
-        color: filled ? color : Colors.transparent,
+        color: filled ? displayColor : Colors.transparent,
         shape: const CircleBorder(),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () {
-            HapticFeedback.selectionClick();
-            onTap();
-          },
+          onTap: onTap != null
+              ? () {
+                  HapticFeedback.selectionClick();
+                  onTap!();
+                }
+              : null,
           child: Center(
             child: Icon(
               icon,
               size: size * 0.5,
-              color: filled ? Colors.black : color,
+              color: filled ? Colors.black : displayColor,
             ),
           ),
         ),

@@ -5,11 +5,9 @@ import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/features/timer/domain/timer_engine.dart';
 import 'package:boxing/features/timer/domain/timer_state.dart';
 
-/// Provides the singleton BoxingAudioService.
+/// Provides the singleton BoxingAudioService (overridden in main.dart).
 final audioServiceProvider = Provider<BoxingAudioService>((ref) {
-  final service = BoxingAudioService();
-  ref.onDispose(() => service.dispose());
-  return service;
+  throw UnimplementedError('audioServiceProvider must be overridden in main.dart');
 });
 
 /// Provides the TimerEngine with audio cue integration.
