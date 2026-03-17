@@ -4,6 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:boxing/app/app.dart';
 import 'package:boxing/core/constants/app_constants.dart';
+import 'package:boxing/features/audio/data/audio_player_service.dart';
+import 'package:boxing/features/timer/presentation/timer_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,11 +16,16 @@ Future<void> main() async {
   final settingsBox =
       await Hive.openBox<String>(AppConstants.settingsBoxName);
 
+  // Initialize audio service for background playback
+  final audioService = BoxingAudioService();
+  await audioService.initWithHandler();
+
   runApp(
     ProviderScope(
       overrides: [
         sessionsBoxProvider.overrideWithValue(sessionsBox),
         settingsBoxProvider.overrideWithValue(settingsBox),
+        audioServiceProvider.overrideWithValue(audioService),
       ],
       child: const BoxingApp(),
     ),
