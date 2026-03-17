@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Write",
+      "Edit",
+      "Bash",
+      "Agent",
+      "Skill",
+      "WebSearch",
+      "WebFetch",
+      "NotebookEdit"
+    ],
+    "deny": []
+  },
+  "model": "opus",
+  "agentTeams": {
+    "enabled": true,
+    "maxTeamSize": 5,
+    "requirePlanApproval": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Writing/editing file: ensure no secrets are included'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '--- Claude stopped. Review changes with: git diff ---'"
+          }
+        ]
+      }
+    ]
+  }
+}

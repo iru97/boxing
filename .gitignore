@@ -1,0 +1,29 @@
+# Claude Code local settings
+.claude/settings.local.json
+.claude/agent-memory-local/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+
+# Build
+dist/
+build/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
