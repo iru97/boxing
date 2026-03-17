@@ -1,0 +1,684 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'session_model.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
+
+RoundOverride _$RoundOverrideFromJson(Map<String, dynamic> json) {
+  return _RoundOverride.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RoundOverride {
+  int get round => throw _privateConstructorUsedError;
+  int get durationSec => throw _privateConstructorUsedError;
+
+  /// Serializes this RoundOverride to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RoundOverride
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RoundOverrideCopyWith<RoundOverride> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RoundOverrideCopyWith<$Res> {
+  factory $RoundOverrideCopyWith(
+    RoundOverride value,
+    $Res Function(RoundOverride) then,
+  ) = _$RoundOverrideCopyWithImpl<$Res, RoundOverride>;
+  @useResult
+  $Res call({int round, int durationSec});
+}
+
+/// @nodoc
+class _$RoundOverrideCopyWithImpl<$Res, $Val extends RoundOverride>
+    implements $RoundOverrideCopyWith<$Res> {
+  _$RoundOverrideCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RoundOverride
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? round = null, Object? durationSec = null}) {
+    return _then(
+      _value.copyWith(
+            round:
+                null == round
+                    ? _value.round
+                    : round // ignore: cast_nullable_to_non_nullable
+                        as int,
+            durationSec:
+                null == durationSec
+                    ? _value.durationSec
+                    : durationSec // ignore: cast_nullable_to_non_nullable
+                        as int,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$RoundOverrideImplCopyWith<$Res>
+    implements $RoundOverrideCopyWith<$Res> {
+  factory _$$RoundOverrideImplCopyWith(
+    _$RoundOverrideImpl value,
+    $Res Function(_$RoundOverrideImpl) then,
+  ) = __$$RoundOverrideImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int round, int durationSec});
+}
+
+/// @nodoc
+class __$$RoundOverrideImplCopyWithImpl<$Res>
+    extends _$RoundOverrideCopyWithImpl<$Res, _$RoundOverrideImpl>
+    implements _$$RoundOverrideImplCopyWith<$Res> {
+  __$$RoundOverrideImplCopyWithImpl(
+    _$RoundOverrideImpl _value,
+    $Res Function(_$RoundOverrideImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RoundOverride
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? round = null, Object? durationSec = null}) {
+    return _then(
+      _$RoundOverrideImpl(
+        round:
+            null == round
+                ? _value.round
+                : round // ignore: cast_nullable_to_non_nullable
+                    as int,
+        durationSec:
+            null == durationSec
+                ? _value.durationSec
+                : durationSec // ignore: cast_nullable_to_non_nullable
+                    as int,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RoundOverrideImpl implements _RoundOverride {
+  const _$RoundOverrideImpl({required this.round, required this.durationSec});
+
+  factory _$RoundOverrideImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RoundOverrideImplFromJson(json);
+
+  @override
+  final int round;
+  @override
+  final int durationSec;
+
+  @override
+  String toString() {
+    return 'RoundOverride(round: $round, durationSec: $durationSec)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RoundOverrideImpl &&
+            (identical(other.round, round) || other.round == round) &&
+            (identical(other.durationSec, durationSec) ||
+                other.durationSec == durationSec));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, round, durationSec);
+
+  /// Create a copy of RoundOverride
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RoundOverrideImplCopyWith<_$RoundOverrideImpl> get copyWith =>
+      __$$RoundOverrideImplCopyWithImpl<_$RoundOverrideImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RoundOverrideImplToJson(this);
+  }
+}
+
+abstract class _RoundOverride implements RoundOverride {
+  const factory _RoundOverride({
+    required final int round,
+    required final int durationSec,
+  }) = _$RoundOverrideImpl;
+
+  factory _RoundOverride.fromJson(Map<String, dynamic> json) =
+      _$RoundOverrideImpl.fromJson;
+
+  @override
+  int get round;
+  @override
+  int get durationSec;
+
+  /// Create a copy of RoundOverride
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RoundOverrideImplCopyWith<_$RoundOverrideImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+SessionModel _$SessionModelFromJson(Map<String, dynamic> json) {
+  return _SessionModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SessionModel {
+  String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  int get rounds => throw _privateConstructorUsedError;
+  int get roundDurationSec => throw _privateConstructorUsedError;
+  int get restDurationSec => throw _privateConstructorUsedError;
+  int get warningTimeSec => throw _privateConstructorUsedError;
+  int get warmupDurationSec => throw _privateConstructorUsedError;
+  bool get autoAdvance => throw _privateConstructorUsedError;
+  bool get keepScreenOn => throw _privateConstructorUsedError;
+  bool get voiceAnnounce => throw _privateConstructorUsedError;
+  bool get volumeOverride => throw _privateConstructorUsedError;
+  String get soundPack => throw _privateConstructorUsedError;
+  List<RoundOverride> get roundOverrides => throw _privateConstructorUsedError;
+  bool get isPreset => throw _privateConstructorUsedError;
+
+  /// Serializes this SessionModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SessionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SessionModelCopyWith<SessionModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SessionModelCopyWith<$Res> {
+  factory $SessionModelCopyWith(
+    SessionModel value,
+    $Res Function(SessionModel) then,
+  ) = _$SessionModelCopyWithImpl<$Res, SessionModel>;
+  @useResult
+  $Res call({
+    String id,
+    String name,
+    int rounds,
+    int roundDurationSec,
+    int restDurationSec,
+    int warningTimeSec,
+    int warmupDurationSec,
+    bool autoAdvance,
+    bool keepScreenOn,
+    bool voiceAnnounce,
+    bool volumeOverride,
+    String soundPack,
+    List<RoundOverride> roundOverrides,
+    bool isPreset,
+  });
+}
+
+/// @nodoc
+class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
+    implements $SessionModelCopyWith<$Res> {
+  _$SessionModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SessionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? rounds = null,
+    Object? roundDurationSec = null,
+    Object? restDurationSec = null,
+    Object? warningTimeSec = null,
+    Object? warmupDurationSec = null,
+    Object? autoAdvance = null,
+    Object? keepScreenOn = null,
+    Object? voiceAnnounce = null,
+    Object? volumeOverride = null,
+    Object? soundPack = null,
+    Object? roundOverrides = null,
+    Object? isPreset = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            id:
+                null == id
+                    ? _value.id
+                    : id // ignore: cast_nullable_to_non_nullable
+                        as String,
+            name:
+                null == name
+                    ? _value.name
+                    : name // ignore: cast_nullable_to_non_nullable
+                        as String,
+            rounds:
+                null == rounds
+                    ? _value.rounds
+                    : rounds // ignore: cast_nullable_to_non_nullable
+                        as int,
+            roundDurationSec:
+                null == roundDurationSec
+                    ? _value.roundDurationSec
+                    : roundDurationSec // ignore: cast_nullable_to_non_nullable
+                        as int,
+            restDurationSec:
+                null == restDurationSec
+                    ? _value.restDurationSec
+                    : restDurationSec // ignore: cast_nullable_to_non_nullable
+                        as int,
+            warningTimeSec:
+                null == warningTimeSec
+                    ? _value.warningTimeSec
+                    : warningTimeSec // ignore: cast_nullable_to_non_nullable
+                        as int,
+            warmupDurationSec:
+                null == warmupDurationSec
+                    ? _value.warmupDurationSec
+                    : warmupDurationSec // ignore: cast_nullable_to_non_nullable
+                        as int,
+            autoAdvance:
+                null == autoAdvance
+                    ? _value.autoAdvance
+                    : autoAdvance // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            keepScreenOn:
+                null == keepScreenOn
+                    ? _value.keepScreenOn
+                    : keepScreenOn // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            voiceAnnounce:
+                null == voiceAnnounce
+                    ? _value.voiceAnnounce
+                    : voiceAnnounce // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            volumeOverride:
+                null == volumeOverride
+                    ? _value.volumeOverride
+                    : volumeOverride // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            soundPack:
+                null == soundPack
+                    ? _value.soundPack
+                    : soundPack // ignore: cast_nullable_to_non_nullable
+                        as String,
+            roundOverrides:
+                null == roundOverrides
+                    ? _value.roundOverrides
+                    : roundOverrides // ignore: cast_nullable_to_non_nullable
+                        as List<RoundOverride>,
+            isPreset:
+                null == isPreset
+                    ? _value.isPreset
+                    : isPreset // ignore: cast_nullable_to_non_nullable
+                        as bool,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$SessionModelImplCopyWith<$Res>
+    implements $SessionModelCopyWith<$Res> {
+  factory _$$SessionModelImplCopyWith(
+    _$SessionModelImpl value,
+    $Res Function(_$SessionModelImpl) then,
+  ) = __$$SessionModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    String id,
+    String name,
+    int rounds,
+    int roundDurationSec,
+    int restDurationSec,
+    int warningTimeSec,
+    int warmupDurationSec,
+    bool autoAdvance,
+    bool keepScreenOn,
+    bool voiceAnnounce,
+    bool volumeOverride,
+    String soundPack,
+    List<RoundOverride> roundOverrides,
+    bool isPreset,
+  });
+}
+
+/// @nodoc
+class __$$SessionModelImplCopyWithImpl<$Res>
+    extends _$SessionModelCopyWithImpl<$Res, _$SessionModelImpl>
+    implements _$$SessionModelImplCopyWith<$Res> {
+  __$$SessionModelImplCopyWithImpl(
+    _$SessionModelImpl _value,
+    $Res Function(_$SessionModelImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of SessionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? rounds = null,
+    Object? roundDurationSec = null,
+    Object? restDurationSec = null,
+    Object? warningTimeSec = null,
+    Object? warmupDurationSec = null,
+    Object? autoAdvance = null,
+    Object? keepScreenOn = null,
+    Object? voiceAnnounce = null,
+    Object? volumeOverride = null,
+    Object? soundPack = null,
+    Object? roundOverrides = null,
+    Object? isPreset = null,
+  }) {
+    return _then(
+      _$SessionModelImpl(
+        id:
+            null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                    as String,
+        name:
+            null == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                    as String,
+        rounds:
+            null == rounds
+                ? _value.rounds
+                : rounds // ignore: cast_nullable_to_non_nullable
+                    as int,
+        roundDurationSec:
+            null == roundDurationSec
+                ? _value.roundDurationSec
+                : roundDurationSec // ignore: cast_nullable_to_non_nullable
+                    as int,
+        restDurationSec:
+            null == restDurationSec
+                ? _value.restDurationSec
+                : restDurationSec // ignore: cast_nullable_to_non_nullable
+                    as int,
+        warningTimeSec:
+            null == warningTimeSec
+                ? _value.warningTimeSec
+                : warningTimeSec // ignore: cast_nullable_to_non_nullable
+                    as int,
+        warmupDurationSec:
+            null == warmupDurationSec
+                ? _value.warmupDurationSec
+                : warmupDurationSec // ignore: cast_nullable_to_non_nullable
+                    as int,
+        autoAdvance:
+            null == autoAdvance
+                ? _value.autoAdvance
+                : autoAdvance // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        keepScreenOn:
+            null == keepScreenOn
+                ? _value.keepScreenOn
+                : keepScreenOn // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        voiceAnnounce:
+            null == voiceAnnounce
+                ? _value.voiceAnnounce
+                : voiceAnnounce // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        volumeOverride:
+            null == volumeOverride
+                ? _value.volumeOverride
+                : volumeOverride // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        soundPack:
+            null == soundPack
+                ? _value.soundPack
+                : soundPack // ignore: cast_nullable_to_non_nullable
+                    as String,
+        roundOverrides:
+            null == roundOverrides
+                ? _value._roundOverrides
+                : roundOverrides // ignore: cast_nullable_to_non_nullable
+                    as List<RoundOverride>,
+        isPreset:
+            null == isPreset
+                ? _value.isPreset
+                : isPreset // ignore: cast_nullable_to_non_nullable
+                    as bool,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SessionModelImpl implements _SessionModel {
+  const _$SessionModelImpl({
+    required this.id,
+    required this.name,
+    required this.rounds,
+    required this.roundDurationSec,
+    required this.restDurationSec,
+    this.warningTimeSec = 10,
+    this.warmupDurationSec = 0,
+    this.autoAdvance = true,
+    this.keepScreenOn = true,
+    this.voiceAnnounce = false,
+    this.volumeOverride = false,
+    this.soundPack = 'classic_bell',
+    final List<RoundOverride> roundOverrides = const [],
+    this.isPreset = false,
+  }) : _roundOverrides = roundOverrides;
+
+  factory _$SessionModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionModelImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String name;
+  @override
+  final int rounds;
+  @override
+  final int roundDurationSec;
+  @override
+  final int restDurationSec;
+  @override
+  @JsonKey()
+  final int warningTimeSec;
+  @override
+  @JsonKey()
+  final int warmupDurationSec;
+  @override
+  @JsonKey()
+  final bool autoAdvance;
+  @override
+  @JsonKey()
+  final bool keepScreenOn;
+  @override
+  @JsonKey()
+  final bool voiceAnnounce;
+  @override
+  @JsonKey()
+  final bool volumeOverride;
+  @override
+  @JsonKey()
+  final String soundPack;
+  final List<RoundOverride> _roundOverrides;
+  @override
+  @JsonKey()
+  List<RoundOverride> get roundOverrides {
+    if (_roundOverrides is EqualUnmodifiableListView) return _roundOverrides;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_roundOverrides);
+  }
+
+  @override
+  @JsonKey()
+  final bool isPreset;
+
+  @override
+  String toString() {
+    return 'SessionModel(id: $id, name: $name, rounds: $rounds, roundDurationSec: $roundDurationSec, restDurationSec: $restDurationSec, warningTimeSec: $warningTimeSec, warmupDurationSec: $warmupDurationSec, autoAdvance: $autoAdvance, keepScreenOn: $keepScreenOn, voiceAnnounce: $voiceAnnounce, volumeOverride: $volumeOverride, soundPack: $soundPack, roundOverrides: $roundOverrides, isPreset: $isPreset)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SessionModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.rounds, rounds) || other.rounds == rounds) &&
+            (identical(other.roundDurationSec, roundDurationSec) ||
+                other.roundDurationSec == roundDurationSec) &&
+            (identical(other.restDurationSec, restDurationSec) ||
+                other.restDurationSec == restDurationSec) &&
+            (identical(other.warningTimeSec, warningTimeSec) ||
+                other.warningTimeSec == warningTimeSec) &&
+            (identical(other.warmupDurationSec, warmupDurationSec) ||
+                other.warmupDurationSec == warmupDurationSec) &&
+            (identical(other.autoAdvance, autoAdvance) ||
+                other.autoAdvance == autoAdvance) &&
+            (identical(other.keepScreenOn, keepScreenOn) ||
+                other.keepScreenOn == keepScreenOn) &&
+            (identical(other.voiceAnnounce, voiceAnnounce) ||
+                other.voiceAnnounce == voiceAnnounce) &&
+            (identical(other.volumeOverride, volumeOverride) ||
+                other.volumeOverride == volumeOverride) &&
+            (identical(other.soundPack, soundPack) ||
+                other.soundPack == soundPack) &&
+            const DeepCollectionEquality().equals(
+              other._roundOverrides,
+              _roundOverrides,
+            ) &&
+            (identical(other.isPreset, isPreset) ||
+                other.isPreset == isPreset));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    name,
+    rounds,
+    roundDurationSec,
+    restDurationSec,
+    warningTimeSec,
+    warmupDurationSec,
+    autoAdvance,
+    keepScreenOn,
+    voiceAnnounce,
+    volumeOverride,
+    soundPack,
+    const DeepCollectionEquality().hash(_roundOverrides),
+    isPreset,
+  );
+
+  /// Create a copy of SessionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SessionModelImplCopyWith<_$SessionModelImpl> get copyWith =>
+      __$$SessionModelImplCopyWithImpl<_$SessionModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SessionModelImplToJson(this);
+  }
+}
+
+abstract class _SessionModel implements SessionModel {
+  const factory _SessionModel({
+    required final String id,
+    required final String name,
+    required final int rounds,
+    required final int roundDurationSec,
+    required final int restDurationSec,
+    final int warningTimeSec,
+    final int warmupDurationSec,
+    final bool autoAdvance,
+    final bool keepScreenOn,
+    final bool voiceAnnounce,
+    final bool volumeOverride,
+    final String soundPack,
+    final List<RoundOverride> roundOverrides,
+    final bool isPreset,
+  }) = _$SessionModelImpl;
+
+  factory _SessionModel.fromJson(Map<String, dynamic> json) =
+      _$SessionModelImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get name;
+  @override
+  int get rounds;
+  @override
+  int get roundDurationSec;
+  @override
+  int get restDurationSec;
+  @override
+  int get warningTimeSec;
+  @override
+  int get warmupDurationSec;
+  @override
+  bool get autoAdvance;
+  @override
+  bool get keepScreenOn;
+  @override
+  bool get voiceAnnounce;
+  @override
+  bool get volumeOverride;
+  @override
+  String get soundPack;
+  @override
+  List<RoundOverride> get roundOverrides;
+  @override
+  bool get isPreset;
+
+  /// Create a copy of SessionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SessionModelImplCopyWith<_$SessionModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

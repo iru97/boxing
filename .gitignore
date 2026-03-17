@@ -27,3 +27,15 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub/
+pubspec.lock
+*.iml
+
+# Generated code (freezed, json_serializable, riverpod_generator)
+# These are committed so CI/CD doesn't need build_runner
+# *.freezed.dart
+# *.g.dart

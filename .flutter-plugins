@@ -1,0 +1,16 @@
+# This is a generated file; do not edit or check into version control.
+audio_service=/root/.pub-cache/hosted/pub.dev/audio_service-0.18.18/
+audio_service_web=/root/.pub-cache/hosted/pub.dev/audio_service_web-0.1.4/
+audio_session=/root/.pub-cache/hosted/pub.dev/audio_session-0.1.25/
+just_audio=/root/.pub-cache/hosted/pub.dev/just_audio-0.9.46/
+just_audio_web=/root/.pub-cache/hosted/pub.dev/just_audio_web-0.4.16/
+package_info_plus=/root/.pub-cache/hosted/pub.dev/package_info_plus-9.0.0/
+path_provider=/root/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
+path_provider_android=/root/.pub-cache/hosted/pub.dev/path_provider_android-2.2.19/
+path_provider_foundation=/root/.pub-cache/hosted/pub.dev/path_provider_foundation-2.4.2/
+path_provider_linux=/root/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1/
+path_provider_windows=/root/.pub-cache/hosted/pub.dev/path_provider_windows-2.3.0/
+sqflite=/root/.pub-cache/hosted/pub.dev/sqflite-2.4.2/
+sqflite_android=/root/.pub-cache/hosted/pub.dev/sqflite_android-2.4.1/
+sqflite_darwin=/root/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.2/
+wakelock_plus=/root/.pub-cache/hosted/pub.dev/wakelock_plus-1.4.0/
