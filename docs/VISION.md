@@ -116,6 +116,8 @@ Session: "Heavy Bag Work"
 - **Voice announcements**: Announce round number at start of each round
 - **Intra-round signal**: Optional pacing beep every N seconds within a round
 - **Auto-advance**: Auto-start next round after rest, or wait for tap
+- **Resume countdown**: 3-2-1 countdown when resuming after a pause
+- **Round labels**: Name individual rounds (e.g., "Heavy Bag", "Speed Bag") for multi-phase workouts
 - **Screen behavior**: Keep on, dim, or follow system
 
 ## Technical Priorities
