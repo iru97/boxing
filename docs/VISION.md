@@ -5,25 +5,58 @@
 Boxing timer apps on the market suffer from critical issues that frustrate real fighters and trainers:
 
 ### Top Pain Points (from real user feedback)
-1. **Timer dies in background** - The #1 complaint. Timers stop when the screen locks, when switching to Spotify, or when the phone goes to sleep. Fighters miss round starts/ends.
-2. **Terrible audio** - Sounds are too quiet, get buried under music, use cheesy non-boxing sounds. No authentic gym bell. Can't hear the 10-second warning over Spotify.
-3. **Feature bloat** - Apps try to be HIIT/Tabata/Yoga/CrossFit timers. Boxers don't need that. They need a boxing timer that works perfectly.
-4. **Aggressive monetization** - Free apps full of ads, or bait-and-switch subscriptions that strip features from paid users.
-5. **Can't use with gloves on** - No hands-free controls. One app's tip: "push start with your tongue."
-6. **Battery/data drain** - Timer apps consuming 5GB of data or killing battery life.
-7. **Poor UX** - Confusing navigation, duplicated custom timers, unclear current state.
-8. **Unresponsive developers** - No updates, no bug fixes, no response to user feedback.
+1. **Timer dies in background** - The #1 complaint across ALL apps. Timers stop when the screen locks, when switching to Spotify, or when the phone goes to sleep. Samsung/Android battery optimization actively kills timer apps.
+2. **Terrible audio** - Sounds too quiet, get buried under music, use cheesy non-boxing sounds. Some apps stop music entirely when the bell rings instead of ducking. Users miss round endings.
+3. **Feature bloat** - Apps try to be HIIT/Tabata/Yoga/CrossFit timers. Boxers don't need that.
+4. **Aggressive monetization** - Boxing Timer Pro moved from one-time purchase to subscription, stripping features from paid users. Apps promise "no ads" in paid versions but still show them.
+5. **Can't use with gloves on** - Only ONE app (Boxing Interval Timer) offers proximity/shake sensor. Every other app requires removing gloves. One app's tip: "push start with your tongue."
+6. **No per-round customization** - Users want Round 1 at 3:00 but Round 5 at 2:00 for conditioning drills. Almost no app supports this.
+7. **Battery/data drain** - Timer apps consuming 5GB of data or killing battery.
+8. **Custom timer bugs** - Timers duplicate in saved lists, crash at specific times (e.g., always at :57), or freeze mid-round.
+
+## Competitive Landscape
+
+### Dedicated Boxing Timers
+
+| App | Platform | Rating | Price | Strength | Key Weakness |
+|-----|----------|--------|-------|----------|--------------|
+| Boxing Interval Timer | Both | ~4.5 | Free/$3.99 | Proximity/shake sensor (gloves!), per-round times | Background mode still fails |
+| Boxing Timer Pro | iOS | ~4.5 | Subscription | AirPlay to TV, 9 bell sounds | Subscription bait-and-switch backlash |
+| Boxing Round Timer Pro | Android | ~4.5 | One-time | Reaction training mode, no ads | Limited sound customization |
+| Boxing Timer Champ | iOS | Good | Free/$4.99 | Background mode, stored routines | iOS only |
+| KruBoss | Both | High | **Free, no ads** | Built by martial artists, loud bells | Basic feature set |
+| Boxing Round Interval Timer | Android | ~4.5 | Free | Works with Spotify | Android only |
+
+### Training Apps (Timer + Coaching)
+
+| App | Rating | Price | Notable |
+|-----|--------|-------|---------|
+| Shadow Boxing App | **4.9/5** (6,500+ reviews) | **Free, no ads** | Pad work, freestyle, defense, footwork, Apple Watch haptics, AirPods heart rate |
+| Heavy Bag Pro | **4.9/5** | Subscription | 1000+ combos, 3D animations, voice instructions |
+| Precision Boxing Coach | ~4/5 | $4.99 | AI combo callouts by number, Virtual Padwork |
+| FightCamp | High | **$39/month + equipment** | Full guided workouts, punch tracking sensors |
+
+### Market Gaps We Will Exploit
+1. **Background reliability** - No app has fully solved this on both platforms
+2. **Audio ducking** - Coexist with Spotify/Apple Music without conflicts
+3. **Glove-friendly controls** - Only 1 of 10+ apps addresses this
+4. **Per-round customization** - Almost entirely unsupported
+5. **Intra-round signals** - Pacing beeps every 30s within a round (for drills)
+6. **Voice round announcements** - "Round 3" at the start of each round
+7. **Wearable haptics** - Feel the bell on your wrist in a noisy gym
+8. **Coach sharing** - Create a config and push it to athletes
+9. **Fair pricing** - Users accept $3-5 one-time; revolt against timer subscriptions
 
 ## Our Solution: Boxing
 
-A **boxing-first** training timer that nails the fundamentals before anything else:
+A **boxing-first** training timer that nails the fundamentals before anything else.
 
 ### Core Philosophy
 - **Reliability over features** - The timer NEVER stops. Background mode, screen lock, music playing - it works.
 - **Boxing-specific** - Not a generic interval timer. Built by and for boxers.
-- **Loud and clear** - Authentic gym bell sounds that cut through music. Configurable audio that WORKS.
+- **Loud and clear** - Authentic gym bell sounds that cut through music via audio ducking. Volume override.
 - **Simple and fast** - Start a round in 2 taps. No bloat, no confusion.
-- **Glove-friendly** - Large touch targets, minimal interaction needed mid-workout.
+- **Glove-friendly** - Large touch targets, proximity sensor, shake-to-pause. Minimal interaction mid-workout.
 
 ### Core Feature: Session-Based Round Management
 
@@ -32,17 +65,21 @@ A "Session" is a complete training configuration:
 ```
 Session: "Heavy Bag Work"
 ├── Rounds: 8
-├── Round Duration: 3:00
+├── Round Duration: 3:00 (default, can be overridden per-round)
 ├── Rest Duration: 1:00
 ├── Warning At: 0:10 (10-second warning before round ends)
+├── Warmup: 0:15 (countdown before round 1)
 ├── Sounds:
 │   ├── Round Start: gym_bell_single
 │   ├── Round End: gym_bell_triple
-│   ├── Warning: gym_bell_double
+│   ├── Warning: gym_bell_double (10s clapper)
 │   ├── Rest End Warning: countdown_beep
 │   └── Session Complete: gym_bell_long
+├── Voice Announce: true ("Round 3")
+├── Intra-round Signal: off (or every 30s for drills)
 ├── Auto-advance: true
-└── Keep Screen On: true
+├── Keep Screen On: true
+└── Per-round Overrides: [] (optional per-round duration changes)
 ```
 
 ### Preset Sessions (Built-in)
@@ -57,63 +94,77 @@ Session: "Heavy Bag Work"
 | Sparring | 6 | 3:00 | 1:00 | 0:10 | Partner work |
 | Conditioning | 10 | 0:30 | 0:30 | 0:05 | HIIT-style boxing |
 | Beginner | 4 | 2:00 | 1:00 | 0:10 | New boxers |
-| Muay Thai | 5 | 3:00 | 1:00 | 0:10 | Muay Thai rules |
+| Muay Thai | 5 | 3:00 | 2:00 | 0:10 | Muay Thai rules (2min rest) |
 | MMA | 3 | 5:00 | 1:00 | 0:10 | MMA fight simulation |
 
 ### Session Configuration Options
 
 - **Round count**: 1-30 rounds
-- **Round duration**: 15s to 10:00
+- **Round duration**: 15s to 10:00 (per-session default + per-round overrides)
 - **Rest duration**: 0s to 5:00
 - **Warning time**: 5s, 10s, 15s, 30s, or off
-- **Sound pack**: Different bell/buzzer sound sets
+- **Warmup countdown**: 0s, 5s, 10s, 15s, 30s
+- **Sound pack**: Different bell/buzzer sound sets (authentic gym bells primary)
 - **Volume override**: Force volume level regardless of phone settings
+- **Voice announcements**: Announce round number at start of each round
+- **Intra-round signal**: Optional pacing beep every N seconds within a round
 - **Auto-advance**: Auto-start next round after rest, or wait for tap
 - **Screen behavior**: Keep on, dim, or follow system
-- **Warmup timer**: Optional countdown before first round (10s, 15s, 30s)
 
 ## Technical Priorities
 
-### Must Work Perfectly
-1. Timer accuracy - never drift, never stop
-2. Background execution - works with screen locked
-3. Audio over music - sounds must cut through Spotify/Apple Music
-4. Screen wake lock - screen stays on during active session
-5. Battery efficiency - minimal drain
+### Must Work Perfectly (Phase 1)
+1. Timer accuracy - never drift, never stop, DateTime-based
+2. Background execution - works with screen locked, survives Android Doze
+3. Audio ducking - sounds play OVER Spotify/Apple Music, don't stop it
+4. Volume override - bell is always audible
+5. Screen wake lock - screen stays on during active session
+6. Battery efficiency - foreground service only during active session
 
-### Flutter Technical Stack (Planned)
+### Flutter Technical Stack
 - `just_audio` + `audio_service` - Background audio with foreground service
 - `wakelock_plus` - Keep screen on during sessions
-- State management: Riverpod or Bloc
-- Local storage: Hive or SharedPreferences for session configs
-- Minimal permissions: audio, foreground service, wake lock only
+- `proximity_sensor` or custom platform channel - Glove-friendly controls
+- State management: Riverpod
+- Local storage: Hive for session configs and settings
+- Minimal permissions: audio, foreground service, wake lock
 
-## Competitive Landscape
+## Monetization Strategy
 
-### Direct Competitors
-| App | Rating | Strength | Weakness |
-|-----|--------|----------|----------|
-| Boxing Interval Timer | 4.8/5 | Popular, reliable | Background mode issues |
-| Boxing Round Timer Pro | 5.0/5 | Simple, clean | Missing 10s audio cue |
-| Timer Plus | High | Gym-visible display | Generic, not boxing-specific |
-| Boxing iTimer Lite | Good | Background mode, presets | iOS only, dated UI |
-| Shadow Boxing App | #1 2025 | Guided workouts, combos | More than just a timer |
+Based on market research, users strongly reject subscriptions for timers but accept one-time purchases:
 
-### Our Differentiation
-1. **Background reliability** as a first-class feature, not an afterthought
-2. **Boxing-specific presets** that match real training protocols
-3. **Audio that actually works** over music with volume override
-4. **Zero ads, zero subscriptions** for core timer functionality
-5. **Glove-friendly UX** with large targets and minimal mid-workout interaction
+- **Free tier**: Full timer with all presets, limited to 3 custom sessions
+- **One-time purchase ($3.99-$4.99)**: Unlimited custom sessions, per-round overrides, all sound packs, coach sharing
+- **Zero ads in any tier** - This is a key differentiator
+- **Future subscription (Phase 2+)**: Only for coaching content (combo callouts, training programs, guided workouts)
 
-## Future Potential (Phase 2+)
+## Feature Roadmap
+
+### Phase 1: Perfect Timer (MVP)
+- Session model with all config options
+- 10 built-in presets
+- Custom session creation and persistence
+- Reliable timer engine (background, audio ducking, wake lock)
+- Authentic bell sounds with volume override
+- Large, gym-visible display with phase colors
+- Basic glove-friendly UX (large targets)
+
+### Phase 2: Enhanced Experience
+- Per-round duration overrides
+- Voice round announcements ("Round 3")
+- Intra-round pacing signals
+- Proximity sensor / shake to pause
+- Session history and training log
+- Multiple sound packs
+- Landscape mode for gym TV display
+
+### Phase 3: Coaching & Social
 - Combo callouts (voice: "jab-cross-hook")
-- Training log and session history
-- Coach mode (manage multiple timers for a class)
-- Apple Watch / Wear OS companion
-- Workout templates (warm-up -> bag work -> cooldown as one flow)
-- Music integration (auto-pause/resume with rounds)
-- Social features (share workouts)
+- Coach mode (create and share sessions)
+- Apple Watch / Wear OS companion with haptics
+- Workout templates (warmup -> bag work -> cooldown as one flow)
+- Music integration (auto-duck/resume with rounds)
+- Training statistics and progress tracking
 
 ## Target Users
 1. **Solo home trainers** - Heavy bag at home, need a reliable timer
