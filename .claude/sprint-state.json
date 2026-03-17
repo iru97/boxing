@@ -1,6 +1,6 @@
 {
-  "currentSprint": 6,
-  "currentSprintName": "Platform & Release",
+  "currentSprint": null,
+  "currentSprintName": "All Sprints Complete",
   "currentTask": null,
   "completedSprints": [
     {
@@ -38,6 +38,12 @@
       "name": "Polish & UX",
       "completedAt": "2026-03-17",
       "summary": "AppSettings model with Freezed, SettingsRepository (Hive), full settings screen (timer defaults, audio, display, about). Theme switching (dark/light/system). Reactive settings via StateNotifier."
+    },
+    {
+      "sprint": 6,
+      "name": "Platform & Release",
+      "completedAt": "2026-03-17",
+      "summary": "Android minSdk 24/targetSdk 34. Accessibility semantic labels. GitHub Actions CI workflow. All 73 tests passing."
     }
   ],
   "currentSprintTasks": {},
@@ -55,8 +61,9 @@
     "SessionRepository: JSON strings in Hive box, FakeBox for tests",
     "StateProvider invalidation pattern for session list refresh",
     "StateNotifier for settings (immediate reactivity)",
-    "Theme controlled by settings themeMode field"
+    "Theme controlled by settings themeMode field",
+    "Android minSdk 24, targetSdk 34"
   ],
   "blockers": [],
-  "notes": "Sprints 0-5 complete. 73 tests passing. Ready for Sprint 6: Platform & Release."
+  "notes": "All 7 sprints (0-6) complete. 73 tests passing. App ready for device testing."
 }

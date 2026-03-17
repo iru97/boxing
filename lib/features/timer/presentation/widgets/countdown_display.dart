@@ -17,7 +17,9 @@ class CountdownDisplay extends StatelessWidget {
     final seconds = totalSeconds % 60;
     final text = '$minutes:${seconds.toString().padLeft(2, '0')}';
 
-    return RepaintBoundary(
+    return Semantics(
+      label: '$minutes minutes $seconds seconds remaining',
+      child: RepaintBoundary(
       child: Text(
         text,
         style: TextStyle(
@@ -27,6 +29,7 @@ class CountdownDisplay extends StatelessWidget {
           color: color,
           fontFeatures: const [FontFeature.tabularFigures()],
         ),
+      ),
       ),
     );
   }

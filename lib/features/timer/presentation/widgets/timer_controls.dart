@@ -22,26 +22,38 @@ class TimerControls extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _ControlButton(
-          icon: Icons.skip_previous_rounded,
-          size: 64,
-          color: accentColor,
-          onTap: onSkipBack,
+        Semantics(
+          label: 'Previous round',
+          button: true,
+          child: _ControlButton(
+            icon: Icons.skip_previous_rounded,
+            size: 64,
+            color: accentColor,
+            onTap: onSkipBack,
+          ),
         ),
         const SizedBox(width: 24),
-        _ControlButton(
-          icon: isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
-          size: 80,
-          color: accentColor,
-          filled: true,
-          onTap: onPauseResume,
+        Semantics(
+          label: isPaused ? 'Resume' : 'Pause',
+          button: true,
+          child: _ControlButton(
+            icon: isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
+            size: 80,
+            color: accentColor,
+            filled: true,
+            onTap: onPauseResume,
+          ),
         ),
         const SizedBox(width: 24),
-        _ControlButton(
-          icon: Icons.skip_next_rounded,
-          size: 64,
-          color: accentColor,
-          onTap: onSkipForward,
+        Semantics(
+          label: 'Next round',
+          button: true,
+          child: _ControlButton(
+            icon: Icons.skip_next_rounded,
+            size: 64,
+            color: accentColor,
+            onTap: onSkipForward,
+          ),
         ),
       ],
     );
