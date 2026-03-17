@@ -1,6 +1,6 @@
 {
-  "currentSprint": 4,
-  "currentSprintName": "Background & Audio",
+  "currentSprint": 6,
+  "currentSprintName": "Platform & Release",
   "currentTask": null,
   "completedSprints": [
     {
@@ -26,6 +26,18 @@
       "name": "Sessions",
       "completedAt": "2026-03-17",
       "summary": "SessionRepository with CRUD, Hive persistence, duplicate, serialize/deserialize. Session editor with form validation. Updated home screen with long-press actions. 18 repository tests."
+    },
+    {
+      "sprint": 4,
+      "name": "Background & Audio",
+      "completedAt": "2026-03-17",
+      "summary": "BoxingAudioHandler with foreground service, silent keep-alive loop, notification controls. Android WAKE_LOCK/FOREGROUND_SERVICE permissions. iOS background audio mode. TimerLifecycleService with wake lock."
+    },
+    {
+      "sprint": 5,
+      "name": "Polish & UX",
+      "completedAt": "2026-03-17",
+      "summary": "AppSettings model with Freezed, SettingsRepository (Hive), full settings screen (timer defaults, audio, display, about). Theme switching (dark/light/system). Reactive settings via StateNotifier."
     }
   ],
   "currentSprintTasks": {},
@@ -41,8 +53,10 @@
     "Warning is a threshold check within work phase, NOT a separate state",
     "AppLifecycleListener (Flutter 3.13+) over WidgetsBindingObserver",
     "SessionRepository: JSON strings in Hive box, FakeBox for tests",
-    "StateProvider invalidation pattern for session list refresh"
+    "StateProvider invalidation pattern for session list refresh",
+    "StateNotifier for settings (immediate reactivity)",
+    "Theme controlled by settings themeMode field"
   ],
   "blockers": [],
-  "notes": "Sprints 0-3 complete. 73 tests passing. Ready for Sprint 4: Background & Audio."
+  "notes": "Sprints 0-5 complete. 73 tests passing. Ready for Sprint 6: Platform & Release."
 }

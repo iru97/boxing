@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:boxing/app/router.dart';
 import 'package:boxing/core/theme/app_theme.dart';
+import 'package:boxing/features/settings/presentation/settings_controller.dart';
 
-class BoxingApp extends StatelessWidget {
+class BoxingApp extends ConsumerWidget {
   const BoxingApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(appSettingsProvider);
+    final themeMode = switch (settings.themeMode) {
+      'light' => ThemeMode.light,
+      'system' => ThemeMode.system,
+      _ => ThemeMode.dark,
+    };
+
     return MaterialApp.router(
       title: 'Boxing Timer',
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.dark,
+      themeMode: themeMode,
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
     );
