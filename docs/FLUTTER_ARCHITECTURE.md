@@ -154,6 +154,28 @@ class SessionsController extends _$SessionsController {
 }
 ```
 
+### Timer Provider: Notifier, NOT StreamProvider
+Use a `Notifier` with internal `Timer.periodic` for the timer. StreamProvider is for
+external streams (Firebase, WebSocket). A Notifier gives imperative methods (start, pause, resume):
+```dart
+@riverpod
+class TimerController extends _$TimerController {
+  Timer? _timer;
+  DateTime? _phaseStartTime;
+
+  @override
+  TimerState build() {
+    ref.onDispose(() => _timer?.cancel());
+    return const TimerState.idle();
+  }
+
+  void start(SessionModel session) { /* ... */ }
+  void pause() { _timer?.cancel(); /* ... */ }
+  void resume() { /* re-sync from DateTime.now() */ }
+}
+```
+Update at 50ms intervals (20 FPS) - efficient, smooth enough for countdown display.
+
 ### Rules
 - `ref.watch()` in build methods and provider bodies (reactive)
 - `ref.read()` in callbacks and event handlers (one-shot)
@@ -162,7 +184,9 @@ class SessionsController extends _$SessionsController {
 
 ## Freezed Patterns
 
-### Session Model
+### Session Model - Duration as int seconds (NOT Duration type)
+Store Duration as `int` seconds for clean Hive/JSON serialization. Use extension getters for convenience.
+Hive + Freezed TypeAdapter integration is fragile (GitHub issue #795). JSON approach is recommended.
 ```dart
 @freezed
 abstract class SessionModel with _$SessionModel {
@@ -170,10 +194,10 @@ abstract class SessionModel with _$SessionModel {
     required String id,
     required String name,
     required int rounds,
-    @DurationConverter() required Duration roundDuration,
-    @DurationConverter() required Duration restDuration,
-    @Default(Duration(seconds: 10)) @DurationConverter() Duration warningTime,
-    @Default(Duration.zero) @DurationConverter() Duration warmupDuration,
+    required int roundDurationSec,      // 180 = 3 minutes
+    required int restDurationSec,       // 60  = 1 minute
+    @Default(10) int warningTimeSec,
+    @Default(0) int warmupDurationSec,
     @Default(true) bool autoAdvance,
     @Default(true) bool keepScreenOn,
     @Default(false) bool voiceAnnounce,
@@ -185,6 +209,14 @@ abstract class SessionModel with _$SessionModel {
 
   factory SessionModel.fromJson(Map<String, dynamic> json) =>
       _$SessionModelFromJson(json);
+}
+
+// Convenience Duration getters (extension, not in freezed class)
+extension SessionModelX on SessionModel {
+  Duration get roundDuration => Duration(seconds: roundDurationSec);
+  Duration get restDuration => Duration(seconds: restDurationSec);
+  Duration get warningTime => Duration(seconds: warningTimeSec);
+  Duration get warmupDuration => Duration(seconds: warmupDurationSec);
 }
 ```
 
@@ -236,16 +268,8 @@ if (json != null) {
 }
 ```
 
-Duration stored as int milliseconds via custom JsonConverter:
-```dart
-class DurationConverter implements JsonConverter<Duration, int> {
-  const DurationConverter();
-  @override
-  Duration fromJson(int json) => Duration(milliseconds: json);
-  @override
-  int toJson(Duration object) => object.inMilliseconds;
-}
-```
+Duration stored as `int` seconds directly in the model (see Session Model above).
+No custom JsonConverter needed - `json_serializable` handles `int` natively.
 
 ## App Initialization Order
 
