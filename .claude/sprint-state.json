@@ -11,16 +11,46 @@
     }
   ],
   "currentSprintTasks": {
-    "1.1": { "name": "TimerEngine core (pure Dart, DateTime-based)", "status": "pending" },
-    "1.2": { "name": "Phase state machine (warmup→work→rest→complete)", "status": "pending" },
-    "1.3": { "name": "Pause/resume with DateTime re-sync", "status": "pending" },
-    "1.4": { "name": "Skip forward/back", "status": "pending" },
-    "1.5": { "name": "Warning trigger at configured time", "status": "pending" },
-    "1.6": { "name": "Audio service stub (just_audio basic)", "status": "pending" },
-    "1.7": { "name": "Timer Riverpod providers", "status": "pending" },
-    "1.8": { "name": "Sound assets (4 WAV files)", "status": "pending" },
-    "1.9": { "name": "Unit tests with fakeAsync", "status": "pending" },
-    "1.10": { "name": "Integration: load preset → run full session", "status": "pending" }
+    "1.1": {
+      "name": "TimerEngine core (pure Dart, DateTime-based)",
+      "status": "completed"
+    },
+    "1.2": {
+      "name": "Phase state machine (warmup→work→rest→complete)",
+      "status": "completed"
+    },
+    "1.3": {
+      "name": "Pause/resume with DateTime re-sync",
+      "status": "completed"
+    },
+    "1.4": {
+      "name": "Skip forward/back",
+      "status": "completed"
+    },
+    "1.5": {
+      "name": "Warning trigger at configured time",
+      "status": "completed"
+    },
+    "1.6": {
+      "name": "Audio service stub (just_audio basic)",
+      "status": "completed"
+    },
+    "1.7": {
+      "name": "Timer Riverpod providers",
+      "status": "completed"
+    },
+    "1.8": {
+      "name": "Sound assets (4 WAV files)",
+      "status": "completed"
+    },
+    "1.9": {
+      "name": "Unit tests with fakeAsync",
+      "status": "completed"
+    },
+    "1.10": {
+      "name": "Integration: load preset → run full session",
+      "status": "completed"
+    }
   },
   "keyDecisions": [
     "Riverpod 2.6 (not 3.x — SDK 3.7.2 constraint)",
