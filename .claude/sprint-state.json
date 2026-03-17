@@ -1,6 +1,6 @@
 {
-  "currentSprint": 2,
-  "currentSprintName": "Timer Screen",
+  "currentSprint": 4,
+  "currentSprintName": "Background & Audio",
   "currentTask": null,
   "completedSprints": [
     {
@@ -14,21 +14,21 @@
       "name": "Timer Engine",
       "completedAt": "2026-03-17",
       "summary": "Timer engine with DateTime-based timing, full state machine, pause/resume, skip, warning, audio cues. 23 engine tests passing."
+    },
+    {
+      "sprint": 2,
+      "name": "Timer Screen",
+      "completedAt": "2026-03-17",
+      "summary": "Full timer UI: CountdownDisplay, ProgressRing, RoundIndicator, PhaseLabel, TimerControls, session summary, complete screen. 19 widget tests."
+    },
+    {
+      "sprint": 3,
+      "name": "Sessions",
+      "completedAt": "2026-03-17",
+      "summary": "SessionRepository with CRUD, Hive persistence, duplicate, serialize/deserialize. Session editor with form validation. Updated home screen with long-press actions. 18 repository tests."
     }
   ],
-  "currentSprintTasks": {
-    "2.1": { "name": "Timer display widget (large monospace countdown)", "status": "pending" },
-    "2.2": { "name": "Circular progress ring (CustomPainter)", "status": "pending" },
-    "2.3": { "name": "Phase color system", "status": "pending" },
-    "2.4": { "name": "Round indicator", "status": "pending" },
-    "2.5": { "name": "Phase label", "status": "pending" },
-    "2.6": { "name": "Timer controls (pause, skip, stop)", "status": "pending" },
-    "2.7": { "name": "Stop/exit with confirmation dialog", "status": "pending" },
-    "2.8": { "name": "Session start flow (summary bottom sheet)", "status": "pending" },
-    "2.9": { "name": "Session complete screen", "status": "pending" },
-    "2.10": { "name": "Full timer screen layout (portrait)", "status": "pending" },
-    "2.11": { "name": "Widget tests", "status": "pending" }
-  },
+  "currentSprintTasks": {},
   "keyDecisions": [
     "Riverpod 2.6 (not 3.x — SDK 3.7.2 constraint)",
     "Freezed 2.5 (not 3.x — SDK 3.7.2 constraint)",
@@ -39,8 +39,10 @@
     "50ms tick interval (20 FPS) for smooth countdown",
     "No hive_generator — JSON encode/decode approach only",
     "Warning is a threshold check within work phase, NOT a separate state",
-    "AppLifecycleListener (Flutter 3.13+) over WidgetsBindingObserver"
+    "AppLifecycleListener (Flutter 3.13+) over WidgetsBindingObserver",
+    "SessionRepository: JSON strings in Hive box, FakeBox for tests",
+    "StateProvider invalidation pattern for session list refresh"
   ],
   "blockers": [],
-  "notes": "Sprint 2: Timer Screen UI. Large countdown, progress ring, phase colors, glove-friendly controls. Portrait first, landscape later."
+  "notes": "Sprints 0-3 complete. 73 tests passing. Ready for Sprint 4: Background & Audio."
 }

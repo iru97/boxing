@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:boxing/core/constants/preset_sessions.dart';
 import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
+import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
 import 'package:boxing/features/timer/domain/timer_state.dart';
 import 'package:boxing/features/timer/presentation/timer_controller.dart';
 import 'package:boxing/features/timer/presentation/widgets/countdown_display.dart';
@@ -30,15 +30,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   @override
   void initState() {
     super.initState();
-    _session = _findSession(widget.sessionId);
-  }
-
-  SessionModel? _findSession(String id) {
-    try {
-      return PresetSessions.all.firstWhere((s) => s.id == id);
-    } catch (_) {
-      return null;
-    }
+    // Session is looked up in build via provider
   }
 
   void _startSession() {
@@ -83,6 +75,8 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _session ??= ref.read(sessionByIdProvider(widget.sessionId));
+
     if (_session == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Timer')),
