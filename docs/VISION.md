@@ -86,16 +86,23 @@ Session: "Heavy Bag Work"
 
 | Session | Rounds | Work | Rest | Warning | Use Case |
 |---------|--------|------|------|---------|----------|
-| Pro Boxing | 12 | 3:00 | 1:00 | 0:10 | Pro fight simulation |
+| Pro Boxing (Men) | 12 | 3:00 | 1:00 | 0:10 | Pro men's fight simulation |
+| Pro Boxing (Women) | 10 | 2:00 | 1:00 | 0:10 | Pro women's fight simulation |
 | Amateur Boxing | 3 | 3:00 | 1:00 | 0:10 | Amateur fight simulation |
-| Shadow Boxing | 5 | 3:00 | 1:00 | 0:10 | Warm-up / technique |
+| Amateur Women | 3 | 2:00 | 1:00 | 0:10 | Women's amateur rules |
+| Shadow Boxing | 5 | 3:00 | 0:30 | 0:10 | Warm-up / technique |
 | Heavy Bag | 8 | 3:00 | 1:00 | 0:10 | Power and combos |
 | Speed Bag | 6 | 2:00 | 0:30 | 0:05 | Speed and rhythm |
 | Sparring | 6 | 3:00 | 1:00 | 0:10 | Partner work |
+| Pad Work | 4 | 3:00 | 1:00 | 0:10 | Mitts with coach |
 | Conditioning | 10 | 0:30 | 0:30 | 0:05 | HIIT-style boxing |
+| Tabata | 8 | 0:20 | 0:10 | off | Tabata protocol |
+| EMOM | 10 | 1:00 | 0:00 | 0:10 | Every Minute On the Minute |
 | Beginner | 4 | 2:00 | 1:00 | 0:10 | New boxers |
+| Youth Boxing | 4 | 1:30 | 1:00 | 0:10 | Junior fighters |
 | Muay Thai | 5 | 3:00 | 2:00 | 0:10 | Muay Thai rules (2min rest) |
 | MMA | 3 | 5:00 | 1:00 | 0:10 | MMA fight simulation |
+| Kickboxing | 3 | 3:00 | 1:00 | 0:10 | Kickboxing rules |
 
 ### Session Configuration Options
 
@@ -158,13 +165,25 @@ Based on market research, users strongly reject subscriptions for timers but acc
 - Multiple sound packs
 - Landscape mode for gym TV display
 
-### Phase 3: Coaching & Social
-- Combo callouts (voice: "jab-cross-hook")
-- Coach mode (create and share sessions)
-- Apple Watch / Wear OS companion with haptics
-- Workout templates (warmup -> bag work -> cooldown as one flow)
+### Phase 3: Multi-Phase Workouts & Coaching
+- **Multi-phase sessions**: Chain different timer configs into one workout flow:
+  ```
+  Full Session Example (90 min):
+  1. Warmup: 10 min countdown
+  2. Shadow Boxing: 3 rounds x 3:00 / 0:30 rest
+  3. Heavy Bag: 6 rounds x 3:00 / 1:00 rest
+  4. Pad Work: 4 rounds x 3:00 / 1:00 rest
+  5. Conditioning: Tabata 8 x 0:20 / 0:10
+  6. Cooldown: 5 min countdown
+  ```
+- Combo callouts using the standard punch number system:
+  - 1=Jab, 2=Cross, 3=Lead Hook, 4=Rear Hook, 5=Lead Uppercut, 6=Rear Uppercut
+  - Voice calls: "1-2", "1-2-3", "1-1-2", "2-3-2", with "b" modifier for body shots
+- Coach mode (create and share sessions with athletes)
+- Apple Watch / Wear OS companion with haptic alerts (feel the bell in noisy gyms)
 - Music integration (auto-duck/resume with rounds)
-- Training statistics and progress tracking
+- Training log with periodization support (foundation -> build -> peak -> taper phases)
+- Fight camp programming: 8-12 week structured training blocks
 
 ## Target Users
 1. **Solo home trainers** - Heavy bag at home, need a reliable timer
