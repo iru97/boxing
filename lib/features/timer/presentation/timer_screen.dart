@@ -167,7 +167,7 @@ class _SessionSummaryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
@@ -316,10 +316,10 @@ class _ActiveTimerView extends StatelessWidget {
         ? remaining.inMilliseconds / (phaseDurationSec * 1000)
         : 0.0;
 
-    // Phase background tint: 8% phase color over dark background
+    // Phase background tint: 10% phase color over true black
     final tintedBackground = Color.alphaBlend(
-      phaseColor.withValues(alpha: 0.08),
-      AppColors.darkBackground,
+      phaseColor.withValues(alpha: 0.10),
+      AppColors.background,
     );
 
     return Scaffold(
@@ -478,7 +478,7 @@ class _SessionCompleteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),

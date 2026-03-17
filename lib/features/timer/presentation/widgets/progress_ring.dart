@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'package:boxing/core/theme/app_colors.dart';
+
 class ProgressRing extends StatelessWidget {
   final double progress;
   final Color color;
@@ -13,7 +15,7 @@ class ProgressRing extends StatelessWidget {
     super.key,
     required this.progress,
     required this.color,
-    this.strokeWidth = 10,
+    this.strokeWidth = 12,
     this.size = 280,
     this.child,
   });
@@ -52,9 +54,9 @@ class _ProgressRingPainter extends CustomPainter {
     final radius = (min(size.width, size.height) - strokeWidth) / 2;
     final rect = Rect.fromCircle(center: center, radius: radius);
 
-    // Background track
+    // Background track — barely visible ghost ring
     final bgPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.1)
+      ..color = AppColors.ringTrack
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;

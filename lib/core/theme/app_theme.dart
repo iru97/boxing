@@ -14,15 +14,22 @@ class AppTheme {
         brightness: Brightness.dark,
         dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
       ),
-      scaffoldBackgroundColor: AppColors.darkBackground,
+      scaffoldBackgroundColor: AppColors.background,
       textTheme: AppTypography.textTheme,
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.darkBackground,
+        backgroundColor: AppColors.background,
         elevation: 0,
       ),
-      cardTheme: const CardThemeData(
-        color: AppColors.darkSurface,
+      cardTheme: CardThemeData(
+        color: AppColors.cardSurface,
         elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      dividerColor: AppColors.divider,
+      dialogTheme: const DialogThemeData(
+        backgroundColor: AppColors.raisedSurface,
       ),
     );
   }

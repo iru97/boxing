@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:boxing/app/app.dart';
@@ -9,6 +10,10 @@ import 'package:boxing/features/timer/presentation/timer_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Fonts are bundled in assets/fonts/ — never fetch from network.
+  // The google_fonts package auto-detects local files by filename.
+  GoogleFonts.config.allowRuntimeFetching = false;
 
   await Hive.initFlutter();
   final sessionsBox =

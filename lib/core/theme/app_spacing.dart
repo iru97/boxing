@@ -34,7 +34,7 @@ class AppDimensions {
   // ---------------------------------------------------------------------------
 
   static const double progressRingSize = 280;
-  static const double progressRingStroke = 10;
+  static const double progressRingStroke = 12;
   static const double timerFontSize = 96;
   static const double phaseLabelFontSize = 32;
   static const double roundIndicatorFontSize = 24;

@@ -16,35 +16,59 @@
 |-------|-----|-------|
 | `brandRed` | `#E53935` | Primary accent — buttons, FAB, active selections, app icon |
 | `brandRedDark` | `#C62828` | Pressed/active state of brand elements |
-| `brandGold` | `#FFC107` | Achievement, completion, premium features |
-| `darkBackground` | `#121212` | Scaffold background (Material Design dark baseline) |
-| `darkSurface` | `#1E1E1E` | Cards, bottom sheets, dialogs |
-| `darkSurfaceElevated` | `#2C2C2C` | Elevated surfaces (FAB background, pressed cards) |
-| `darkBorder` | `#333333` | Subtle borders, dividers |
+| `brandGold` | `#FFB300` | Achievement, completion, premium features, app icon bell |
+
+### Dark Surface System (True Black for OLED)
+
+Timer apps don't scroll — OLED smearing is irrelevant. True black saves battery on Samsung (the #1 complaint device) and maximizes contrast for phase colors.
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `background` | `#000000` | Timer screen, scaffold base — OLED off, max contrast |
+| `cardSurface` | `#111111` | Session cards on home screen — slight lift |
+| `raisedSurface` | `#1A1A1A` | Elevated cards, modals, bottom sheets |
+| `divider` | `#2A2A2A` | Subtle borders, dividers |
+| `ringTrack` | `#222222` | Progress ring background track |
 
 ### Phase Colors (Semantic — Timer-Specific)
 
 These colors carry functional meaning during workouts. They are NOT part of the brand palette — they exist to communicate timer state at a glance from across a gym.
 
+Calibrated for a `#000000` background with sufficient contrast while avoiding eye strain. Based on the traffic-light mental model ("go/caution/stop") used universally across competing boxing timer apps.
+
 | Phase | Color | Hex | Rationale |
 |-------|-------|-----|-----------|
-| Work | Green | `#4CAF50` | "Go" signal — universally understood |
-| Warning | Amber | `#FF9800` | "Caution" — heart rate rising, time running out |
-| Rest | Red | `#F44336` | "Stop" — recovery, breathe |
-| Warmup | Blue | `#2196F3` | "Cool" — preparation, not yet active |
-| Complete | White | `#FFFFFF` | Neutral — session finished |
+| Work | Green | `#00C853` | "Go" signal — Material Green A700, vibrant, readable |
+| Warning | Amber | `#FFB300` | "Caution" — Amber 700, punchy without being yellow |
+| Rest | Red | `#E53935` | "Stop" — Red 600, authoritative but not alarming |
+| Warmup | Blue | `#1E88E5` | "Prepare" — Blue 600, calm and preparatory |
+| Complete | Blue-grey | `#B0BEC5` | Neutral cooldown |
 | Idle | Gray | `#9E9E9E` | Standby — nothing happening |
 | Paused | Dark Gray | `#757575` | Suspended — muted, dimmed |
 
-### Phase Background Tint
+### Phase Background Tints
 
-During active timer, the scaffold background takes a subtle tint of the current phase color at **8% opacity** over `#121212`. This makes phase changes visible in peripheral vision without overwhelming the dark aesthetic.
+During active timer, the scaffold background takes a subtle tint of the current phase color at **10% opacity** over `#000000`. This provides ambient phase awareness without the jarring "the whole screen turned color" effect. The user knows at a glance what phase they are in without reading the label.
 
-```
-Work background:    #121212 + #4CAF50 @ 8%
-Warning background: #121212 + #FF9800 @ 8%
-Rest background:    #121212 + #F44336 @ 8%
-```
+| Phase | Tint | Hex (10% over black) |
+|-------|------|---------------------|
+| Work | Green | `#1A00C853` |
+| Warning | Amber | `#1AFFB300` |
+| Rest | Red | `#1AE53935` |
+| Warmup | Blue | `#1A1E88E5` |
+
+### Session Category Colors
+
+Color-coded accent dots on session cards for quick visual identification:
+
+| Category | Color | Hex | Sessions |
+|----------|-------|-----|----------|
+| Boxing | Green | `#00C853` | Pro Boxing, Amateur, Sparring |
+| Bag Work | Deep Orange | `#FF6D00` | Heavy Bag, Speed Bag |
+| Conditioning | Red | `#E53935` | Tabata, EMOM, Conditioning |
+| Combat Sports | Purple | `#7E57C2` | Muay Thai, MMA, Kickboxing |
+| Beginner | Blue | `#1E88E5` | Beginner, Youth Boxing |
+| Custom | Amber | `#FFB300` | User-created sessions |
 
 ### Text Opacity Scale
 
@@ -60,21 +84,41 @@ Rest background:    #121212 + #F44336 @ 8%
 
 ## Typography
 
+### Font Strategy: Bundled Assets (Not Runtime Fetch)
+
+All fonts are **bundled as assets** in `assets/fonts/`, not fetched at runtime via the `google_fonts` package network call. The countdown font is the most critical visual element — it must render correctly on frame one. A timer that opens and shows the wrong font for 200ms, even once, undercuts the "reliable" positioning.
+
+Configuration: `GoogleFonts.config.allowRuntimeFetching = false` in `main.dart`. The `google_fonts` package API calls continue unchanged — they auto-detect bundled files by filename.
+
 ### Type Scale
 
-Three font roles using Google Fonts (all free, open-source, Flutter-compatible):
+Three font roles — all free, open-source, bundled locally:
 
-| Role | Font | Weight | Usage |
-|------|------|--------|-------|
-| **Display** | Bebas Neue | Regular (400) | Timer countdown digits — the hero element. All-caps, condensed, fight-poster energy. |
-| **Heading** | Teko | SemiBold (600) | Phase labels, round indicators, section headers. Industrial, squared, scoreboard feel. |
-| **Body** | Barlow Condensed | Regular/Medium (400/500) | Session names, settings, navigation, form labels. Clean, functional, 18 weights. |
+| Role | Font | Weight | Usage | Why This Font |
+|------|------|--------|-------|---------------|
+| **Display** | Roboto Condensed | Bold (700) | Timer countdown digits — the hero element | The ONLY free font where `FontFeature.tabularFigures()` actually works. No layout shift between "1:08" and "0:59". Reads from 2+ meters. Pre-installed on Android = zero-ms render. |
+| **Heading** | Teko | SemiBold (600) | Phase labels, round indicators, section headers | Square condensed proportions = scoreboard feel. Industrial, squared. |
+| **Body** | Barlow Condensed | Regular/Medium (400/500) | Session names, settings, navigation, form labels | Designed for data-dense interfaces. Highway signage heritage = functional clarity. |
+
+### Critical Note: Why Not Bebas Neue for Countdown
+
+The free Bebas Neue on Google Fonts **does not include the `tnum` OpenType table**. `FontFeature.tabularFigures()` silently does nothing. Digits "1" through "0" render at natural proportional widths — the "1" is narrower than "8". At 96sp, the countdown text block shifts horizontally every time a digit changes. This is visually jarring and unprofessional.
+
+Bebas Neue remains available for secondary display text (session names, marketing) where digit layout shift is not an issue.
+
+### Premium Fonts Evaluated (Not Needed for MVP)
+
+| Font | Foundry | Price | Why Skipped |
+|------|---------|-------|-------------|
+| Knockout | Hoefler & Co | $169+ | Literally named after boxing, gorgeous — but no free equivalent close enough |
+| DIN 2014 | Fontwerk | $200+ | Industrial scoreboard perfection — more "autobahn" than "boxing gym" |
+| Bebas Neue Pro | Dharma Type | ~$35-50 | Fixes the `tnum` problem but adds procurement overhead |
 
 ### Specific Sizes
 
 | Element | Font | Size | Weight | Letter Spacing | Notes |
 |---------|------|------|--------|----------------|-------|
-| Main countdown | Bebas Neue | 96sp | 400 | 2px | Tabular figures enabled |
+| Main countdown | Roboto Condensed | 96sp | 700 | 2px | Tabular figures enabled, works correctly |
 | Phase label | Teko | 32sp | 600 | 3px | Uppercase |
 | Round indicator | Teko | 24sp | 500 | 2px | Uppercase |
 | Session name (list) | Barlow Condensed | 18sp | 500 | 0 | Title case |
@@ -83,11 +127,21 @@ Three font roles using Google Fonts (all free, open-source, Flutter-compatible):
 | Summary label | Barlow Condensed | 18sp | 400 | 0 | |
 | Elapsed time | Barlow Condensed | 14sp | 400 | 0 | 40% opacity |
 
-### Why These Fonts?
+### Bundled Font Files
 
-- **Bebas Neue**: The most recognized athletic display font. Its all-caps condensed form creates fight-poster energy at 96sp. Reads clearly from 3+ meters — gym-ready.
-- **Teko**: Industrial squared proportions complement Bebas Neue without competing. Handles mixed-case labels better than Bebas. Scoreboard DNA.
-- **Barlow Condensed**: Designed for data-dense interfaces. 18 weights available. California infrastructure origin gives it functional authority. Highly legible at small sizes on mobile.
+Located in `assets/fonts/`:
+
+| File | Size | Role |
+|------|------|------|
+| `RobotoCondensed-Bold.ttf` | ~160KB | Timer countdown digits |
+| `Teko-Medium.ttf` | ~80KB | Round indicators |
+| `Teko-SemiBold.ttf` | ~80KB | Phase labels, headings |
+| `BarlowCondensed-Regular.ttf` | ~50KB | Body text |
+| `BarlowCondensed-Medium.ttf` | ~50KB | Session names |
+| `BarlowCondensed-SemiBold.ttf` | ~50KB | Buttons, labels |
+| `BarlowCondensed-Bold.ttf` | ~50KB | Emphasis |
+
+Total: ~520KB — trivial addition to APK.
 
 ---
 
@@ -109,7 +163,8 @@ Three font roles using Google Fonts (all free, open-source, Flutter-compatible):
 | Component | Size | Notes |
 |-----------|------|-------|
 | Progress ring | 280 x 280px | Circular progress around countdown |
-| Progress ring stroke | 10px | Round caps |
+| Progress ring stroke | 12px | Round caps, thicker for glanceability |
+| Ring background track | `#222222` | Barely visible ghost ring |
 | Pause button | 80 x 80px | Center control — glove-friendly |
 | Skip buttons | 64 x 64px | Side controls — glove-friendly |
 | Session card height | ~72px | Card content + 16px padding |
@@ -120,6 +175,41 @@ Three font roles using Google Fonts (all free, open-source, Flutter-compatible):
 | App bar height | 56px (default) | Material 3 standard |
 | Min touch target | 48dp | WCAG minimum |
 | Glove-safe touch target | 64dp+ | Boxing-specific minimum |
+
+---
+
+## Timer Display Design
+
+### Progress Ring Specification
+
+- **Style**: Solid color (NOT gradient) — the phase color IS the information
+- **Thickness**: 12dp — thick enough to be glanceable, not dominant
+- **Background track**: `#222222` — barely visible ghost ring
+- **Cap style**: Round (`StrokeCap.round`) — modern, not harsh
+- **Direction**: Clockwise depletion (full at top, empties rightward)
+- **Animation**: Direct repaint from timer tick, no interpolated tween
+
+### Phase Transitions
+
+**Immediate color switch, not fade.** The gym clock bell rings — there is no gentle crossfade. The abruptness is functional: it signals the phase change clearly to peripheral vision.
+
+Optional: single-frame white flash overlay at 30% opacity for one frame (16ms) at transition, creating a subliminal "bell flash" effect.
+
+### Last 10 Seconds (Warning)
+
+**Do NOT animate or pulse the digits.** The user is mid-punch, 2 meters from the phone, needing to glance for a half-second. Any animation adds processing load to that read. The warning signal is:
+1. Audio: the clapper bell sound
+2. Color: amber phase color transition
+3. Visual: progress ring can pulse at 0.5s intervals (peripheral vision-friendly)
+
+### Session Complete Screen
+
+Boxing-appropriate, not generic fitness confetti:
+- Black background
+- Total time elapsed in large digits
+- "SESSION COMPLETE" in all-caps condensed at 48sp
+- Subtle radial pulse animation (1 second, then idle)
+- Prominent "Done" button and secondary "Go Again" button
 
 ---
 
@@ -170,11 +260,11 @@ The Material Icons set covers all functional requirements. Custom boxing-specifi
 |                              |
 |       ROUND 3 / 8           |  <- Teko 24sp, white 87%
 |                              |
-|    ╭──────────────────╮      |
-|    │                  │      |
-|    │      2:47        │      |  <- Bebas Neue 96sp, phase color
-|    │                  │      |
-|    ╰──────────────────╯      |  <- 280px progress ring, phase color
+|    +--------------------+    |
+|    |                    |    |
+|    |      2:47          |    |  <- Roboto Condensed Bold 96sp, phase color
+|    |                    |    |
+|    +--------------------+    |  <- 280px progress ring, 12dp stroke, phase color
 |                              |
 |          WORK                |  <- Teko 32sp, phase color
 |                              |
@@ -183,7 +273,8 @@ The Material Icons set covers all functional requirements. Custom boxing-specifi
 |    Total: 12:33 elapsed      |  <- Barlow 14sp, white 40%
 +------------------------------+
 
-Background: #121212 + phase color @ 8% opacity
+Background: #000000 + phase color @ 10% opacity
+Ring track: #222222
 ```
 
 ### Session List (Home)
@@ -192,104 +283,40 @@ Background: #121212 + phase color @ 8% opacity
 +------------------------------+
 | Boxing Timer        [gear]   |  <- App bar
 |------------------------------|
-| MY SESSIONS                  |  <- Teko 16sp, brand red
+| QUICK START                  |  <- 3 recently used, horizontal scroll
+| [Heavy Bag] [Pro] [Shadow]   |
+|                              |
+| PRESETS                      |  <- Full list, grouped
 | +---------------------------+|
-| | Heavy Bag Custom    12:00 >||  <- Card with play arrow
+| |[*] Pro Boxing (Men) 8rds >||  <- [*] = category color dot
 | +---------------------------+|
-| +---------------------------+|
-| | Speed Work          8:00  >||
+| |[*] Heavy Bag       8rds >||
 | +---------------------------+|
 |                              |
-| QUICK START                  |  <- Teko 16sp, brand red
+| MY SESSIONS                  |
 | +---------------------------+|
-| | Pro Boxing (Men)   48:00  >||
-| +---------------------------+|
-| | Heavy Bag          32:00  >||
-| +---------------------------+|
-| | Shadow Boxing      17:30  >||
+| |[*] Custom Workout  4rds >||
 | +---------------------------+|
 |                         [+]  |  <- FAB
 +------------------------------+
 
-Background: #121212
-Cards: #1E1E1E, 12px radius, 2dp elevation
+Background: #000000
+Cards: #111111, 12px radius
 ```
 
-### Session Summary (Pre-Workout)
+### Session Card Content
 
 ```
-+------------------------------+
-| [<] Heavy Bag                |
-|                              |
-|        (spacer)              |
-|                              |
-|  Rounds              8      |
-|  Round Duration      3:00   |
-|  Rest Duration       1:00   |
-|  Warning             10s    |
-|                              |
-|  Total Time          32:00  |  <- Bold
-|                              |
-|        (spacer x2)          |
-|                              |
-| [========= START =========] |  <- 80px, green, full width
-+------------------------------+
++-------------------------------------------+
+|  [*] Heavy Bag                      8 rds |
+|       3:00 work . 1:00 rest . 32 min      |
++-------------------------------------------+
 ```
 
-### Workout Complete
-
-```
-+------------------------------+
-|        (spacer)              |
-|                              |
-|         [check]              |  <- 96dp green check icon
-|                              |
-|    WORKOUT COMPLETE          |  <- Teko 28sp
-|                              |
-|      Heavy Bag               |  <- Barlow 20sp, 80%
-|    8 rounds completed        |  <- Barlow 16sp, 60%
-|    Total time: 32:04         |  <- Barlow 16sp, 60%
-|                              |
-|        (spacer)              |
-|                              |
-| [========= REPEAT ========] |  <- 64px, green, full width
-| [========= DONE ===========] |  <- 64px, outlined, full width
-+------------------------------+
-```
-
----
-
-## Logo & Wordmark
-
-### Primary Logo
-
-The logo is a **wordmark-first** design: the word "BOXING" set in Bebas Neue, with the "O" replaced by a circular element that evokes both a boxing ring (top-down view) and a timer dial.
-
-**Construction:**
-- "B" + circular ring element + "XING" in Bebas Neue
-- The ring element has a small progress arc (brand red) suggesting a timer
-- Monochrome: works in white-on-black and black-on-white
-
-**Color variants:**
-- **Primary**: White wordmark on `#121212` background
-- **Accent**: White wordmark with red ring accent on `#121212`
-- **Reversed**: Black wordmark on white (for light contexts)
-- **Icon only**: The ring element extracted as a standalone mark
-
-### App Icon
-
-- Dark background (`#1A1A1A`)
-- Centered ring element from the wordmark
-- Brand red (`#E53935`) progress arc at ~75% sweep
-- White inner elements
-- No text in the icon (too small to read at launcher size)
-
-### Usage Rules
-
-- Minimum clear space: height of the "B" on all sides
-- Minimum display size: 24px height for wordmark, 16px for icon
-- Never stretch, rotate, or add effects
-- Never place on busy backgrounds without a container
+- Left accent dot in category color
+- Session name in 18sp medium weight
+- Round count right-aligned
+- Duration summary in 13sp secondary text
 
 ---
 
@@ -298,11 +325,11 @@ The logo is a **wordmark-first** design: the word "BOXING" set in Bebas Neue, wi
 Dark theme is the **primary** theme. Light theme exists for accessibility but is secondary.
 
 **Rationale:**
-- 82% of mobile users prefer dark mode (Android Authority, 2024)
 - Gym environments have poor contrast for light screens
 - OLED battery savings on Samsung (dominant Android brand)
 - Every serious boxing app ships dark-first
 - Timer digits and phase colors pop against dark backgrounds
+- True black (#000000) with OLED = pixels off = max battery, max contrast
 
 ---
 
@@ -310,8 +337,8 @@ Dark theme is the **primary** theme. Light theme exists for accessibility but is
 
 | Requirement | Implementation |
 |-------------|---------------|
-| WCAG AA contrast (4.5:1 min) | White text on `#121212` = 15.4:1 ratio |
-| Large text contrast (3:1 min) | Phase colors on `#121212` all pass |
+| WCAG AA contrast (4.5:1 min) | White text on `#000000` = 21:1 ratio |
+| Large text contrast (3:1 min) | Phase colors on `#000000` all pass |
 | Touch targets | 64-80dp for timer controls (exceeds 48dp minimum) |
 | Semantic labels | All icon buttons have `Semantics(label:)` |
 | Screen reader | Timer state announced via label updates |

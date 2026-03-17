@@ -3,10 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 /// Boxing app typography system.
 ///
-/// Three font roles:
-/// - **Bebas Neue** (Display): Timer countdown digits — fight-poster energy
+/// Three font roles (all bundled in assets/fonts/ for instant rendering):
+/// - **Roboto Condensed** (Display): Timer countdown digits — working tabular figures
 /// - **Teko** (Heading): Phase labels, round indicators — scoreboard feel
 /// - **Barlow Condensed** (Body): Session names, settings, forms — functional
+///
+/// Note: Bebas Neue is NOT used for countdown because the free version lacks
+/// the `tnum` OpenType table. FontFeature.tabularFigures() silently does nothing
+/// on Bebas Neue, causing layout shift between digits at 96sp.
 class AppTypography {
   AppTypography._();
 
@@ -14,10 +18,11 @@ class AppTypography {
   // Timer-specific styles (not part of TextTheme — used directly in widgets)
   // ---------------------------------------------------------------------------
 
-  /// Main countdown display: 96sp Bebas Neue with tabular figures.
-  static TextStyle countdown(Color color) => GoogleFonts.bebasNeue(
+  /// Main countdown display: 96sp Roboto Condensed Bold with tabular figures.
+  /// The ONLY free font where FontFeature.tabularFigures() actually works.
+  static TextStyle countdown(Color color) => GoogleFonts.robotoCondensed(
         fontSize: 96,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w700,
         color: color,
         letterSpacing: 2,
         fontFeatures: const [FontFeature.tabularFigures()],
@@ -44,20 +49,20 @@ class AppTypography {
   // ---------------------------------------------------------------------------
 
   static TextTheme get textTheme => TextTheme(
-        // Display — Bebas Neue for large hero text
-        displayLarge: GoogleFonts.bebasNeue(
+        // Display — Roboto Condensed for large hero text (working tnum)
+        displayLarge: GoogleFonts.robotoCondensed(
           fontSize: 96,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w700,
           letterSpacing: 2,
         ),
-        displayMedium: GoogleFonts.bebasNeue(
+        displayMedium: GoogleFonts.robotoCondensed(
           fontSize: 64,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w700,
           letterSpacing: 2,
         ),
-        displaySmall: GoogleFonts.bebasNeue(
+        displaySmall: GoogleFonts.robotoCondensed(
           fontSize: 48,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w700,
           letterSpacing: 1,
         ),
 
