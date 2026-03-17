@@ -8,6 +8,8 @@ See @docs/VISION.md for full project vision, competitive analysis, and roadmap.
 ## Quick References
 - @docs/VISION.md - Project vision and competitive landscape
 - @docs/REFERENCES.md - Flutter repos, packages, competitor apps, user quotes
+- @docs/sprints/SPRINT_PLAN.md - Master sprint plan with research findings
+- @docs/sprints/ - Individual sprint detail files (Sprint 0-6)
 - @.claude/CLAUDE.md - Claude Code configuration and standards
 - @.claude/rules/ - Path-specific coding rules
 - @pubspec.yaml - Flutter dependencies (when available)
