@@ -1,0 +1,39 @@
+{
+  "currentSprint": 1,
+  "currentSprintName": "Timer Engine",
+  "currentTask": null,
+  "completedSprints": [
+    {
+      "sprint": 0,
+      "name": "Foundation",
+      "completedAt": "2026-03-17",
+      "summary": "Flutter project initialized with Riverpod, GoRouter, Freezed, Hive. SessionModel with Duration-as-int-seconds. TimerPhase sealed union. 17 presets. Material 3 dark theme. 13 passing tests."
+    }
+  ],
+  "currentSprintTasks": {
+    "1.1": { "name": "TimerEngine core (pure Dart, DateTime-based)", "status": "pending" },
+    "1.2": { "name": "Phase state machine (warmup→work→rest→complete)", "status": "pending" },
+    "1.3": { "name": "Pause/resume with DateTime re-sync", "status": "pending" },
+    "1.4": { "name": "Skip forward/back", "status": "pending" },
+    "1.5": { "name": "Warning trigger at configured time", "status": "pending" },
+    "1.6": { "name": "Audio service stub (just_audio basic)", "status": "pending" },
+    "1.7": { "name": "Timer Riverpod providers", "status": "pending" },
+    "1.8": { "name": "Sound assets (4 WAV files)", "status": "pending" },
+    "1.9": { "name": "Unit tests with fakeAsync", "status": "pending" },
+    "1.10": { "name": "Integration: load preset → run full session", "status": "pending" }
+  },
+  "keyDecisions": [
+    "Riverpod 2.6 (not 3.x — SDK 3.7.2 constraint)",
+    "Freezed 2.5 (not 3.x — SDK 3.7.2 constraint)",
+    "Duration stored as int seconds (not Duration type)",
+    "Hive JSON strings (no TypeAdapters — GitHub issue #795)",
+    "Timer: Notifier with Timer.periodic, NOT StreamProvider",
+    "clock package for testable DateTime (fakeAsync compatible)",
+    "50ms tick interval (20 FPS) for smooth countdown",
+    "No hive_generator — JSON encode/decode approach only",
+    "Warning is a threshold check within work phase, NOT a separate state",
+    "AppLifecycleListener (Flutter 3.13+) over WidgetsBindingObserver"
+  ],
+  "blockers": [],
+  "notes": "Sprint 1 focus: TimerEngine (pure Dart, DateTime-based), audio service stub, phase state machine, unit tests with fakeAsync. Use clock package for testable DateTime."
+}

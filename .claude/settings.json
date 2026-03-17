@@ -22,13 +22,63 @@
     "requirePlanApproval": true
   },
   "hooks": {
-    "PreToolUse": [
+    "SessionStart": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "compact",
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'Verify: no secrets, timer logic UI-independent, audio pre-loaded'"
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/reinject-context.sh",
+            "timeout": 10,
+            "statusMessage": "Reinjecting project context after compaction..."
+          }
+        ]
+      },
+      {
+        "matcher": "resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/reinject-context.sh",
+            "timeout": 10,
+            "statusMessage": "Loading project context for resumed session..."
+          }
+        ]
+      },
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/reinject-context.sh",
+            "timeout": 10,
+            "statusMessage": "Loading project context..."
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/save-state-pre-compact.sh",
+            "timeout": 5,
+            "statusMessage": "Saving sprint state before compaction..."
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/reinject-context.sh",
+            "timeout": 10,
+            "statusMessage": "Restoring project context after compaction..."
           }
         ]
       }
@@ -39,7 +89,20 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '--- Session ended. Run: flutter analyze && flutter test ---'"
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/stop-check.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Check: no secrets, follow FLUTTER_ARCHITECTURE.md patterns, run flutter analyze after'",
+            "timeout": 2
           }
         ]
       }
