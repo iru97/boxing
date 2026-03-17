@@ -1,14 +1,18 @@
 ---
 paths:
-  - "src/**/*"
-  - "lib/**/*"
+  - "lib/**/*.dart"
+  - "test/**/*.dart"
 ---
 
-# Code Style Rules
+# Dart/Flutter Code Style
 
-- Use consistent indentation (2 spaces for JS/TS, 4 spaces for Python)
-- Prefer `const` over `let`, never use `var` (JS/TS)
-- Use descriptive variable and function names
-- Keep functions under 50 lines; extract helpers if longer
-- One export per file for main modules
-- Group imports: external libraries first, then internal modules
+- Follow the effective Dart style guide
+- Use `const` constructors wherever possible
+- Prefer `final` for variables that won't be reassigned
+- Use 2-space indentation (Dart standard)
+- Keep widgets under 100 lines; extract sub-widgets if larger
+- Separate business logic from build methods
+- Use trailing commas for better formatting and diffs
+- Name files in snake_case, classes in PascalCase
+- Group imports: dart, package, relative (separated by blank lines)
+- Always dispose controllers, subscriptions, and timers in dispose()

@@ -1,16 +1,18 @@
 ---
 paths:
-  - "**/*.test.*"
-  - "**/*.spec.*"
-  - "tests/**/*"
-  - "test/**/*"
+  - "test/**/*.dart"
+  - "**/*_test.dart"
 ---
 
-# Testing Rules
+# Flutter Testing Rules
 
-- Name test files with `.test.` or `.spec.` suffix matching the source file
-- Use descriptive test names that explain the expected behavior
+- Name test files: `<source_file>_test.dart` in matching directory structure
+- Use descriptive test names: `'should fire warning sound 10 seconds before round end'`
 - Follow Arrange-Act-Assert pattern
-- Test both happy path and error cases
-- Mock external dependencies, not internal logic
-- Keep tests independent; no shared mutable state between tests
+- Mock external services (audio, storage, platform channels)
+- Never mock the timer engine itself in timer tests - test real behavior
+- Test timer accuracy: verify elapsed time within acceptable tolerance (±50ms)
+- Test state transitions: warmup -> work -> warning -> rest -> work -> ... -> complete
+- Test edge cases: pause during warning, skip round, restart session
+- Keep tests independent; no shared mutable state
+- Use `flutter test` to run, `flutter test --coverage` for coverage reports

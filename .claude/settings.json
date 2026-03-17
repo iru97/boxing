@@ -28,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'Writing/editing file: ensure no secrets are included'"
+            "command": "echo 'Verify: no secrets, timer logic UI-independent, audio pre-loaded'"
           }
         ]
       }
@@ -39,7 +39,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '--- Claude stopped. Review changes with: git diff ---'"
+            "command": "echo '--- Session ended. Run: flutter analyze && flutter test ---'"
           }
         ]
       }
