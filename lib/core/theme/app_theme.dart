@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
+import 'app_typography.dart';
 
 class AppTheme {
   AppTheme._();
@@ -11,8 +12,10 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.brandRed,
         brightness: Brightness.dark,
+        dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
+      textTheme: AppTypography.textTheme,
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.darkBackground,
         elevation: 0,
@@ -31,7 +34,9 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.brandRed,
         brightness: Brightness.light,
+        dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
       ),
+      textTheme: AppTypography.textTheme,
     );
   }
 }

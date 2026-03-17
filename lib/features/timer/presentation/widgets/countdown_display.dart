@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import 'package:boxing/core/theme/app_typography.dart';
+
 class CountdownDisplay extends StatelessWidget {
   final Duration remaining;
   final Color color;
@@ -20,16 +22,10 @@ class CountdownDisplay extends StatelessWidget {
     return Semantics(
       label: '$minutes minutes $seconds seconds remaining',
       child: RepaintBoundary(
-      child: Text(
-        text,
-        style: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: 80,
-          fontWeight: FontWeight.w300,
-          color: color,
-          fontFeatures: const [FontFeature.tabularFigures()],
+        child: Text(
+          text,
+          style: AppTypography.countdown(color),
         ),
-      ),
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:boxing/core/theme/app_typography.dart';
+
 class PhaseLabel extends StatelessWidget {
   final String label;
   final Color color;
@@ -14,12 +16,7 @@ class PhaseLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
-        color: color,
-        letterSpacing: 3,
-      ),
+      style: AppTypography.phaseLabel(color),
     );
   }
 }

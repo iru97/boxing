@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:boxing/core/theme/app_typography.dart';
+
 class RoundIndicator extends StatelessWidget {
   final int currentRound;
   final int totalRounds;
@@ -14,11 +16,8 @@ class RoundIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'ROUND $currentRound / $totalRounds',
-      style: TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w500,
-        color: Colors.white.withValues(alpha: 0.9),
-        letterSpacing: 2,
+      style: AppTypography.roundIndicator(
+        Colors.white.withValues(alpha: 0.87),
       ),
     );
   }

@@ -316,8 +316,14 @@ class _ActiveTimerView extends StatelessWidget {
         ? remaining.inMilliseconds / (phaseDurationSec * 1000)
         : 0.0;
 
+    // Phase background tint: 8% phase color over dark background
+    final tintedBackground = Color.alphaBlend(
+      phaseColor.withValues(alpha: 0.08),
+      AppColors.darkBackground,
+    );
+
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: tintedBackground,
       body: SafeArea(
         child: Column(
           children: [
