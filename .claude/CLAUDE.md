@@ -20,13 +20,12 @@ lib/
 │   ├── theme/           # App theme, colors, typography
 │   └── utils/           # Utility functions
 ├── features/
-│   ├── timer/           # Core timer engine (background-safe)
+│   ├── timer/           # Core timer screen (background-safe)
 │   ├── session/         # Session configuration and management
-│   ├── audio/           # Sound playback service
 │   └── settings/        # App settings
-├── models/              # Data models (Session, TimerState, etc.)
-├── services/            # Platform services (audio, wakelock, storage)
-└── widgets/             # Shared widgets
+├── models/              # Data models (Session, TimerState, TimerPhase)
+├── services/            # Platform services (timer engine, audio, wakelock, storage)
+└── widgets/             # Shared widgets (timer display, phase indicator)
 ```
 
 ### Timer Engine Requirements
@@ -40,44 +39,65 @@ lib/
 - Sounds must play over other apps' audio (duck or mix)
 - Volume override option (force audible even if phone is on low)
 - Authentic boxing bell sounds (not generic beeps)
-- 10-second warning must be distinct from round start/end
 - Must work with screen locked via foreground service
 
 ### Data Model (Core)
-```dart
-// Session: A complete training configuration
-// - id, name, rounds, roundDuration, restDuration
-// - warningTime, soundPack, autoAdvance, keepScreenOn
-// - warmupDuration, isPreset (built-in vs user-created)
+```
+Session: id, name, rounds, roundDuration, restDuration,
+         warningTime, soundPack, autoAdvance, keepScreenOn,
+         warmupDuration, isPreset
 
-// TimerState: Current state of the running timer
-// - currentRound, totalRounds, phase (work/rest/warmup/complete)
-// - timeRemaining, totalElapsed, isPaused
+TimerState: currentRound, totalRounds, phase, timeRemaining,
+            totalElapsed, isPaused
+
+TimerPhase: warmup | work | rest | complete
 ```
 
-## Agent & Skill Usage
+## Agents
 
-### Available Agents
-- **planner**: Architecture and implementation planning (use before complex features)
-- **code-reviewer**: Post-implementation quality review
-- **debugger**: Bug investigation and resolution
-- **researcher**: Codebase exploration and documentation
-- **ux-designer**: UI/UX decisions for boxing-specific interfaces
-- **flutter-specialist**: Flutter/Dart best practices and platform integration
+### Reasoning & Review Agents (read-only, no code changes)
+- **planner** - Architecture planning before complex features
+- **code-reviewer** - Post-implementation quality and boxing UX review
+- **debugger** - Bug investigation (timer, audio, background)
+- **researcher** - Boxing domain, Flutter ecosystem, competitors
+- **ux-designer** - Glove-friendly, gym-visible interface decisions
 
-### Available Skills
-- `/review` - Code review on recent changes
+### Implementation Agents (write code)
+- **widget-builder** - Flutter widgets following boxing UX rules
+- **state-manager** - Riverpod providers, controllers, state classes
+- **test-writer** - Unit, widget, and integration tests
+- **flutter-specialist** - Audio, background execution, timer precision
+- **platform-integrator** - Android/iOS manifests, permissions, native config
+
+## Skills (Slash Commands)
+
+### Project Management
+- `/status` - Project health check
+- `/review` - Code review with boxing context
 - `/plan` - Implementation planning
-- `/status` - Project status and health
+
+### Implementation
+- `/scaffold` - Initialize full Flutter project structure
+- `/feature <name>` - Scaffold a complete feature module
+- `/widget <name>` - Create a new widget
+- `/test [file|feature|all]` - Generate and run tests
+- `/analyze` - Run flutter analyze and fix issues
+- `/build [android|ios]` - Build and fix errors
+
+### Validation
 - `/timer-test` - Verify timer accuracy and background behavior
-- `/session-validate` - Validate session configuration completeness
+- `/session-validate` - Validate session model and presets
+- `/ux-review` - Check boxing UX compliance
 
 ## Team Orchestration
 - Agents can work in parallel using worktree isolation
 - Max team size: 5 concurrent agents
-- Use planner agent before starting complex multi-file changes
-- Use code-reviewer after implementations
-- Use ux-designer for any screen layout or interaction decisions
+- Typical workflow:
+  1. `/plan` before complex features
+  2. Implementation agents build in parallel (widget + state + platform)
+  3. `/test` to verify
+  4. `/review` to catch issues
+  5. `/analyze` + `/build` to finalize
 
 ## References
 - @../docs/VISION.md - Project vision and competitive analysis

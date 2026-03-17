@@ -15,7 +15,7 @@ __pycache__/
 
 # Build
 dist/
-build/
+/build/
 out/
 
 # OS
