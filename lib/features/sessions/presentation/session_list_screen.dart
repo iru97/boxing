@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
+import 'package:boxing/core/utils/session_category.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
 
@@ -37,7 +39,8 @@ class SessionListScreen extends ConsumerWidget {
             ...custom.map((session) => _SessionCard(
                   session: session,
                   onTap: () => context.push('/timer/${session.id}'),
-                  onLongPress: () => _showCustomActions(context, ref, session),
+                  onLongPress: () =>
+                      _showCustomActions(context, ref, session),
                 )),
             const SizedBox(height: 24),
           ],
@@ -46,10 +49,32 @@ class SessionListScreen extends ConsumerWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
+          SizedBox(
+            height: 100,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: presets.length > 3 ? 3 : presets.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                final session = presets[index];
+                return _QuickStartCard(
+                  session: session,
+                  onTap: () => context.push('/timer/${session.id}'),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            'All Presets',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
           ...presets.map((session) => _SessionCard(
                 session: session,
                 onTap: () => context.push('/timer/${session.id}'),
-                onLongPress: () => _showPresetActions(context, ref, session),
+                onLongPress: () =>
+                    _showPresetActions(context, ref, session),
               )),
         ],
       ),
@@ -166,6 +191,70 @@ class SessionListScreen extends ConsumerWidget {
   }
 }
 
+/// Compact horizontal card for Quick Start section.
+class _QuickStartCard extends StatelessWidget {
+  final SessionModel session;
+  final VoidCallback onTap;
+
+  const _QuickStartCard({
+    required this.session,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final catColor = categoryColorFor(session);
+    final totalMin = session.totalDuration.inMinutes;
+
+    return SizedBox(
+      width: 160,
+      child: Card(
+        color: AppColors.cardSurface,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: catColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        session.name,
+                        style: Theme.of(context).textTheme.titleSmall,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  '${session.rounds}R  $totalMin min',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.white.withValues(alpha: 0.5),
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Full session card with category color dot and duration summary.
 class _SessionCard extends StatelessWidget {
   final SessionModel session;
   final VoidCallback onTap;
@@ -179,7 +268,8 @@ class _SessionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalDuration = session.totalDuration;
+    final catColor = categoryColorFor(session);
+    final totalMin = session.totalDuration.inMinutes;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -191,18 +281,16 @@ class _SessionCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              if (!session.isPreset)
-                Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: Icon(
-                    Icons.person,
-                    size: 20,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.7),
-                  ),
+              // Category color dot
+              Container(
+                width: 10,
+                height: 10,
+                margin: const EdgeInsets.only(right: 12),
+                decoration: BoxDecoration(
+                  color: catColor,
+                  shape: BoxShape.circle,
                 ),
+              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,20 +301,21 @@ class _SessionCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${session.rounds} rounds × ${DurationFormatter.formatSeconds(session.roundDurationSec)}',
+                      '${DurationFormatter.formatSeconds(session.roundDurationSec)} work'
+                      '${session.restDurationSec > 0 ? ' \u00B7 ${DurationFormatter.formatSeconds(session.restDurationSec)} rest' : ''}'
+                      ' \u00B7 $totalMin min',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.7),
+                            color: Colors.white.withValues(alpha: 0.5),
                           ),
                     ),
                   ],
                 ),
               ),
               Text(
-                DurationFormatter.format(totalDuration),
-                style: Theme.of(context).textTheme.bodyLarge,
+                '${session.rounds}R',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.7),
+                    ),
               ),
               const SizedBox(width: 8),
               const Icon(Icons.play_arrow, size: 28),

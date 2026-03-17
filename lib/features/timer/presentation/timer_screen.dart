@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:boxing/core/theme/app_colors.dart';
+import 'package:boxing/core/theme/app_typography.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
@@ -269,8 +270,8 @@ class _SummaryRow extends StatelessWidget {
   }
 }
 
-/// Active timer view during workout
-class _ActiveTimerView extends StatelessWidget {
+/// Active timer view during workout — tracks phase changes for flash effect.
+class _ActiveTimerView extends StatefulWidget {
   final SessionModel session;
   final TimerState timerState;
   final VoidCallback onPauseResume;
@@ -292,15 +293,68 @@ class _ActiveTimerView extends StatelessWidget {
   });
 
   @override
+  State<_ActiveTimerView> createState() => _ActiveTimerViewState();
+}
+
+class _ActiveTimerViewState extends State<_ActiveTimerView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _flashController;
+  late Animation<double> _flashOpacity;
+  String? _lastPhaseKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _flashController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _flashOpacity = Tween<double>(begin: 0.30, end: 0.0).animate(
+      CurvedAnimation(parent: _flashController, curve: Curves.easeOut),
+    );
+    _lastPhaseKey = _phaseKey(widget.timerState.phase);
+  }
+
+  @override
+  void dispose() {
+    _flashController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant _ActiveTimerView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final newKey = _phaseKey(widget.timerState.phase);
+    if (newKey != _lastPhaseKey) {
+      _lastPhaseKey = newKey;
+      _flashController.forward(from: 0.0);
+    }
+  }
+
+  /// Unique key per phase type + round so flash fires on phase transitions.
+  String _phaseKey(TimerPhase phase) {
+    return switch (phase) {
+      TimerWarmup() => 'warmup',
+      TimerWork(:final roundNumber) => 'work_$roundNumber',
+      TimerRest(:final afterRound) => 'rest_$afterRound',
+      TimerPaused(:final previousPhase) => 'paused_${_phaseKey(previousPhase)}',
+      TimerCompleted() => 'complete',
+      TimerIdle() => 'idle',
+    };
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final timerState = widget.timerState;
+
     // Handle completed state
     if (timerState.phase is TimerCompleted) {
       return _SessionCompleteView(
         sessionName: timerState.sessionName,
         totalRounds: timerState.totalRounds,
         totalElapsed: timerState.totalElapsed,
-        onRepeat: onRepeat,
-        onDone: onDone,
+        onRepeat: widget.onRepeat,
+        onDone: widget.onDone,
       );
     }
 
@@ -311,7 +365,8 @@ class _ActiveTimerView extends StatelessWidget {
     final isPaused = timerState.phase is TimerPaused;
 
     // Calculate progress
-    final phaseDurationSec = _getPhaseDurationSec(timerState.phase, session);
+    final phaseDurationSec =
+        _getPhaseDurationSec(timerState.phase, widget.session);
     final progress = phaseDurationSec > 0
         ? remaining.inMilliseconds / (phaseDurationSec * 1000)
         : 0.0;
@@ -324,75 +379,94 @@ class _ActiveTimerView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: tintedBackground,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Top bar with stop button
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: IconButton(
-                  icon: const Icon(Icons.close, size: 28),
-                  color: Colors.white.withValues(alpha: 0.7),
-                  onPressed: onStop,
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              children: [
+                // Top bar with stop button
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: IconButton(
+                      icon: const Icon(Icons.close, size: 28),
+                      color: Colors.white.withValues(alpha: 0.7),
+                      onPressed: widget.onStop,
+                    ),
+                  ),
                 ),
-              ),
+
+                const Spacer(),
+
+                // Round indicator
+                RoundIndicator(
+                  currentRound: timerState.currentRound,
+                  totalRounds: timerState.totalRounds,
+                ),
+
+                const SizedBox(height: 32),
+
+                // Progress ring with countdown inside
+                ProgressRing(
+                  progress: progress.clamp(0.0, 1.0),
+                  color: phaseColor,
+                  child: CountdownDisplay(
+                    remaining: remaining,
+                    color: phaseColor,
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                // Phase label
+                PhaseLabel(
+                  label: isPaused ? 'PAUSED' : phaseName,
+                  color: phaseColor,
+                ),
+
+                const Spacer(),
+
+                // Controls
+                TimerControls(
+                  isPaused: isPaused,
+                  accentColor: phaseColor,
+                  onPauseResume: widget.onPauseResume,
+                  onSkipBack: widget.onSkipBack,
+                  onSkipForward: widget.onSkipForward,
+                ),
+
+                const SizedBox(height: 24),
+
+                // Total elapsed
+                Text(
+                  'Total: ${DurationFormatter.format(timerState.totalElapsed)}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white.withValues(alpha: 0.4),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+              ],
             ),
+          ),
 
-            const Spacer(),
-
-            // Round indicator
-            RoundIndicator(
-              currentRound: timerState.currentRound,
-              totalRounds: timerState.totalRounds,
-            ),
-
-            const SizedBox(height: 32),
-
-            // Progress ring with countdown inside
-            ProgressRing(
-              progress: progress.clamp(0.0, 1.0),
-              color: phaseColor,
-              child: CountdownDisplay(
-                remaining: remaining,
-                color: phaseColor,
-              ),
-            ),
-
-            const SizedBox(height: 24),
-
-            // Phase label
-            PhaseLabel(
-              label: isPaused ? 'PAUSED' : phaseName,
-              color: phaseColor,
-            ),
-
-            const Spacer(),
-
-            // Controls
-            TimerControls(
-              isPaused: isPaused,
-              accentColor: phaseColor,
-              onPauseResume: onPauseResume,
-              onSkipBack: onSkipBack,
-              onSkipForward: onSkipForward,
-            ),
-
-            const SizedBox(height: 24),
-
-            // Total elapsed
-            Text(
-              'Total: ${DurationFormatter.format(timerState.totalElapsed)}',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white.withValues(alpha: 0.4),
-              ),
-            ),
-
-            const SizedBox(height: 16),
-          ],
-        ),
+          // Phase transition flash overlay
+          AnimatedBuilder(
+            animation: _flashOpacity,
+            builder: (context, _) => _flashOpacity.value > 0
+                ? Positioned.fill(
+                    child: IgnorePointer(
+                      child: ColoredBox(
+                        color:
+                            Colors.white.withValues(alpha: _flashOpacity.value),
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ],
       ),
     );
   }
@@ -459,8 +533,8 @@ class _PhaseInfo {
   });
 }
 
-/// Session complete screen
-class _SessionCompleteView extends StatelessWidget {
+/// Session complete screen with radial pulse animation and proper typography.
+class _SessionCompleteView extends StatefulWidget {
   final String sessionName;
   final int totalRounds;
   final Duration totalElapsed;
@@ -476,6 +550,35 @@ class _SessionCompleteView extends StatelessWidget {
   });
 
   @override
+  State<_SessionCompleteView> createState() => _SessionCompleteViewState();
+}
+
+class _SessionCompleteViewState extends State<_SessionCompleteView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pulseController;
+  late Animation<double> _pulseScale;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    _pulseScale = Tween<double>(begin: 1.0, end: 1.15).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+    // Play one pulse then stop
+    _pulseController.forward().then((_) => _pulseController.reverse());
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -486,51 +589,50 @@ class _SessionCompleteView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              const Icon(
-                Icons.check_circle_outline,
-                size: 96,
-                color: TimerColors.work,
+              AnimatedBuilder(
+                animation: _pulseScale,
+                builder: (context, child) => Transform.scale(
+                  scale: _pulseScale.value,
+                  child: child,
+                ),
+                child: const Icon(
+                  Icons.check_circle_outline,
+                  size: 96,
+                  color: TimerColors.work,
+                ),
               ),
               const SizedBox(height: 24),
-              const Text(
-                'WORKOUT COMPLETE',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: 2,
-                ),
+              Text(
+                'SESSION COMPLETE',
+                style: AppTypography.phaseLabel(Colors.white),
               ),
               const SizedBox(height: 32),
               Text(
-                sessionName,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white.withValues(alpha: 0.8),
-                ),
+                widget.sessionName,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.8),
+                    ),
               ),
               const SizedBox(height: 16),
               Text(
-                '$totalRounds rounds completed',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withValues(alpha: 0.6),
-                ),
+                '${widget.totalRounds} rounds completed',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.6),
+                    ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Total time: ${DurationFormatter.format(totalElapsed)}',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withValues(alpha: 0.6),
-                ),
+                'Total time: ${DurationFormatter.format(widget.totalElapsed)}',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: 0.6),
+                    ),
               ),
               const Spacer(),
               SizedBox(
                 height: 64,
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: onRepeat,
+                  onPressed: widget.onRepeat,
                   style: FilledButton.styleFrom(
                     backgroundColor: TimerColors.work,
                     foregroundColor: Colors.black,
@@ -547,7 +649,7 @@ class _SessionCompleteView extends StatelessWidget {
                 height: 64,
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed: onDone,
+                  onPressed: widget.onDone,
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
                     side: BorderSide(
