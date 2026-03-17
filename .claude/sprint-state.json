@@ -1,6 +1,6 @@
 {
-  "currentSprint": 1,
-  "currentSprintName": "Timer Engine",
+  "currentSprint": 2,
+  "currentSprintName": "Timer Screen",
   "currentTask": null,
   "completedSprints": [
     {
@@ -8,49 +8,26 @@
       "name": "Foundation",
       "completedAt": "2026-03-17",
       "summary": "Flutter project initialized with Riverpod, GoRouter, Freezed, Hive. SessionModel with Duration-as-int-seconds. TimerPhase sealed union. 17 presets. Material 3 dark theme. 13 passing tests."
+    },
+    {
+      "sprint": 1,
+      "name": "Timer Engine",
+      "completedAt": "2026-03-17",
+      "summary": "Timer engine with DateTime-based timing, full state machine, pause/resume, skip, warning, audio cues. 23 engine tests passing."
     }
   ],
   "currentSprintTasks": {
-    "1.1": {
-      "name": "TimerEngine core (pure Dart, DateTime-based)",
-      "status": "completed"
-    },
-    "1.2": {
-      "name": "Phase state machine (warmup→work→rest→complete)",
-      "status": "completed"
-    },
-    "1.3": {
-      "name": "Pause/resume with DateTime re-sync",
-      "status": "completed"
-    },
-    "1.4": {
-      "name": "Skip forward/back",
-      "status": "completed"
-    },
-    "1.5": {
-      "name": "Warning trigger at configured time",
-      "status": "completed"
-    },
-    "1.6": {
-      "name": "Audio service stub (just_audio basic)",
-      "status": "completed"
-    },
-    "1.7": {
-      "name": "Timer Riverpod providers",
-      "status": "completed"
-    },
-    "1.8": {
-      "name": "Sound assets (4 WAV files)",
-      "status": "completed"
-    },
-    "1.9": {
-      "name": "Unit tests with fakeAsync",
-      "status": "completed"
-    },
-    "1.10": {
-      "name": "Integration: load preset → run full session",
-      "status": "completed"
-    }
+    "2.1": { "name": "Timer display widget (large monospace countdown)", "status": "pending" },
+    "2.2": { "name": "Circular progress ring (CustomPainter)", "status": "pending" },
+    "2.3": { "name": "Phase color system", "status": "pending" },
+    "2.4": { "name": "Round indicator", "status": "pending" },
+    "2.5": { "name": "Phase label", "status": "pending" },
+    "2.6": { "name": "Timer controls (pause, skip, stop)", "status": "pending" },
+    "2.7": { "name": "Stop/exit with confirmation dialog", "status": "pending" },
+    "2.8": { "name": "Session start flow (summary bottom sheet)", "status": "pending" },
+    "2.9": { "name": "Session complete screen", "status": "pending" },
+    "2.10": { "name": "Full timer screen layout (portrait)", "status": "pending" },
+    "2.11": { "name": "Widget tests", "status": "pending" }
   },
   "keyDecisions": [
     "Riverpod 2.6 (not 3.x — SDK 3.7.2 constraint)",
@@ -65,5 +42,5 @@
     "AppLifecycleListener (Flutter 3.13+) over WidgetsBindingObserver"
   ],
   "blockers": [],
-  "notes": "Sprint 1 focus: TimerEngine (pure Dart, DateTime-based), audio service stub, phase state machine, unit tests with fakeAsync. Use clock package for testable DateTime."
+  "notes": "Sprint 2: Timer Screen UI. Large countdown, progress ring, phase colors, glove-friendly controls. Portrait first, landscape later."
 }
