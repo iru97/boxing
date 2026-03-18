@@ -15,6 +15,14 @@ sealed class TimerPhase with _$TimerPhase {
     required int afterRound,
     required Duration remaining,
   }) = TimerRest;
+  const factory TimerPhase.segment({
+    required int roundNumber,
+    required int segmentIndex,
+    required int totalSegments,
+    required String segmentLabel,
+    required Duration remaining,
+    required bool isWarning,
+  }) = TimerSegment;
   const factory TimerPhase.paused({required TimerPhase previousPhase}) =
       TimerPaused;
   const factory TimerPhase.completed({required int totalRounds}) =

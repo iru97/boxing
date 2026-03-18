@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:boxing/l10n/app_localizations.dart';
+
 class TimerControls extends StatelessWidget {
   final bool isPaused;
   final Color accentColor;
@@ -23,7 +25,7 @@ class TimerControls extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Semantics(
-          label: 'Previous round',
+          label: S.of(context).a11yPreviousRound,
           button: true,
           child: _ControlButton(
             icon: Icons.skip_previous_rounded,
@@ -34,7 +36,7 @@ class TimerControls extends StatelessWidget {
         ),
         const SizedBox(width: 24),
         Semantics(
-          label: isPaused ? 'Resume' : 'Pause',
+          label: isPaused ? S.of(context).a11yResume : S.of(context).a11yPause,
           button: true,
           child: _ControlButton(
             icon: isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
@@ -46,7 +48,7 @@ class TimerControls extends StatelessWidget {
         ),
         const SizedBox(width: 24),
         Semantics(
-          label: 'Next round',
+          label: S.of(context).a11yNextRound,
           button: true,
           child: _ControlButton(
             icon: Icons.skip_next_rounded,

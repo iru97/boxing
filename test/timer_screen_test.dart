@@ -7,62 +7,60 @@ import 'package:boxing/features/timer/presentation/widgets/round_indicator.dart'
 import 'package:boxing/features/timer/presentation/widgets/phase_label.dart';
 import 'package:boxing/features/timer/presentation/widgets/timer_controls.dart';
 import 'package:boxing/core/theme/app_colors.dart';
+import 'package:boxing/l10n/app_localizations.dart';
+
+/// Wraps a widget in MaterialApp with localization delegates for testing.
+Widget _testApp(Widget child) {
+  return MaterialApp(
+    localizationsDelegates: S.localizationsDelegates,
+    supportedLocales: S.supportedLocales,
+    home: Scaffold(body: child),
+  );
+}
 
 void main() {
   group('CountdownDisplay', () {
     testWidgets('shows M:SS format for times under 10 minutes', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: CountdownDisplay(
-              remaining: Duration(minutes: 2, seconds: 47),
-              color: Colors.green,
-            ),
-          ),
-        ),
+        _testApp(const CountdownDisplay(
+          remaining: Duration(minutes: 2, seconds: 47),
+          color: Colors.green,
+        )),
       );
+      await tester.pumpAndSettle();
       expect(find.text('2:47'), findsOneWidget);
     });
 
     testWidgets('zero-pads seconds', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: CountdownDisplay(
-              remaining: Duration(minutes: 1, seconds: 5),
-              color: Colors.green,
-            ),
-          ),
-        ),
+        _testApp(const CountdownDisplay(
+          remaining: Duration(minutes: 1, seconds: 5),
+          color: Colors.green,
+        )),
       );
+      await tester.pumpAndSettle();
       expect(find.text('1:05'), findsOneWidget);
     });
 
     testWidgets('shows 0:00 for zero duration', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: CountdownDisplay(
-              remaining: Duration.zero,
-              color: Colors.white,
-            ),
-          ),
-        ),
+        _testApp(const CountdownDisplay(
+          remaining: Duration.zero,
+          color: Colors.white,
+        )),
       );
+      await tester.pumpAndSettle();
       expect(find.text('0:00'), findsOneWidget);
     });
 
     testWidgets('shows MM:SS format for 10+ minutes', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: CountdownDisplay(
-              remaining: Duration(minutes: 12, seconds: 30),
-              color: Colors.green,
-            ),
-          ),
-        ),
+        _testApp(const CountdownDisplay(
+          remaining: Duration(minutes: 12, seconds: 30),
+          color: Colors.green,
+        )),
       );
+      await tester.pumpAndSettle();
       expect(find.text('12:30'), findsOneWidget);
     });
   });
@@ -70,23 +68,17 @@ void main() {
   group('RoundIndicator', () {
     testWidgets('displays correct round text', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: RoundIndicator(currentRound: 3, totalRounds: 8),
-          ),
-        ),
+        _testApp(const RoundIndicator(currentRound: 3, totalRounds: 8)),
       );
+      await tester.pumpAndSettle();
       expect(find.text('ROUND 3 / 8'), findsOneWidget);
     });
 
     testWidgets('displays round 1 of 1', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: RoundIndicator(currentRound: 1, totalRounds: 1),
-          ),
-        ),
+        _testApp(const RoundIndicator(currentRound: 1, totalRounds: 1)),
       );
+      await tester.pumpAndSettle();
       expect(find.text('ROUND 1 / 1'), findsOneWidget);
     });
   });
@@ -147,7 +139,6 @@ void main() {
           ),
         ),
       );
-      // Should render without error
       expect(find.byType(ProgressRing), findsOneWidget);
     });
   });
@@ -155,54 +146,45 @@ void main() {
   group('TimerControls', () {
     testWidgets('shows pause icon when running', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimerControls(
-              isPaused: false,
-              accentColor: TimerColors.work,
-              onPauseResume: () {},
-              onSkipBack: () {},
-              onSkipForward: () {},
-            ),
-          ),
-        ),
+        _testApp(TimerControls(
+          isPaused: false,
+          accentColor: TimerColors.work,
+          onPauseResume: () {},
+          onSkipBack: () {},
+          onSkipForward: () {},
+        )),
       );
+      await tester.pumpAndSettle();
       expect(find.byIcon(Icons.pause_rounded), findsOneWidget);
       expect(find.byIcon(Icons.play_arrow_rounded), findsNothing);
     });
 
     testWidgets('shows play icon when paused', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimerControls(
-              isPaused: true,
-              accentColor: TimerColors.paused,
-              onPauseResume: () {},
-              onSkipBack: () {},
-              onSkipForward: () {},
-            ),
-          ),
-        ),
+        _testApp(TimerControls(
+          isPaused: true,
+          accentColor: TimerColors.paused,
+          onPauseResume: () {},
+          onSkipBack: () {},
+          onSkipForward: () {},
+        )),
       );
+      await tester.pumpAndSettle();
       expect(find.byIcon(Icons.play_arrow_rounded), findsOneWidget);
       expect(find.byIcon(Icons.pause_rounded), findsNothing);
     });
 
     testWidgets('has skip back and forward icons', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimerControls(
-              isPaused: false,
-              accentColor: TimerColors.work,
-              onPauseResume: () {},
-              onSkipBack: () {},
-              onSkipForward: () {},
-            ),
-          ),
-        ),
+        _testApp(TimerControls(
+          isPaused: false,
+          accentColor: TimerColors.work,
+          onPauseResume: () {},
+          onSkipBack: () {},
+          onSkipForward: () {},
+        )),
       );
+      await tester.pumpAndSettle();
       expect(find.byIcon(Icons.skip_previous_rounded), findsOneWidget);
       expect(find.byIcon(Icons.skip_next_rounded), findsOneWidget);
     });
@@ -210,18 +192,15 @@ void main() {
     testWidgets('pause/resume callback fires on tap', (tester) async {
       var tapped = false;
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimerControls(
-              isPaused: false,
-              accentColor: TimerColors.work,
-              onPauseResume: () => tapped = true,
-              onSkipBack: () {},
-              onSkipForward: () {},
-            ),
-          ),
-        ),
+        _testApp(TimerControls(
+          isPaused: false,
+          accentColor: TimerColors.work,
+          onPauseResume: () => tapped = true,
+          onSkipBack: () {},
+          onSkipForward: () {},
+        )),
       );
+      await tester.pumpAndSettle();
       await tester.tap(find.byIcon(Icons.pause_rounded));
       expect(tapped, isTrue);
     });
@@ -229,18 +208,15 @@ void main() {
     testWidgets('skip forward callback fires on tap', (tester) async {
       var tapped = false;
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimerControls(
-              isPaused: false,
-              accentColor: TimerColors.work,
-              onPauseResume: () {},
-              onSkipBack: () {},
-              onSkipForward: () => tapped = true,
-            ),
-          ),
-        ),
+        _testApp(TimerControls(
+          isPaused: false,
+          accentColor: TimerColors.work,
+          onPauseResume: () {},
+          onSkipBack: () {},
+          onSkipForward: () => tapped = true,
+        )),
       );
+      await tester.pumpAndSettle();
       await tester.tap(find.byIcon(Icons.skip_next_rounded));
       expect(tapped, isTrue);
     });
@@ -248,36 +224,30 @@ void main() {
     testWidgets('skip back callback fires on tap', (tester) async {
       var tapped = false;
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimerControls(
-              isPaused: false,
-              accentColor: TimerColors.work,
-              onPauseResume: () {},
-              onSkipBack: () => tapped = true,
-              onSkipForward: () {},
-            ),
-          ),
-        ),
+        _testApp(TimerControls(
+          isPaused: false,
+          accentColor: TimerColors.work,
+          onPauseResume: () {},
+          onSkipBack: () => tapped = true,
+          onSkipForward: () {},
+        )),
       );
+      await tester.pumpAndSettle();
       await tester.tap(find.byIcon(Icons.skip_previous_rounded));
       expect(tapped, isTrue);
     });
 
     testWidgets('all touch targets are at least 64dp', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: TimerControls(
-              isPaused: false,
-              accentColor: TimerColors.work,
-              onPauseResume: () {},
-              onSkipBack: () {},
-              onSkipForward: () {},
-            ),
-          ),
-        ),
+        _testApp(TimerControls(
+          isPaused: false,
+          accentColor: TimerColors.work,
+          onPauseResume: () {},
+          onSkipBack: () {},
+          onSkipForward: () {},
+        )),
       );
+      await tester.pumpAndSettle();
       // Center button should be 80dp
       final pauseButton = tester.getSize(
         find.ancestor(

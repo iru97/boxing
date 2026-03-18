@@ -28,6 +28,15 @@ mixin _$TimerPhase {
     )
     work,
     required TResult Function(int afterRound, Duration remaining) rest,
+    required TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )
+    segment,
     required TResult Function(TimerPhase previousPhase) paused,
     required TResult Function(int totalRounds) completed,
   }) => throw _privateConstructorUsedError;
@@ -38,6 +47,15 @@ mixin _$TimerPhase {
     TResult? Function(int roundNumber, Duration remaining, bool isWarning)?
     work,
     TResult? Function(int afterRound, Duration remaining)? rest,
+    TResult? Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult? Function(TimerPhase previousPhase)? paused,
     TResult? Function(int totalRounds)? completed,
   }) => throw _privateConstructorUsedError;
@@ -47,6 +65,15 @@ mixin _$TimerPhase {
     TResult Function(Duration remaining)? warmup,
     TResult Function(int roundNumber, Duration remaining, bool isWarning)? work,
     TResult Function(int afterRound, Duration remaining)? rest,
+    TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult Function(TimerPhase previousPhase)? paused,
     TResult Function(int totalRounds)? completed,
     required TResult orElse(),
@@ -57,6 +84,7 @@ mixin _$TimerPhase {
     required TResult Function(TimerWarmup value) warmup,
     required TResult Function(TimerWork value) work,
     required TResult Function(TimerRest value) rest,
+    required TResult Function(TimerSegment value) segment,
     required TResult Function(TimerPaused value) paused,
     required TResult Function(TimerCompleted value) completed,
   }) => throw _privateConstructorUsedError;
@@ -66,6 +94,7 @@ mixin _$TimerPhase {
     TResult? Function(TimerWarmup value)? warmup,
     TResult? Function(TimerWork value)? work,
     TResult? Function(TimerRest value)? rest,
+    TResult? Function(TimerSegment value)? segment,
     TResult? Function(TimerPaused value)? paused,
     TResult? Function(TimerCompleted value)? completed,
   }) => throw _privateConstructorUsedError;
@@ -75,6 +104,7 @@ mixin _$TimerPhase {
     TResult Function(TimerWarmup value)? warmup,
     TResult Function(TimerWork value)? work,
     TResult Function(TimerRest value)? rest,
+    TResult Function(TimerSegment value)? segment,
     TResult Function(TimerPaused value)? paused,
     TResult Function(TimerCompleted value)? completed,
     required TResult orElse(),
@@ -155,6 +185,15 @@ class _$TimerIdleImpl implements TimerIdle {
     )
     work,
     required TResult Function(int afterRound, Duration remaining) rest,
+    required TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )
+    segment,
     required TResult Function(TimerPhase previousPhase) paused,
     required TResult Function(int totalRounds) completed,
   }) {
@@ -169,6 +208,15 @@ class _$TimerIdleImpl implements TimerIdle {
     TResult? Function(int roundNumber, Duration remaining, bool isWarning)?
     work,
     TResult? Function(int afterRound, Duration remaining)? rest,
+    TResult? Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult? Function(TimerPhase previousPhase)? paused,
     TResult? Function(int totalRounds)? completed,
   }) {
@@ -182,6 +230,15 @@ class _$TimerIdleImpl implements TimerIdle {
     TResult Function(Duration remaining)? warmup,
     TResult Function(int roundNumber, Duration remaining, bool isWarning)? work,
     TResult Function(int afterRound, Duration remaining)? rest,
+    TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult Function(TimerPhase previousPhase)? paused,
     TResult Function(int totalRounds)? completed,
     required TResult orElse(),
@@ -199,6 +256,7 @@ class _$TimerIdleImpl implements TimerIdle {
     required TResult Function(TimerWarmup value) warmup,
     required TResult Function(TimerWork value) work,
     required TResult Function(TimerRest value) rest,
+    required TResult Function(TimerSegment value) segment,
     required TResult Function(TimerPaused value) paused,
     required TResult Function(TimerCompleted value) completed,
   }) {
@@ -212,6 +270,7 @@ class _$TimerIdleImpl implements TimerIdle {
     TResult? Function(TimerWarmup value)? warmup,
     TResult? Function(TimerWork value)? work,
     TResult? Function(TimerRest value)? rest,
+    TResult? Function(TimerSegment value)? segment,
     TResult? Function(TimerPaused value)? paused,
     TResult? Function(TimerCompleted value)? completed,
   }) {
@@ -225,6 +284,7 @@ class _$TimerIdleImpl implements TimerIdle {
     TResult Function(TimerWarmup value)? warmup,
     TResult Function(TimerWork value)? work,
     TResult Function(TimerRest value)? rest,
+    TResult Function(TimerSegment value)? segment,
     TResult Function(TimerPaused value)? paused,
     TResult Function(TimerCompleted value)? completed,
     required TResult orElse(),
@@ -321,6 +381,15 @@ class _$TimerWarmupImpl implements TimerWarmup {
     )
     work,
     required TResult Function(int afterRound, Duration remaining) rest,
+    required TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )
+    segment,
     required TResult Function(TimerPhase previousPhase) paused,
     required TResult Function(int totalRounds) completed,
   }) {
@@ -335,6 +404,15 @@ class _$TimerWarmupImpl implements TimerWarmup {
     TResult? Function(int roundNumber, Duration remaining, bool isWarning)?
     work,
     TResult? Function(int afterRound, Duration remaining)? rest,
+    TResult? Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult? Function(TimerPhase previousPhase)? paused,
     TResult? Function(int totalRounds)? completed,
   }) {
@@ -348,6 +426,15 @@ class _$TimerWarmupImpl implements TimerWarmup {
     TResult Function(Duration remaining)? warmup,
     TResult Function(int roundNumber, Duration remaining, bool isWarning)? work,
     TResult Function(int afterRound, Duration remaining)? rest,
+    TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult Function(TimerPhase previousPhase)? paused,
     TResult Function(int totalRounds)? completed,
     required TResult orElse(),
@@ -365,6 +452,7 @@ class _$TimerWarmupImpl implements TimerWarmup {
     required TResult Function(TimerWarmup value) warmup,
     required TResult Function(TimerWork value) work,
     required TResult Function(TimerRest value) rest,
+    required TResult Function(TimerSegment value) segment,
     required TResult Function(TimerPaused value) paused,
     required TResult Function(TimerCompleted value) completed,
   }) {
@@ -378,6 +466,7 @@ class _$TimerWarmupImpl implements TimerWarmup {
     TResult? Function(TimerWarmup value)? warmup,
     TResult? Function(TimerWork value)? work,
     TResult? Function(TimerRest value)? rest,
+    TResult? Function(TimerSegment value)? segment,
     TResult? Function(TimerPaused value)? paused,
     TResult? Function(TimerCompleted value)? completed,
   }) {
@@ -391,6 +480,7 @@ class _$TimerWarmupImpl implements TimerWarmup {
     TResult Function(TimerWarmup value)? warmup,
     TResult Function(TimerWork value)? work,
     TResult Function(TimerRest value)? rest,
+    TResult Function(TimerSegment value)? segment,
     TResult Function(TimerPaused value)? paused,
     TResult Function(TimerCompleted value)? completed,
     required TResult orElse(),
@@ -523,6 +613,15 @@ class _$TimerWorkImpl implements TimerWork {
     )
     work,
     required TResult Function(int afterRound, Duration remaining) rest,
+    required TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )
+    segment,
     required TResult Function(TimerPhase previousPhase) paused,
     required TResult Function(int totalRounds) completed,
   }) {
@@ -537,6 +636,15 @@ class _$TimerWorkImpl implements TimerWork {
     TResult? Function(int roundNumber, Duration remaining, bool isWarning)?
     work,
     TResult? Function(int afterRound, Duration remaining)? rest,
+    TResult? Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult? Function(TimerPhase previousPhase)? paused,
     TResult? Function(int totalRounds)? completed,
   }) {
@@ -550,6 +658,15 @@ class _$TimerWorkImpl implements TimerWork {
     TResult Function(Duration remaining)? warmup,
     TResult Function(int roundNumber, Duration remaining, bool isWarning)? work,
     TResult Function(int afterRound, Duration remaining)? rest,
+    TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult Function(TimerPhase previousPhase)? paused,
     TResult Function(int totalRounds)? completed,
     required TResult orElse(),
@@ -567,6 +684,7 @@ class _$TimerWorkImpl implements TimerWork {
     required TResult Function(TimerWarmup value) warmup,
     required TResult Function(TimerWork value) work,
     required TResult Function(TimerRest value) rest,
+    required TResult Function(TimerSegment value) segment,
     required TResult Function(TimerPaused value) paused,
     required TResult Function(TimerCompleted value) completed,
   }) {
@@ -580,6 +698,7 @@ class _$TimerWorkImpl implements TimerWork {
     TResult? Function(TimerWarmup value)? warmup,
     TResult? Function(TimerWork value)? work,
     TResult? Function(TimerRest value)? rest,
+    TResult? Function(TimerSegment value)? segment,
     TResult? Function(TimerPaused value)? paused,
     TResult? Function(TimerCompleted value)? completed,
   }) {
@@ -593,6 +712,7 @@ class _$TimerWorkImpl implements TimerWork {
     TResult Function(TimerWarmup value)? warmup,
     TResult Function(TimerWork value)? work,
     TResult Function(TimerRest value)? rest,
+    TResult Function(TimerSegment value)? segment,
     TResult Function(TimerPaused value)? paused,
     TResult Function(TimerCompleted value)? completed,
     required TResult orElse(),
@@ -712,6 +832,15 @@ class _$TimerRestImpl implements TimerRest {
     )
     work,
     required TResult Function(int afterRound, Duration remaining) rest,
+    required TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )
+    segment,
     required TResult Function(TimerPhase previousPhase) paused,
     required TResult Function(int totalRounds) completed,
   }) {
@@ -726,6 +855,15 @@ class _$TimerRestImpl implements TimerRest {
     TResult? Function(int roundNumber, Duration remaining, bool isWarning)?
     work,
     TResult? Function(int afterRound, Duration remaining)? rest,
+    TResult? Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult? Function(TimerPhase previousPhase)? paused,
     TResult? Function(int totalRounds)? completed,
   }) {
@@ -739,6 +877,15 @@ class _$TimerRestImpl implements TimerRest {
     TResult Function(Duration remaining)? warmup,
     TResult Function(int roundNumber, Duration remaining, bool isWarning)? work,
     TResult Function(int afterRound, Duration remaining)? rest,
+    TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult Function(TimerPhase previousPhase)? paused,
     TResult Function(int totalRounds)? completed,
     required TResult orElse(),
@@ -756,6 +903,7 @@ class _$TimerRestImpl implements TimerRest {
     required TResult Function(TimerWarmup value) warmup,
     required TResult Function(TimerWork value) work,
     required TResult Function(TimerRest value) rest,
+    required TResult Function(TimerSegment value) segment,
     required TResult Function(TimerPaused value) paused,
     required TResult Function(TimerCompleted value) completed,
   }) {
@@ -769,6 +917,7 @@ class _$TimerRestImpl implements TimerRest {
     TResult? Function(TimerWarmup value)? warmup,
     TResult? Function(TimerWork value)? work,
     TResult? Function(TimerRest value)? rest,
+    TResult? Function(TimerSegment value)? segment,
     TResult? Function(TimerPaused value)? paused,
     TResult? Function(TimerCompleted value)? completed,
   }) {
@@ -782,6 +931,7 @@ class _$TimerRestImpl implements TimerRest {
     TResult Function(TimerWarmup value)? warmup,
     TResult Function(TimerWork value)? work,
     TResult Function(TimerRest value)? rest,
+    TResult Function(TimerSegment value)? segment,
     TResult Function(TimerPaused value)? paused,
     TResult Function(TimerCompleted value)? completed,
     required TResult orElse(),
@@ -806,6 +956,317 @@ abstract class TimerRest implements TimerPhase {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TimerRestImplCopyWith<_$TimerRestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TimerSegmentImplCopyWith<$Res> {
+  factory _$$TimerSegmentImplCopyWith(
+    _$TimerSegmentImpl value,
+    $Res Function(_$TimerSegmentImpl) then,
+  ) = __$$TimerSegmentImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({
+    int roundNumber,
+    int segmentIndex,
+    int totalSegments,
+    String segmentLabel,
+    Duration remaining,
+    bool isWarning,
+  });
+}
+
+/// @nodoc
+class __$$TimerSegmentImplCopyWithImpl<$Res>
+    extends _$TimerPhaseCopyWithImpl<$Res, _$TimerSegmentImpl>
+    implements _$$TimerSegmentImplCopyWith<$Res> {
+  __$$TimerSegmentImplCopyWithImpl(
+    _$TimerSegmentImpl _value,
+    $Res Function(_$TimerSegmentImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of TimerPhase
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? roundNumber = null,
+    Object? segmentIndex = null,
+    Object? totalSegments = null,
+    Object? segmentLabel = null,
+    Object? remaining = null,
+    Object? isWarning = null,
+  }) {
+    return _then(
+      _$TimerSegmentImpl(
+        roundNumber:
+            null == roundNumber
+                ? _value.roundNumber
+                : roundNumber // ignore: cast_nullable_to_non_nullable
+                    as int,
+        segmentIndex:
+            null == segmentIndex
+                ? _value.segmentIndex
+                : segmentIndex // ignore: cast_nullable_to_non_nullable
+                    as int,
+        totalSegments:
+            null == totalSegments
+                ? _value.totalSegments
+                : totalSegments // ignore: cast_nullable_to_non_nullable
+                    as int,
+        segmentLabel:
+            null == segmentLabel
+                ? _value.segmentLabel
+                : segmentLabel // ignore: cast_nullable_to_non_nullable
+                    as String,
+        remaining:
+            null == remaining
+                ? _value.remaining
+                : remaining // ignore: cast_nullable_to_non_nullable
+                    as Duration,
+        isWarning:
+            null == isWarning
+                ? _value.isWarning
+                : isWarning // ignore: cast_nullable_to_non_nullable
+                    as bool,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$TimerSegmentImpl implements TimerSegment {
+  const _$TimerSegmentImpl({
+    required this.roundNumber,
+    required this.segmentIndex,
+    required this.totalSegments,
+    required this.segmentLabel,
+    required this.remaining,
+    required this.isWarning,
+  });
+
+  @override
+  final int roundNumber;
+  @override
+  final int segmentIndex;
+  @override
+  final int totalSegments;
+  @override
+  final String segmentLabel;
+  @override
+  final Duration remaining;
+  @override
+  final bool isWarning;
+
+  @override
+  String toString() {
+    return 'TimerPhase.segment(roundNumber: $roundNumber, segmentIndex: $segmentIndex, totalSegments: $totalSegments, segmentLabel: $segmentLabel, remaining: $remaining, isWarning: $isWarning)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TimerSegmentImpl &&
+            (identical(other.roundNumber, roundNumber) ||
+                other.roundNumber == roundNumber) &&
+            (identical(other.segmentIndex, segmentIndex) ||
+                other.segmentIndex == segmentIndex) &&
+            (identical(other.totalSegments, totalSegments) ||
+                other.totalSegments == totalSegments) &&
+            (identical(other.segmentLabel, segmentLabel) ||
+                other.segmentLabel == segmentLabel) &&
+            (identical(other.remaining, remaining) ||
+                other.remaining == remaining) &&
+            (identical(other.isWarning, isWarning) ||
+                other.isWarning == isWarning));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    roundNumber,
+    segmentIndex,
+    totalSegments,
+    segmentLabel,
+    remaining,
+    isWarning,
+  );
+
+  /// Create a copy of TimerPhase
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TimerSegmentImplCopyWith<_$TimerSegmentImpl> get copyWith =>
+      __$$TimerSegmentImplCopyWithImpl<_$TimerSegmentImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() idle,
+    required TResult Function(Duration remaining) warmup,
+    required TResult Function(
+      int roundNumber,
+      Duration remaining,
+      bool isWarning,
+    )
+    work,
+    required TResult Function(int afterRound, Duration remaining) rest,
+    required TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )
+    segment,
+    required TResult Function(TimerPhase previousPhase) paused,
+    required TResult Function(int totalRounds) completed,
+  }) {
+    return segment(
+      roundNumber,
+      segmentIndex,
+      totalSegments,
+      segmentLabel,
+      remaining,
+      isWarning,
+    );
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? idle,
+    TResult? Function(Duration remaining)? warmup,
+    TResult? Function(int roundNumber, Duration remaining, bool isWarning)?
+    work,
+    TResult? Function(int afterRound, Duration remaining)? rest,
+    TResult? Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
+    TResult? Function(TimerPhase previousPhase)? paused,
+    TResult? Function(int totalRounds)? completed,
+  }) {
+    return segment?.call(
+      roundNumber,
+      segmentIndex,
+      totalSegments,
+      segmentLabel,
+      remaining,
+      isWarning,
+    );
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? idle,
+    TResult Function(Duration remaining)? warmup,
+    TResult Function(int roundNumber, Duration remaining, bool isWarning)? work,
+    TResult Function(int afterRound, Duration remaining)? rest,
+    TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
+    TResult Function(TimerPhase previousPhase)? paused,
+    TResult Function(int totalRounds)? completed,
+    required TResult orElse(),
+  }) {
+    if (segment != null) {
+      return segment(
+        roundNumber,
+        segmentIndex,
+        totalSegments,
+        segmentLabel,
+        remaining,
+        isWarning,
+      );
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TimerIdle value) idle,
+    required TResult Function(TimerWarmup value) warmup,
+    required TResult Function(TimerWork value) work,
+    required TResult Function(TimerRest value) rest,
+    required TResult Function(TimerSegment value) segment,
+    required TResult Function(TimerPaused value) paused,
+    required TResult Function(TimerCompleted value) completed,
+  }) {
+    return segment(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TimerIdle value)? idle,
+    TResult? Function(TimerWarmup value)? warmup,
+    TResult? Function(TimerWork value)? work,
+    TResult? Function(TimerRest value)? rest,
+    TResult? Function(TimerSegment value)? segment,
+    TResult? Function(TimerPaused value)? paused,
+    TResult? Function(TimerCompleted value)? completed,
+  }) {
+    return segment?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TimerIdle value)? idle,
+    TResult Function(TimerWarmup value)? warmup,
+    TResult Function(TimerWork value)? work,
+    TResult Function(TimerRest value)? rest,
+    TResult Function(TimerSegment value)? segment,
+    TResult Function(TimerPaused value)? paused,
+    TResult Function(TimerCompleted value)? completed,
+    required TResult orElse(),
+  }) {
+    if (segment != null) {
+      return segment(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class TimerSegment implements TimerPhase {
+  const factory TimerSegment({
+    required final int roundNumber,
+    required final int segmentIndex,
+    required final int totalSegments,
+    required final String segmentLabel,
+    required final Duration remaining,
+    required final bool isWarning,
+  }) = _$TimerSegmentImpl;
+
+  int get roundNumber;
+  int get segmentIndex;
+  int get totalSegments;
+  String get segmentLabel;
+  Duration get remaining;
+  bool get isWarning;
+
+  /// Create a copy of TimerPhase
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TimerSegmentImplCopyWith<_$TimerSegmentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -902,6 +1363,15 @@ class _$TimerPausedImpl implements TimerPaused {
     )
     work,
     required TResult Function(int afterRound, Duration remaining) rest,
+    required TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )
+    segment,
     required TResult Function(TimerPhase previousPhase) paused,
     required TResult Function(int totalRounds) completed,
   }) {
@@ -916,6 +1386,15 @@ class _$TimerPausedImpl implements TimerPaused {
     TResult? Function(int roundNumber, Duration remaining, bool isWarning)?
     work,
     TResult? Function(int afterRound, Duration remaining)? rest,
+    TResult? Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult? Function(TimerPhase previousPhase)? paused,
     TResult? Function(int totalRounds)? completed,
   }) {
@@ -929,6 +1408,15 @@ class _$TimerPausedImpl implements TimerPaused {
     TResult Function(Duration remaining)? warmup,
     TResult Function(int roundNumber, Duration remaining, bool isWarning)? work,
     TResult Function(int afterRound, Duration remaining)? rest,
+    TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult Function(TimerPhase previousPhase)? paused,
     TResult Function(int totalRounds)? completed,
     required TResult orElse(),
@@ -946,6 +1434,7 @@ class _$TimerPausedImpl implements TimerPaused {
     required TResult Function(TimerWarmup value) warmup,
     required TResult Function(TimerWork value) work,
     required TResult Function(TimerRest value) rest,
+    required TResult Function(TimerSegment value) segment,
     required TResult Function(TimerPaused value) paused,
     required TResult Function(TimerCompleted value) completed,
   }) {
@@ -959,6 +1448,7 @@ class _$TimerPausedImpl implements TimerPaused {
     TResult? Function(TimerWarmup value)? warmup,
     TResult? Function(TimerWork value)? work,
     TResult? Function(TimerRest value)? rest,
+    TResult? Function(TimerSegment value)? segment,
     TResult? Function(TimerPaused value)? paused,
     TResult? Function(TimerCompleted value)? completed,
   }) {
@@ -972,6 +1462,7 @@ class _$TimerPausedImpl implements TimerPaused {
     TResult Function(TimerWarmup value)? warmup,
     TResult Function(TimerWork value)? work,
     TResult Function(TimerRest value)? rest,
+    TResult Function(TimerSegment value)? segment,
     TResult Function(TimerPaused value)? paused,
     TResult Function(TimerCompleted value)? completed,
     required TResult orElse(),
@@ -1080,6 +1571,15 @@ class _$TimerCompletedImpl implements TimerCompleted {
     )
     work,
     required TResult Function(int afterRound, Duration remaining) rest,
+    required TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )
+    segment,
     required TResult Function(TimerPhase previousPhase) paused,
     required TResult Function(int totalRounds) completed,
   }) {
@@ -1094,6 +1594,15 @@ class _$TimerCompletedImpl implements TimerCompleted {
     TResult? Function(int roundNumber, Duration remaining, bool isWarning)?
     work,
     TResult? Function(int afterRound, Duration remaining)? rest,
+    TResult? Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult? Function(TimerPhase previousPhase)? paused,
     TResult? Function(int totalRounds)? completed,
   }) {
@@ -1107,6 +1616,15 @@ class _$TimerCompletedImpl implements TimerCompleted {
     TResult Function(Duration remaining)? warmup,
     TResult Function(int roundNumber, Duration remaining, bool isWarning)? work,
     TResult Function(int afterRound, Duration remaining)? rest,
+    TResult Function(
+      int roundNumber,
+      int segmentIndex,
+      int totalSegments,
+      String segmentLabel,
+      Duration remaining,
+      bool isWarning,
+    )?
+    segment,
     TResult Function(TimerPhase previousPhase)? paused,
     TResult Function(int totalRounds)? completed,
     required TResult orElse(),
@@ -1124,6 +1642,7 @@ class _$TimerCompletedImpl implements TimerCompleted {
     required TResult Function(TimerWarmup value) warmup,
     required TResult Function(TimerWork value) work,
     required TResult Function(TimerRest value) rest,
+    required TResult Function(TimerSegment value) segment,
     required TResult Function(TimerPaused value) paused,
     required TResult Function(TimerCompleted value) completed,
   }) {
@@ -1137,6 +1656,7 @@ class _$TimerCompletedImpl implements TimerCompleted {
     TResult? Function(TimerWarmup value)? warmup,
     TResult? Function(TimerWork value)? work,
     TResult? Function(TimerRest value)? rest,
+    TResult? Function(TimerSegment value)? segment,
     TResult? Function(TimerPaused value)? paused,
     TResult? Function(TimerCompleted value)? completed,
   }) {
@@ -1150,6 +1670,7 @@ class _$TimerCompletedImpl implements TimerCompleted {
     TResult Function(TimerWarmup value)? warmup,
     TResult Function(TimerWork value)? work,
     TResult Function(TimerRest value)? rest,
+    TResult Function(TimerSegment value)? segment,
     TResult Function(TimerPaused value)? paused,
     TResult Function(TimerCompleted value)? completed,
     required TResult orElse(),

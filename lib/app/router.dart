@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:boxing/features/sessions/presentation/session_list_screen.dart';
 import 'package:boxing/features/timer/presentation/timer_screen.dart';
 import 'package:boxing/features/sessions/presentation/session_editor_screen.dart';
+import 'package:boxing/features/history/presentation/history_screen.dart';
 import 'package:boxing/features/settings/presentation/settings_screen.dart';
 
 final goRouter = GoRouter(
@@ -16,6 +17,8 @@ final goRouter = GoRouter(
       path: '/timer/:sessionId',
       builder: (context, state) => TimerScreen(
         sessionId: state.pathParameters['sessionId']!,
+        resumeFromCheckpoint:
+            state.uri.queryParameters['resume'] == 'true',
       ),
     ),
     GoRoute(
@@ -31,6 +34,10 @@ final goRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/history',
+      builder: (context, state) => const HistoryScreen(),
     ),
   ],
 );

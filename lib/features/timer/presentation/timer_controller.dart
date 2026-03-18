@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:boxing/features/audio/data/audio_player_service.dart';
+import 'package:boxing/features/audio/data/voice_service.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/features/timer/domain/timer_engine.dart';
 import 'package:boxing/features/timer/domain/timer_state.dart';
@@ -10,11 +11,22 @@ final audioServiceProvider = Provider<BoxingAudioService>((ref) {
   throw UnimplementedError('audioServiceProvider must be overridden in main.dart');
 });
 
-/// Provides the TimerEngine with audio cue integration.
+/// Provides the singleton VoiceService (overridden in main.dart).
+final voiceServiceProvider = Provider<VoiceService>((ref) {
+  throw UnimplementedError('voiceServiceProvider must be overridden in main.dart');
+});
+
+/// Provides the TimerEngine with audio cue + voice announcement integration.
 final timerEngineProvider = Provider<TimerEngine>((ref) {
   final audioService = ref.watch(audioServiceProvider);
+  final voiceService = ref.watch(voiceServiceProvider);
   final engine = TimerEngine(
     onAudioCue: (cue) => audioService.playCue(cue),
+    onVoiceAnnounce: (event) async {
+      // Wait for the bell to ring before speaking
+      await Future.delayed(const Duration(milliseconds: 500));
+      voiceService.announce(event);
+    },
   );
   ref.onDispose(() => engine.dispose());
   return engine;

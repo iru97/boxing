@@ -32,6 +32,7 @@ mixin _$AppSettings {
   bool get hapticFeedback => throw _privateConstructorUsedError; // Display
   String get themeMode =>
       throw _privateConstructorUsedError; // dark, light, system
+  String get locale => throw _privateConstructorUsedError; // system, en, es, pt
   bool get tapToPause => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettings to a JSON map.
@@ -61,6 +62,7 @@ abstract class $AppSettingsCopyWith<$Res> {
     bool volumeOverride,
     bool hapticFeedback,
     String themeMode,
+    String locale,
     bool tapToPause,
   });
 }
@@ -89,6 +91,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
     Object? volumeOverride = null,
     Object? hapticFeedback = null,
     Object? themeMode = null,
+    Object? locale = null,
     Object? tapToPause = null,
   }) {
     return _then(
@@ -138,6 +141,11 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
                     ? _value.themeMode
                     : themeMode // ignore: cast_nullable_to_non_nullable
                         as String,
+            locale:
+                null == locale
+                    ? _value.locale
+                    : locale // ignore: cast_nullable_to_non_nullable
+                        as String,
             tapToPause:
                 null == tapToPause
                     ? _value.tapToPause
@@ -168,6 +176,7 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
     bool volumeOverride,
     bool hapticFeedback,
     String themeMode,
+    String locale,
     bool tapToPause,
   });
 }
@@ -195,6 +204,7 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
     Object? volumeOverride = null,
     Object? hapticFeedback = null,
     Object? themeMode = null,
+    Object? locale = null,
     Object? tapToPause = null,
   }) {
     return _then(
@@ -244,6 +254,11 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
                 ? _value.themeMode
                 : themeMode // ignore: cast_nullable_to_non_nullable
                     as String,
+        locale:
+            null == locale
+                ? _value.locale
+                : locale // ignore: cast_nullable_to_non_nullable
+                    as String,
         tapToPause:
             null == tapToPause
                 ? _value.tapToPause
@@ -267,6 +282,7 @@ class _$AppSettingsImpl implements _AppSettings {
     this.volumeOverride = false,
     this.hapticFeedback = true,
     this.themeMode = 'dark',
+    this.locale = 'system',
     this.tapToPause = false,
   });
 
@@ -306,11 +322,15 @@ class _$AppSettingsImpl implements _AppSettings {
   // dark, light, system
   @override
   @JsonKey()
+  final String locale;
+  // system, en, es, pt
+  @override
+  @JsonKey()
   final bool tapToPause;
 
   @override
   String toString() {
-    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, tapToPause: $tapToPause)';
+    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause)';
   }
 
   @override
@@ -336,6 +356,7 @@ class _$AppSettingsImpl implements _AppSettings {
                 other.hapticFeedback == hapticFeedback) &&
             (identical(other.themeMode, themeMode) ||
                 other.themeMode == themeMode) &&
+            (identical(other.locale, locale) || other.locale == locale) &&
             (identical(other.tapToPause, tapToPause) ||
                 other.tapToPause == tapToPause));
   }
@@ -353,6 +374,7 @@ class _$AppSettingsImpl implements _AppSettings {
     volumeOverride,
     hapticFeedback,
     themeMode,
+    locale,
     tapToPause,
   );
 
@@ -381,6 +403,7 @@ abstract class _AppSettings implements AppSettings {
     final bool volumeOverride,
     final bool hapticFeedback,
     final String themeMode,
+    final String locale,
     final bool tapToPause,
   }) = _$AppSettingsImpl;
 
@@ -406,6 +429,8 @@ abstract class _AppSettings implements AppSettings {
   bool get hapticFeedback; // Display
   @override
   String get themeMode; // dark, light, system
+  @override
+  String get locale; // system, en, es, pt
   @override
   bool get tapToPause;
 

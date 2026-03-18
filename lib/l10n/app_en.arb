@@ -1,0 +1,380 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Boxing Timer",
+  "appBrandName": "BOXING",
+  "appTagline": "TRAIN LIKE YOU FIGHT",
+
+  "sectionMySessionsTitle": "My Sessions",
+  "sectionQuickStartTitle": "Quick Start",
+  "sectionPresetsTitle": "Presets",
+
+  "categoryBoxing": "Boxing",
+  "categoryBagWork": "Bag Work",
+  "categoryConditioning": "Conditioning",
+  "categoryCombatSport": "Combat Sport",
+  "categoryBeginner": "Beginner",
+  "categoryCompound": "Compound",
+
+  "actionEdit": "Edit",
+  "actionDuplicate": "Duplicate",
+  "actionDuplicateAsCustom": "Duplicate as Custom",
+  "actionDelete": "Delete",
+
+  "buttonCancel": "CANCEL",
+  "buttonEnd": "END",
+  "buttonStart": "START",
+  "buttonSave": "SAVE",
+  "buttonRepeat": "REPEAT",
+  "buttonDone": "DONE",
+  "buttonSaveExit": "SAVE & EXIT",
+
+  "deleteSessionTitle": "Delete Session?",
+  "deleteSessionMessage": "Delete \"{name}\"? This cannot be undone.",
+  "@deleteSessionMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "snackbarSessionCreated": "Created \"{name}\"",
+  "@snackbarSessionCreated": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "snackbarSessionDeleted": "Deleted \"{name}\"",
+  "@snackbarSessionDeleted": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "snackbarSessionSaved": "Saved \"{name}\"",
+  "@snackbarSessionSaved": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+
+  "sessionNotFound": "Session not found",
+
+  "sessionCardRoundsFormat": "{rounds}R",
+  "@sessionCardRoundsFormat": {
+    "placeholders": {
+      "rounds": { "type": "int" }
+    }
+  },
+  "sessionCardQuickFormat": "{rounds}R  {minutes} min",
+  "@sessionCardQuickFormat": {
+    "placeholders": {
+      "rounds": { "type": "int" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "sessionCardWorkRest": "{work} work \u00B7 {rest} rest \u00B7 {minutes} min",
+  "@sessionCardWorkRest": {
+    "placeholders": {
+      "work": { "type": "String" },
+      "rest": { "type": "String" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "sessionCardWorkOnly": "{work} work \u00B7 {minutes} min",
+  "@sessionCardWorkOnly": {
+    "placeholders": {
+      "work": { "type": "String" },
+      "minutes": { "type": "int" }
+    }
+  },
+
+  "editSessionTitle": "Edit Session",
+  "customizePresetTitle": "Customize Preset",
+  "newSessionTitle": "New Session",
+
+  "labelSessionName": "Session Name",
+  "hintSessionName": "e.g. Heavy Bag Work",
+  "validationNameRequired": "Name is required",
+
+  "labelRounds": "Rounds",
+  "labelRoundDuration": "Round Duration",
+  "labelRestDuration": "Rest Duration",
+  "labelRoundStructure": "Round Structure",
+  "labelWarningTime": "Warning Time",
+  "labelWarmup": "Warmup",
+
+  "valueOff": "Off",
+  "valueSeconds": "{seconds}s",
+  "@valueSeconds": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+
+  "roundStructureSimple": "Simple",
+
+  "labelAutoAdvance": "Auto-advance",
+  "descriptionAutoAdvance": "Automatically start next round after rest",
+  "labelKeepScreenOn": "Keep Screen On",
+  "descriptionKeepScreenOn": "Prevent screen from sleeping during workout",
+
+  "sessionSummaryTitle": "Session Summary",
+  "sessionSummaryRounds": "{rounds} rounds \u00D7 {duration}",
+  "@sessionSummaryRounds": {
+    "placeholders": {
+      "rounds": { "type": "int" },
+      "duration": { "type": "String" }
+    }
+  },
+  "sessionSummaryRest": " / {duration} rest",
+  "@sessionSummaryRest": {
+    "placeholders": {
+      "duration": { "type": "String" }
+    }
+  },
+  "sessionSummaryTotal": "Total: {duration}",
+  "@sessionSummaryTotal": {
+    "placeholders": {
+      "duration": { "type": "String" }
+    }
+  },
+  "templateRepeatCount": "\u00D7 {count} = {duration} total",
+  "@templateRepeatCount": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "duration": { "type": "String" }
+    }
+  },
+
+  "timerScreenTitle": "Timer",
+  "timerEndWorkoutTitle": "End Workout?",
+  "timerEndWorkoutMessage": "You're on round {current} of {total}.",
+  "@timerEndWorkoutMessage": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "timerStopConfirmation": "Are you sure you want to stop?",
+
+  "labelWarning": "Warning",
+  "warningBeforeEnd": "{seconds}s before end",
+  "@warningBeforeEnd": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "labelTotalTime": "Total Time",
+  "labelSegmentsPerRound": "Segments per Round",
+  "totalElapsedFormat": "Total: {duration}",
+  "@totalElapsedFormat": {
+    "placeholders": {
+      "duration": { "type": "String" }
+    }
+  },
+
+  "phaseLabelReady": "READY",
+  "phaseLabelWarmup": "WARMUP",
+  "phaseLabelWork": "WORK",
+  "phaseLabelRest": "REST",
+  "phaseLabelPaused": "PAUSED",
+  "phaseLabelComplete": "COMPLETE",
+
+  "sessionCompleteTitle": "SESSION COMPLETE",
+  "sessionCompleteRounds": "{rounds} rounds completed",
+  "@sessionCompleteRounds": {
+    "placeholders": {
+      "rounds": { "type": "int" }
+    }
+  },
+  "sessionCompleteTotalTime": "Total time: {duration}",
+  "@sessionCompleteTotalTime": {
+    "placeholders": {
+      "duration": { "type": "String" }
+    }
+  },
+
+  "roundIndicatorFormat": "ROUND {current} / {total}",
+  "@roundIndicatorFormat": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "a11yPreviousRound": "Previous round",
+  "a11yResume": "Resume",
+  "a11yPause": "Pause",
+  "a11yNextRound": "Next round",
+  "a11yCountdownRemaining": "{minutes} minutes {seconds} seconds remaining",
+  "@a11yCountdownRemaining": {
+    "placeholders": {
+      "minutes": { "type": "int" },
+      "seconds": { "type": "int" }
+    }
+  },
+
+  "settingsScreenTitle": "Settings",
+
+  "sectionTimerDefaults": "Timer Defaults",
+  "labelDefaultWarmup": "Default Warmup",
+  "labelDefaultWarning": "Default Warning",
+  "descriptionAutoAdvanceSettings": "Start next round after rest automatically",
+  "descriptionKeepScreenOnSettings": "Prevent screen sleep during workout",
+  "labelResumeCountdown": "Resume Countdown",
+  "descriptionResumeCountdown": "Show 3-2-1 countdown when resuming",
+
+  "sectionAudio": "Audio",
+  "labelDefaultSoundPack": "Default Sound Pack",
+  "labelVolumeOverride": "Volume Override",
+  "descriptionVolumeOverride": "Use alarm channel for louder alerts",
+  "labelHapticFeedback": "Haptic Feedback",
+  "descriptionHapticFeedback": "Vibrate on round start/end",
+
+  "sectionDisplay": "Display",
+  "labelTheme": "Theme",
+  "labelLanguage": "Language",
+  "languagePickerTitle": "Language",
+  "languageSystem": "System",
+  "languageEnglish": "English",
+  "languageSpanish": "Espa\u00f1ol",
+  "languagePortuguese": "Portugu\u00eas",
+  "labelTapToPause": "Tap to Pause",
+  "descriptionTapToPause": "Tap anywhere on timer to pause/resume",
+
+  "sectionAbout": "About",
+  "labelVersion": "Version",
+  "labelLicenses": "Licenses",
+
+  "soundPackClassicBell": "Classic Bell",
+  "soundPackDigitalBuzzer": "Digital Buzzer",
+  "soundPackMinimalBeep": "Minimal Beep",
+  "soundPackPickerTitle": "Sound Pack",
+
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "themeSystem": "System",
+  "themePickerTitle": "Theme",
+
+  "presetProBoxingMen": "Pro Boxing (Men)",
+  "presetProBoxingWomen": "Pro Boxing (Women)",
+  "presetAmateurBoxing": "Amateur Boxing",
+  "presetAmateurWomen": "Amateur Women",
+  "presetShadowBoxing": "Shadow Boxing",
+  "presetHeavyBag": "Heavy Bag",
+  "presetSpeedBag": "Speed Bag",
+  "presetSparring": "Sparring",
+  "presetPadWork": "Pad Work",
+  "presetConditioning": "Conditioning",
+  "presetTabata": "Tabata",
+  "presetEmom": "EMOM",
+  "presetBeginner": "Beginner",
+  "presetYouthBoxing": "Youth Boxing",
+  "presetMuayThai": "Muay Thai",
+  "presetMma": "MMA",
+  "presetKickboxing": "Kickboxing",
+  "presetOffenseDefense": "Offense / Defense",
+  "presetBagConditioning": "Bag + Conditioning",
+  "presetBurnoutRounds": "Burnout Rounds",
+
+  "templateOffenseDefense": "Offense / Defense",
+  "segmentOffense": "Offense",
+  "segmentDefense": "Defense",
+  "templateBagConditioning": "Bag + Conditioning",
+  "segmentBagWork": "Bag Work",
+  "segmentConditioning": "Conditioning",
+  "templateBurnoutFinisher": "Burnout Finisher",
+  "segmentNormal": "Normal",
+  "segmentHard": "Hard",
+  "segmentAllOut": "All-Out",
+  "templatePyramid": "Pyramid",
+  "segmentBuild": "Build",
+  "segmentPeak": "Peak",
+  "segmentTaper": "Taper",
+  "templateStationRotation": "Station Rotation",
+  "segmentJumpRope": "Jump Rope",
+  "segmentShadowBox": "Shadow Box",
+
+  "templateModeAll": "Same for all rounds",
+  "templateModePerRound": "Customize per round",
+  "templateCreateCustom": "Custom",
+  "templateEditCopy": "Edit Copy",
+  "templateSimple": "Simple",
+  "segmentEditorTitle": "Round Structure",
+  "segmentEditorNameLabel": "Structure Name",
+  "segmentEditorNameHint": "e.g. Bag Combo",
+  "segmentEditorNameRequired": "Name is required",
+  "segmentAdd": "Add Segment",
+  "segmentLabelField": "Activity",
+  "segmentDurationField": "Duration",
+  "segmentMaxReached": "Maximum {max} segments",
+  "@segmentMaxReached": {
+    "placeholders": {
+      "max": { "type": "int" }
+    }
+  },
+  "segmentMinRequired": "At least 1 segment required",
+  "repeatCountLabel": "Repeat",
+  "totalPerRound": "Total per round: {duration}",
+  "@totalPerRound": {
+    "placeholders": {
+      "duration": { "type": "String" }
+    }
+  },
+  "roundNLabel": "Round {n}",
+  "@roundNLabel": {
+    "placeholders": {
+      "n": { "type": "int" }
+    }
+  },
+  "applyToAllRounds": "Apply to all rounds",
+  "templateSaved": "\"{name}\" saved",
+  "@templateSaved": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "changeTemplate": "Change",
+
+  "historyScreenTitle": "Training History",
+  "historyEmpty": "No training records yet",
+  "historyEmptySubtitle": "Complete a session to see it here",
+  "historyToday": "Today",
+  "historyYesterday": "Yesterday",
+  "historyRecordRounds": "{completed}/{total} rounds",
+  "@historyRecordRounds": {
+    "placeholders": {
+      "completed": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "historyRecordCompleted": "Completed",
+  "historyRecordStopped": "Stopped early",
+  "historyDeleteTitle": "Delete Record?",
+  "historyDeleteMessage": "Remove this training record?",
+  "historyClearAllTitle": "Clear All History?",
+  "historyClearAllMessage": "This will remove all training records. This cannot be undone.",
+  "historyClearAll": "Clear All",
+  "historyRecordDeleted": "Record deleted",
+  "historyAllCleared": "History cleared",
+  "settingsTrainingHistory": "Training History",
+  "sectionData": "Data",
+
+  "inProgressTitle": "IN PROGRESS",
+  "inProgressRoundFormat": "Round {current}/{total}",
+  "@inProgressRoundFormat": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "inProgressTimeLeft": "left",
+  "buttonResume": "Resume",
+  "buttonDiscard": "Discard",
+  "discardSessionTitle": "Discard Session?",
+  "discardSessionMessage": "Discard the in-progress session \"{name}\"? Your progress will be lost.",
+  "@discardSessionMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  }
+}

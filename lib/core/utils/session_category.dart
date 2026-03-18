@@ -3,41 +3,76 @@ import 'dart:ui';
 import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 
-/// Maps sessions to their category color for card accent dots.
-Color categoryColorFor(SessionModel session) {
-  if (!session.isPreset) return CategoryColors.custom;
+enum SessionCategory {
+  boxing('Boxing', CategoryColors.boxing),
+  bagWork('Bag Work', CategoryColors.bagWork),
+  conditioning('Conditioning', CategoryColors.conditioning),
+  combatSport('Combat Sport', CategoryColors.combatSport),
+  beginner('Beginner', CategoryColors.beginner),
+  compound('Compound', CategoryColors.bagWork),
+  custom('My Sessions', CategoryColors.custom);
+
+  const SessionCategory(this.label, this.color);
+  final String label;
+  final Color color;
+}
+
+/// Maps sessions to their category.
+SessionCategory categoryFor(SessionModel session) {
+  if (!session.isPreset) return SessionCategory.custom;
 
   return switch (session.id) {
-    // Boxing: Pro, Amateur, Sparring, Pad Work
     'preset_pro_boxing_men' ||
     'preset_pro_boxing_women' ||
     'preset_amateur_boxing' ||
     'preset_amateur_women' ||
     'preset_sparring' ||
     'preset_pad_work' =>
-      CategoryColors.boxing,
-
-    // Bag Work: Heavy Bag, Speed Bag
-    'preset_heavy_bag' || 'preset_speed_bag' => CategoryColors.bagWork,
-
-    // Conditioning: Conditioning, Tabata, EMOM
+      SessionCategory.boxing,
+    'preset_heavy_bag' || 'preset_speed_bag' => SessionCategory.bagWork,
     'preset_conditioning' ||
     'preset_tabata' ||
     'preset_emom' =>
-      CategoryColors.conditioning,
-
-    // Combat Sport: Muay Thai, MMA, Kickboxing
+      SessionCategory.conditioning,
     'preset_muay_thai' ||
     'preset_mma' ||
     'preset_kickboxing' =>
-      CategoryColors.combatSport,
-
-    // Beginner: Beginner, Youth, Shadow Boxing
+      SessionCategory.combatSport,
     'preset_beginner' ||
     'preset_youth_boxing' ||
     'preset_shadow_boxing' =>
-      CategoryColors.beginner,
-
-    _ => CategoryColors.custom,
+      SessionCategory.beginner,
+    'preset_offense_defense' ||
+    'preset_bag_conditioning' ||
+    'preset_burnout' =>
+      SessionCategory.compound,
+    _ => SessionCategory.custom,
   };
+}
+
+/// Legacy helper — returns just the color.
+Color categoryColorFor(SessionModel session) => categoryFor(session).color;
+
+/// Groups preset sessions by category, preserving category order.
+List<(SessionCategory, List<SessionModel>)> groupPresetsByCategory(
+    List<SessionModel> presets) {
+  final order = [
+    SessionCategory.boxing,
+    SessionCategory.bagWork,
+    SessionCategory.conditioning,
+    SessionCategory.combatSport,
+    SessionCategory.beginner,
+    SessionCategory.compound,
+  ];
+
+  final groups = <SessionCategory, List<SessionModel>>{};
+  for (final session in presets) {
+    final cat = categoryFor(session);
+    (groups[cat] ??= []).add(session);
+  }
+
+  return [
+    for (final cat in order)
+      if (groups.containsKey(cat)) (cat, groups[cat]!),
+  ];
 }

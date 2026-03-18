@@ -20,6 +20,7 @@ class AppSettings with _$AppSettings {
 
     // Display
     @Default('dark') String themeMode, // dark, light, system
+    @Default('system') String locale, // system, en, es, pt
     @Default(false) bool tapToPause,
   }) = _AppSettings;
 

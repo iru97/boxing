@@ -17,6 +17,7 @@ _$AppSettingsImpl _$$AppSettingsImplFromJson(Map<String, dynamic> json) =>
       volumeOverride: json['volumeOverride'] as bool? ?? false,
       hapticFeedback: json['hapticFeedback'] as bool? ?? true,
       themeMode: json['themeMode'] as String? ?? 'dark',
+      locale: json['locale'] as String? ?? 'system',
       tapToPause: json['tapToPause'] as bool? ?? false,
     );
 
@@ -31,5 +32,6 @@ Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
       'volumeOverride': instance.volumeOverride,
       'hapticFeedback': instance.hapticFeedback,
       'themeMode': instance.themeMode,
+      'locale': instance.locale,
       'tapToPause': instance.tapToPause,
     };

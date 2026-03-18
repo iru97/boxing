@@ -4,6 +4,40 @@ part 'session_model.freezed.dart';
 part 'session_model.g.dart';
 
 @freezed
+class RoundSegment with _$RoundSegment {
+  const factory RoundSegment({
+    required String label,
+    required int durationSec,
+    @Default('') String audioCue, // '' | 'bell_single' | 'bell_double' | 'whistle'
+    @Default('work') String color, // 'work' | 'rest' | 'warning' | 'warmup'
+  }) = _RoundSegment;
+
+  factory RoundSegment.fromJson(Map<String, dynamic> json) =>
+      _$RoundSegmentFromJson(json);
+}
+
+@freezed
+class RoundTemplate with _$RoundTemplate {
+  const RoundTemplate._();
+  const factory RoundTemplate({
+    required String id,
+    required String name,
+    required List<RoundSegment> segments,
+    @Default(1) int repeatCount,
+    @Default(false) bool isPreset,
+  }) = _RoundTemplate;
+
+  factory RoundTemplate.fromJson(Map<String, dynamic> json) =>
+      _$RoundTemplateFromJson(json);
+
+  List<RoundSegment> get expandedSegments =>
+      List.generate(repeatCount, (_) => segments).expand((s) => s).toList();
+
+  int get totalDurationSec =>
+      segments.fold(0, (acc, s) => acc + s.durationSec) * repeatCount;
+}
+
+@freezed
 class RoundOverride with _$RoundOverride {
   const factory RoundOverride({
     required int round,
@@ -31,6 +65,8 @@ class SessionModel with _$SessionModel {
     @Default('classic_bell') String soundPack,
     @Default([]) List<RoundOverride> roundOverrides,
     @Default(false) bool isPreset,
+    @Default(null) RoundTemplate? roundTemplate,
+    @Default({}) Map<int, RoundTemplate> roundTemplateOverrides,
   }) = _SessionModel;
 
   factory SessionModel.fromJson(Map<String, dynamic> json) =>
@@ -43,6 +79,13 @@ extension SessionModelX on SessionModel {
   Duration get warningTime => Duration(seconds: warningTimeSec);
   Duration get warmupDuration => Duration(seconds: warmupDurationSec);
 
+  bool get hasCompoundRounds =>
+      roundTemplate != null || roundTemplateOverrides.isNotEmpty;
+
+  RoundTemplate? templateForRound(int round) {
+    return roundTemplateOverrides[round] ?? roundTemplate;
+  }
+
   int durationForRound(int round) {
     for (final override in roundOverrides) {
       if (override.round == round) return override.durationSec;
@@ -53,7 +96,10 @@ extension SessionModelX on SessionModel {
   Duration get totalDuration {
     var total = warmupDurationSec;
     for (var i = 1; i <= rounds; i++) {
-      total += durationForRound(i);
+      final template = templateForRound(i);
+      total += template != null
+          ? template.totalDurationSec
+          : durationForRound(i);
       if (i < rounds) total += restDurationSec;
     }
     return Duration(seconds: total);

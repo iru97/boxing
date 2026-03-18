@@ -1,3 +1,4 @@
+import 'package:boxing/core/constants/round_templates.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 
 class PresetSessions {
@@ -156,6 +157,37 @@ class PresetSessions {
       restDurationSec: 60,
       warningTimeSec: 10,
       isPreset: true,
+    ),
+    // --- Compound Round Presets ---
+    SessionModel(
+      id: 'preset_offense_defense',
+      name: 'Offense / Defense',
+      rounds: 6,
+      roundDurationSec: 180,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      roundTemplate: RoundTemplates.offenseDefense,
+    ),
+    SessionModel(
+      id: 'preset_bag_conditioning',
+      name: 'Bag + Conditioning',
+      rounds: 6,
+      roundDurationSec: 180,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      roundTemplate: RoundTemplates.bagConditioning,
+    ),
+    SessionModel(
+      id: 'preset_burnout',
+      name: 'Burnout Rounds',
+      rounds: 5,
+      roundDurationSec: 180,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      roundTemplate: RoundTemplates.burnoutFinisher,
     ),
   ];
 }

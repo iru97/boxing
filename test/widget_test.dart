@@ -131,8 +131,8 @@ void main() {
   });
 
   group('PresetSessions', () {
-    test('has 17 presets', () {
-      expect(PresetSessions.all.length, 17);
+    test('has 20 presets', () {
+      expect(PresetSessions.all.length, 20);
     });
 
     test('all presets are marked as preset', () {

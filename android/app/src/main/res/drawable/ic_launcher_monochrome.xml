@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Boxing App Monochrome Icon (Android 13+ themed icons)
+    Same bell shape as foreground, single color (#FFFFFF).
+    The system tints this to match the user's wallpaper theme.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Bell top: mounting bracket -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M49,28a3.5,3.5 0 1,1 7,0a3.5,3.5 0 1,1 -7,0" />
+
+    <!-- Bell neck -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50.5,31L54.5,31L54.5,36L50.5,36Z" />
+
+    <!-- Bell dome and body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,36C42,36 44,35.5 52.5,35.5C61,35.5 63,36 63,36C63,36 65,40 66,46C67,52 67.5,58 67.5,62C67.5,64 66,66 64,67L41,67C39,66 37.5,64 37.5,62C37.5,58 38,52 39,46C40,40 42,36 42,36Z" />
+
+    <!-- Bell rim -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M39,66.5C39,66.5 40,69 52.5,69C65,69 66,66.5 66,66.5L66,68C66,70 64.5,71.5 52.5,71.5C40.5,71.5 39,70 39,68Z" />
+
+    <!-- Bell clapper -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,71a3,3 0 1,1 6,0a3,3 0 1,1 -6,0" />
+
+    <!-- Sound wave arc 1 -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M71,46C74,49 75,53 74,57" />
+
+    <!-- Sound wave arc 2 -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M75,42C80,47 81.5,53 80,60" />
+
+    <!-- Sound wave arc 3 -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M79,38C86,45 88,53 86,63" />
+
+</vector>

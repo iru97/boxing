@@ -6,6 +6,43 @@ part of 'session_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$RoundSegmentImpl _$$RoundSegmentImplFromJson(Map<String, dynamic> json) =>
+    _$RoundSegmentImpl(
+      label: json['label'] as String,
+      durationSec: (json['durationSec'] as num).toInt(),
+      audioCue: json['audioCue'] as String? ?? '',
+      color: json['color'] as String? ?? 'work',
+    );
+
+Map<String, dynamic> _$$RoundSegmentImplToJson(_$RoundSegmentImpl instance) =>
+    <String, dynamic>{
+      'label': instance.label,
+      'durationSec': instance.durationSec,
+      'audioCue': instance.audioCue,
+      'color': instance.color,
+    };
+
+_$RoundTemplateImpl _$$RoundTemplateImplFromJson(Map<String, dynamic> json) =>
+    _$RoundTemplateImpl(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      segments:
+          (json['segments'] as List<dynamic>)
+              .map((e) => RoundSegment.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      repeatCount: (json['repeatCount'] as num?)?.toInt() ?? 1,
+      isPreset: json['isPreset'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$RoundTemplateImplToJson(_$RoundTemplateImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'segments': instance.segments,
+      'repeatCount': instance.repeatCount,
+      'isPreset': instance.isPreset,
+    };
+
 _$RoundOverrideImpl _$$RoundOverrideImplFromJson(Map<String, dynamic> json) =>
     _$RoundOverrideImpl(
       round: (json['round'] as num).toInt(),
@@ -38,6 +75,20 @@ _$SessionModelImpl _$$SessionModelImplFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       isPreset: json['isPreset'] as bool? ?? false,
+      roundTemplate:
+          json['roundTemplate'] == null
+              ? null
+              : RoundTemplate.fromJson(
+                json['roundTemplate'] as Map<String, dynamic>,
+              ),
+      roundTemplateOverrides:
+          (json['roundTemplateOverrides'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(
+              int.parse(k),
+              RoundTemplate.fromJson(e as Map<String, dynamic>),
+            ),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$$SessionModelImplToJson(_$SessionModelImpl instance) =>
@@ -56,4 +107,8 @@ Map<String, dynamic> _$$SessionModelImplToJson(_$SessionModelImpl instance) =>
       'soundPack': instance.soundPack,
       'roundOverrides': instance.roundOverrides,
       'isPreset': instance.isPreset,
+      'roundTemplate': instance.roundTemplate,
+      'roundTemplateOverrides': instance.roundTemplateOverrides.map(
+        (k, e) => MapEntry(k.toString(), e),
+      ),
     };

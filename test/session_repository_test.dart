@@ -52,15 +52,15 @@ void main() {
   });
 
   group('SessionRepository - Presets', () {
-    test('getAllPresets returns 17 presets', () {
+    test('getAllPresets returns 20 presets', () {
       final presets = repo.getAllPresets();
-      expect(presets.length, 17);
+      expect(presets.length, 20);
       expect(presets.every((s) => s.isPreset), isTrue);
     });
 
     test('getAll returns presets when no custom sessions exist', () {
       final all = repo.getAll();
-      expect(all.length, 17);
+      expect(all.length, 20);
     });
 
     test('getById finds preset by ID', () {
@@ -103,7 +103,7 @@ void main() {
     test('getAll includes both presets and custom', () async {
       await repo.saveSession(testSession);
       final all = repo.getAll();
-      expect(all.length, 18); // 17 presets + 1 custom
+      expect(all.length, 21); // 20 presets + 1 custom
     });
 
     test('saveSession overwrites existing session', () async {

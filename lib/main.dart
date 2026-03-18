@@ -6,6 +6,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:boxing/app/app.dart';
 import 'package:boxing/core/constants/app_constants.dart';
 import 'package:boxing/features/audio/data/audio_player_service.dart';
+import 'package:boxing/features/audio/data/voice_service.dart';
+import 'package:boxing/features/history/presentation/history_controller.dart';
+import 'package:boxing/features/sessions/presentation/template_controller.dart';
+import 'package:boxing/features/timer/presentation/checkpoint_controller.dart';
 import 'package:boxing/features/timer/presentation/timer_controller.dart';
 
 Future<void> main() async {
@@ -20,17 +24,31 @@ Future<void> main() async {
       await Hive.openBox<String>(AppConstants.sessionsBoxName);
   final settingsBox =
       await Hive.openBox<String>(AppConstants.settingsBoxName);
+  final templatesBox =
+      await Hive.openBox<String>(AppConstants.templatesBoxName);
+  final historyBox =
+      await Hive.openBox<String>(AppConstants.historyBoxName);
+  final checkpointBox =
+      await Hive.openBox<String>(AppConstants.checkpointBoxName);
 
   // Initialize audio service for background playback
   final audioService = BoxingAudioService();
   await audioService.initWithHandler();
+
+  // Initialize voice announcement service
+  final voiceService = VoiceService();
+  await voiceService.init();
 
   runApp(
     ProviderScope(
       overrides: [
         sessionsBoxProvider.overrideWithValue(sessionsBox),
         settingsBoxProvider.overrideWithValue(settingsBox),
+        templateBoxProvider.overrideWithValue(templatesBox),
+        historyBoxProvider.overrideWithValue(historyBox),
+        checkpointBoxProvider.overrideWithValue(checkpointBox),
         audioServiceProvider.overrideWithValue(audioService),
+        voiceServiceProvider.overrideWithValue(voiceService),
       ],
       child: const BoxingApp(),
     ),

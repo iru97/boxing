@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:boxing/core/theme/app_typography.dart';
+import 'package:boxing/l10n/app_localizations.dart';
 
 class CountdownDisplay extends StatelessWidget {
   final Duration remaining;
@@ -20,7 +21,7 @@ class CountdownDisplay extends StatelessWidget {
     final text = '$minutes:${seconds.toString().padLeft(2, '0')}';
 
     return Semantics(
-      label: '$minutes minutes $seconds seconds remaining',
+      label: S.of(context).a11yCountdownRemaining(minutes, seconds),
       child: RepaintBoundary(
         child: Text(
           text,

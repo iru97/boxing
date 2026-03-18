@@ -4,10 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:boxing/core/constants/app_constants.dart';
+import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
+import 'package:boxing/features/sessions/presentation/segment_editor_sheet.dart';
 import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
+import 'package:boxing/features/sessions/presentation/template_controller.dart';
 import 'package:boxing/features/settings/presentation/settings_controller.dart';
+import 'package:boxing/l10n/app_localizations.dart';
 
 class SessionEditorScreen extends ConsumerStatefulWidget {
   final String? sessionId;
@@ -30,6 +34,9 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
   int _warmupDurationSec = 0;
   bool _autoAdvance = true;
   bool _keepScreenOn = true;
+  RoundTemplate? _roundTemplate;
+  Map<int, RoundTemplate> _roundTemplateOverrides = {};
+  bool _perRoundMode = false;
   String? _editingId;
   bool _defaultsApplied = false;
   bool _isPresetCustomize = false;
@@ -68,12 +75,15 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
         _warmupDurationSec = session.warmupDurationSec;
         _autoAdvance = session.autoAdvance;
         _keepScreenOn = session.keepScreenOn;
+        _roundTemplate = session.roundTemplate;
+        _roundTemplateOverrides = Map.of(session.roundTemplateOverrides);
+        _perRoundMode = session.roundTemplateOverrides.isNotEmpty;
       });
     } else {
       // Session not found (deleted or invalid ID)
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Session not found')),
+          SnackBar(content: Text(S.of(context).sessionNotFound)),
         );
         context.go('/');
       }
@@ -88,8 +98,19 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
 
   int get _totalDurationSec {
     var total = _warmupDurationSec;
-    total += _rounds * _roundDurationSec;
-    if (_rounds > 1) total += (_rounds - 1) * _restDurationSec;
+    if (_perRoundMode) {
+      for (var i = 1; i <= _rounds; i++) {
+        final tpl = _roundTemplateOverrides[i];
+        total += tpl != null ? tpl.totalDurationSec : _roundDurationSec;
+        if (i < _rounds) total += _restDurationSec;
+      }
+    } else {
+      final tpl = _roundTemplate;
+      final roundSec =
+          tpl != null ? tpl.totalDurationSec : _roundDurationSec;
+      total += _rounds * roundSec;
+      if (_rounds > 1) total += (_rounds - 1) * _restDurationSec;
+    }
     return total;
   }
 
@@ -106,13 +127,17 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
       warmupDurationSec: _warmupDurationSec,
       autoAdvance: _autoAdvance,
       keepScreenOn: _keepScreenOn,
+      roundTemplate: _perRoundMode ? null : _roundTemplate,
+      roundTemplateOverrides: _perRoundMode ? _roundTemplateOverrides : {},
       isPreset: false,
     );
 
     await ref.read(sessionsControllerProvider).saveSession(session);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Saved "${session.name}"')),
+        SnackBar(
+            content:
+                Text(S.of(context).snackbarSessionSaved(session.name))),
       );
       context.go('/');
     }
@@ -126,14 +151,14 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(isEditing
-            ? 'Edit Session'
+            ? S.of(context).editSessionTitle
             : _isPresetCustomize
-                ? 'Customize Preset'
-                : 'New Session'),
+                ? S.of(context).customizePresetTitle
+                : S.of(context).newSessionTitle),
         actions: [
           TextButton(
             onPressed: _save,
-            child: const Text('SAVE'),
+            child: Text(S.of(context).buttonSave),
           ),
         ],
       ),
@@ -145,15 +170,15 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
             // Name field
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Session Name',
-                hintText: 'e.g. Heavy Bag Work',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: S.of(context).labelSessionName,
+                hintText: S.of(context).hintSessionName,
+                border: const OutlineInputBorder(),
               ),
               maxLength: 50,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Name is required';
+                  return S.of(context).validationNameRequired;
                 }
                 return null;
               },
@@ -162,17 +187,23 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
 
             // Rounds stepper
             _StepperField(
-              label: 'Rounds',
+              label: S.of(context).labelRounds,
               value: _rounds,
               min: AppConstants.minRounds,
               max: AppConstants.maxRounds,
-              onChanged: (v) => setState(() => _rounds = v),
+              onChanged: (v) => setState(() {
+                _rounds = v;
+                // Trim overrides that are beyond the new round count
+                _roundTemplateOverrides
+                    .removeWhere((round, _) => round > v);
+              }),
             ),
             const SizedBox(height: 16),
 
-            // Round duration slider
+            // Round duration slider (hidden in per-round mode only when all
+            // rounds have overrides — still useful as the default fallback)
             _DurationSlider(
-              label: 'Round Duration',
+              label: S.of(context).labelRoundDuration,
               valueSec: _roundDurationSec,
               minSec: AppConstants.minRoundDurationSec,
               maxSec: AppConstants.maxRoundDurationSec,
@@ -180,9 +211,47 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
             ),
             const SizedBox(height: 16),
 
+            // Round structure section — replaces old _TemplateSelector
+            _RoundStructureSection(
+              rounds: _rounds,
+              perRoundMode: _perRoundMode,
+              selectedTemplate: _roundTemplate,
+              roundOverrides: _roundTemplateOverrides,
+              defaultDurationSec: _roundDurationSec,
+              onModeChanged: (perRound) => setState(() {
+                _perRoundMode = perRound;
+                if (!perRound) _roundTemplateOverrides = {};
+              }),
+              onTemplateChanged: (template) => setState(() {
+                _roundTemplate = template;
+                if (template != null) {
+                  _roundDurationSec = template.totalDurationSec;
+                }
+              }),
+              onOverrideChanged: (round, template) => setState(() {
+                if (template == null) {
+                  _roundTemplateOverrides.remove(round);
+                } else {
+                  _roundTemplateOverrides = {
+                    ..._roundTemplateOverrides,
+                    round: template,
+                  };
+                }
+              }),
+              onApplyTemplateToAll: (template) => setState(() {
+                _roundTemplate = template;
+                _roundTemplateOverrides = {};
+                _perRoundMode = false;
+                if (template != null) {
+                  _roundDurationSec = template.totalDurationSec;
+                }
+              }),
+            ),
+            const SizedBox(height: 16),
+
             // Rest duration slider
             _DurationSlider(
-              label: 'Rest Duration',
+              label: S.of(context).labelRestDuration,
               valueSec: _restDurationSec,
               minSec: AppConstants.minRestDurationSec,
               maxSec: AppConstants.maxRestDurationSec,
@@ -192,36 +261,38 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
 
             // Warning time chips
             _ChipSelector(
-              label: 'Warning Time',
+              label: S.of(context).labelWarningTime,
               options: AppConstants.warningTimeOptions,
               selectedValue: _warningTimeSec,
               onSelected: (v) => setState(() => _warningTimeSec = v),
-              formatValue: (v) =>
-                  v == 0 ? 'Off' : '${v}s',
+              formatValue: (v) => v == 0
+                  ? S.of(context).valueOff
+                  : S.of(context).valueSeconds(v),
             ),
             const SizedBox(height: 16),
 
             // Warmup chips
             _ChipSelector(
-              label: 'Warmup',
+              label: S.of(context).labelWarmup,
               options: AppConstants.warmupOptions,
               selectedValue: _warmupDurationSec,
               onSelected: (v) => setState(() => _warmupDurationSec = v),
-              formatValue: (v) =>
-                  v == 0 ? 'Off' : '${v}s',
+              formatValue: (v) => v == 0
+                  ? S.of(context).valueOff
+                  : S.of(context).valueSeconds(v),
             ),
             const SizedBox(height: 16),
 
             // Switches
             SwitchListTile(
-              title: const Text('Auto-advance'),
-              subtitle: const Text('Automatically start next round after rest'),
+              title: Text(S.of(context).labelAutoAdvance),
+              subtitle: Text(S.of(context).descriptionAutoAdvance),
               value: _autoAdvance,
               onChanged: (v) => setState(() => _autoAdvance = v),
             ),
             SwitchListTile(
-              title: const Text('Keep Screen On'),
-              subtitle: const Text('Prevent screen from sleeping during workout'),
+              title: Text(S.of(context).labelKeepScreenOn),
+              subtitle: Text(S.of(context).descriptionKeepScreenOn),
               value: _keepScreenOn,
               onChanged: (v) => setState(() => _keepScreenOn = v),
             ),
@@ -236,17 +307,26 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Session Summary',
+                      S.of(context).sessionSummaryTitle,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '$_rounds rounds × ${DurationFormatter.formatSeconds(_roundDurationSec)}'
-                      '${_restDurationSec > 0 ? ' / ${DurationFormatter.formatSeconds(_restDurationSec)} rest' : ''}',
+                      S.of(context).sessionSummaryRounds(
+                              _rounds,
+                              DurationFormatter.formatSeconds(
+                                  _roundDurationSec)) +
+                          (_restDurationSec > 0
+                              ? S.of(context).sessionSummaryRest(
+                                  DurationFormatter.formatSeconds(
+                                      _restDurationSec))
+                              : ''),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Total: ${DurationFormatter.format(Duration(seconds: _totalDurationSec))}',
+                      S.of(context).sessionSummaryTotal(
+                          DurationFormatter.format(
+                              Duration(seconds: _totalDurationSec))),
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],
@@ -259,6 +339,580 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
     );
   }
 }
+
+// ---------------------------------------------------------------------------
+// Round Structure Section
+// ---------------------------------------------------------------------------
+
+/// Encapsulates the "Round Structure" section of the session editor.
+///
+/// Supports two modes:
+/// - **Same for all rounds** — one optional [RoundTemplate] applied globally.
+/// - **Per round** — each round 1..N can have its own [RoundTemplate] or fall
+///   back to "Simple" (plain countdown).
+class _RoundStructureSection extends ConsumerWidget {
+  final int rounds;
+  final bool perRoundMode;
+  final RoundTemplate? selectedTemplate;
+  final Map<int, RoundTemplate> roundOverrides;
+  final int defaultDurationSec;
+
+  final ValueChanged<bool> onModeChanged;
+  final ValueChanged<RoundTemplate?> onTemplateChanged;
+  final void Function(int round, RoundTemplate? template) onOverrideChanged;
+  final ValueChanged<RoundTemplate?> onApplyTemplateToAll;
+
+  const _RoundStructureSection({
+    required this.rounds,
+    required this.perRoundMode,
+    required this.selectedTemplate,
+    required this.roundOverrides,
+    required this.defaultDurationSec,
+    required this.onModeChanged,
+    required this.onTemplateChanged,
+    required this.onOverrideChanged,
+    required this.onApplyTemplateToAll,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final allTemplates = ref.watch(allTemplatesProvider);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Section header
+        Text(
+          S.of(context).labelRoundStructure,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 8),
+        // Mode toggle — full width so it never overflows
+        SizedBox(
+          width: double.infinity,
+          child: _ModeToggle(
+            perRoundMode: perRoundMode,
+            onChanged: onModeChanged,
+          ),
+        ),
+        const SizedBox(height: 12),
+
+        if (perRoundMode)
+          _PerRoundList(
+            rounds: rounds,
+            roundOverrides: roundOverrides,
+            allTemplates: allTemplates,
+            defaultDurationSec: defaultDurationSec,
+            onOverrideChanged: onOverrideChanged,
+            onApplyTemplateToAll: onApplyTemplateToAll,
+          )
+        else
+          _SameForAllPanel(
+            selectedTemplate: selectedTemplate,
+            allTemplates: allTemplates,
+            onTemplateChanged: onTemplateChanged,
+          ),
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mode toggle
+// ---------------------------------------------------------------------------
+
+class _ModeToggle extends StatelessWidget {
+  final bool perRoundMode;
+  final ValueChanged<bool> onChanged;
+
+  const _ModeToggle({
+    required this.perRoundMode,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SegmentedButton<bool>(
+      style: SegmentedButton.styleFrom(
+        visualDensity: VisualDensity.compact,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      segments: [
+        ButtonSegment(
+          value: false,
+          label: Text(S.of(context).templateModeAll),
+        ),
+        ButtonSegment(
+          value: true,
+          label: Text(S.of(context).templateModePerRound),
+        ),
+      ],
+      selected: {perRoundMode},
+      onSelectionChanged: (sel) => onChanged(sel.first),
+      showSelectedIcon: false,
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Same-for-all panel
+// ---------------------------------------------------------------------------
+
+class _SameForAllPanel extends StatelessWidget {
+  final RoundTemplate? selectedTemplate;
+  final List<RoundTemplate> allTemplates;
+  final ValueChanged<RoundTemplate?> onTemplateChanged;
+
+  const _SameForAllPanel({
+    required this.selectedTemplate,
+    required this.allTemplates,
+    required this.onTemplateChanged,
+  });
+
+  Future<void> _openCustomEditor(BuildContext context) async {
+    final result = await SegmentEditorSheet.show(context);
+    if (result != null) onTemplateChanged(result);
+  }
+
+  Future<void> _openEditCopy(BuildContext context) async {
+    final result = await SegmentEditorSheet.show(
+      context,
+      template: selectedTemplate!.copyWith(
+        id: const Uuid().v4(),
+        isPreset: false,
+      ),
+    );
+    if (result != null) onTemplateChanged(result);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Template chips
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            // "Simple" chip — no template
+            ChoiceChip(
+              label: Text(S.of(context).roundStructureSimple),
+              selected: selectedTemplate == null,
+              onSelected: (_) => onTemplateChanged(null),
+            ),
+            // Preset + custom template chips
+            ...allTemplates.map((tpl) {
+              final isSelected = selectedTemplate?.id == tpl.id;
+              return ChoiceChip(
+                label: Text(tpl.name),
+                selected: isSelected,
+                onSelected: (_) => onTemplateChanged(tpl),
+              );
+            }),
+            // "+ Custom" chip
+            ActionChip(
+              avatar: const Icon(Icons.add, size: 16),
+              label: Text(S.of(context).templateCreateCustom),
+              onPressed: () => _openCustomEditor(context),
+            ),
+          ],
+        ),
+
+        // Preview card for the selected template
+        if (selectedTemplate != null) ...[
+          const SizedBox(height: 12),
+          _TemplatePreviewCard(
+            template: selectedTemplate!,
+            trailing: TextButton.icon(
+              icon: const Icon(Icons.edit_outlined, size: 16),
+              label: Text(S.of(context).templateEditCopy),
+              style: TextButton.styleFrom(
+                visualDensity: VisualDensity.compact,
+              ),
+              onPressed: () => _openEditCopy(context),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Per-round list
+// ---------------------------------------------------------------------------
+
+class _PerRoundList extends StatelessWidget {
+  final int rounds;
+  final Map<int, RoundTemplate> roundOverrides;
+  final List<RoundTemplate> allTemplates;
+  final int defaultDurationSec;
+  final void Function(int round, RoundTemplate? template) onOverrideChanged;
+  final ValueChanged<RoundTemplate?> onApplyTemplateToAll;
+
+  const _PerRoundList({
+    required this.rounds,
+    required this.roundOverrides,
+    required this.allTemplates,
+    required this.defaultDurationSec,
+    required this.onOverrideChanged,
+    required this.onApplyTemplateToAll,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Round rows
+        for (int i = 1; i <= rounds; i++)
+          _RoundRow(
+            round: i,
+            template: roundOverrides[i],
+            allTemplates: allTemplates,
+            defaultDurationSec: defaultDurationSec,
+            onChanged: (tpl) => onOverrideChanged(i, tpl),
+          ),
+
+        const SizedBox(height: 12),
+
+        // "Apply template to all rounds" convenience button
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            icon: const Icon(Icons.copy_all_outlined, size: 18),
+            label: Text(S.of(context).applyToAllRounds),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(0, 48),
+            ),
+            onPressed: () => _showApplyToAllPicker(context),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _showApplyToAllPicker(BuildContext context) async {
+    final picked = await _showTemplatePicker(
+      context,
+      allTemplates: allTemplates,
+      current: null,
+      title: S.of(context).applyToAllRounds,
+    );
+    if (picked != null) {
+      // Special sentinel: picked == _kSimple means clear template
+      onApplyTemplateToAll(picked == _kSimpleSentinel ? null : picked);
+    }
+  }
+}
+
+class _RoundRow extends StatelessWidget {
+  final int round;
+  final RoundTemplate? template;
+  final List<RoundTemplate> allTemplates;
+  final int defaultDurationSec;
+  final ValueChanged<RoundTemplate?> onChanged;
+
+  const _RoundRow({
+    required this.round,
+    required this.template,
+    required this.allTemplates,
+    required this.defaultDurationSec,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final label = template?.name ?? S.of(context).templateSimple;
+    final durSec =
+        template?.totalDurationSec ?? defaultDurationSec;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          // Round number badge
+          Container(
+            width: 36,
+            height: 36,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: AppColors.raisedSurface,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              '$round',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+          ),
+          const SizedBox(width: 12),
+
+          // Template name + duration
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label,
+                    style: Theme.of(context).textTheme.bodyMedium),
+                Text(
+                  DurationFormatter.formatSeconds(durSec),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withAlpha(153),
+                      ),
+                ),
+              ],
+            ),
+          ),
+
+          // "Change" button — 64dp minimum tap target
+          SizedBox(
+            height: 48,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                minimumSize: const Size(48, 48),
+              ),
+              onPressed: () => _pickTemplate(context),
+              child: Text(S.of(context).changeTemplate),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _pickTemplate(BuildContext context) async {
+    final picked = await _showTemplatePicker(
+      context,
+      allTemplates: allTemplates,
+      current: template,
+      title: S.of(context).roundNLabel(round),
+    );
+    if (picked != null) {
+      onChanged(picked == _kSimpleSentinel ? null : picked);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Template picker dialog
+// ---------------------------------------------------------------------------
+
+/// Sentinel value returned from the picker to indicate "Simple" (no template).
+final _kSimpleSentinel = RoundTemplate(
+  id: '__simple__',
+  name: 'Simple',
+  segments: const [],
+);
+
+/// Shows a dialog to pick a template (including Simple and + Custom options).
+/// Returns the selected template, [_kSimpleSentinel] for "Simple", or null if
+/// the user dismissed without choosing.
+Future<RoundTemplate?> _showTemplatePicker(
+  BuildContext context, {
+  required List<RoundTemplate> allTemplates,
+  required RoundTemplate? current,
+  required String title,
+}) {
+  return showDialog<RoundTemplate>(
+    context: context,
+    builder: (ctx) => _TemplatePickerDialog(
+      title: title,
+      allTemplates: allTemplates,
+      current: current,
+    ),
+  );
+}
+
+class _TemplatePickerDialog extends StatelessWidget {
+  final String title;
+  final List<RoundTemplate> allTemplates;
+  final RoundTemplate? current;
+
+  const _TemplatePickerDialog({
+    required this.title,
+    required this.allTemplates,
+    required this.current,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(title),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            // Simple option
+            _PickerTile(
+              label: S.of(context).roundStructureSimple,
+              subtitle: S.of(context).roundStructureSimple,
+              isSelected: current == null,
+              onTap: () => Navigator.of(context).pop(_kSimpleSentinel),
+            ),
+            const Divider(height: 1),
+            // All templates
+            ...allTemplates.map((tpl) => _PickerTile(
+                  label: tpl.name,
+                  subtitle: DurationFormatter.formatSeconds(
+                      tpl.totalDurationSec),
+                  isSelected: current?.id == tpl.id,
+                  onTap: () => Navigator.of(context).pop(tpl),
+                )),
+            // + Custom entry
+            _PickerTile(
+              label: '+ ${S.of(context).templateCreateCustom}',
+              subtitle: S.of(context).segmentEditorTitle,
+              isSelected: false,
+              onTap: () async {
+                Navigator.of(context).pop(); // close dialog first
+                final result = await SegmentEditorSheet.show(context);
+                if (result != null && context.mounted) {
+                  // Return through a second pop is not possible here since
+                  // dialog is already closed; caller handles this via the
+                  // ActionChip path on the main screen.
+                }
+              },
+              leadingIcon: Icons.add,
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(S.of(context).buttonCancel),
+        ),
+      ],
+    );
+  }
+}
+
+class _PickerTile extends StatelessWidget {
+  final String label;
+  final String subtitle;
+  final bool isSelected;
+  final VoidCallback onTap;
+  final IconData? leadingIcon;
+
+  const _PickerTile({
+    required this.label,
+    required this.subtitle,
+    required this.isSelected,
+    required this.onTap,
+    this.leadingIcon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      dense: true,
+      minVerticalPadding: 12,
+      leading: leadingIcon != null
+          ? Icon(leadingIcon, size: 20)
+          : isSelected
+              ? const Icon(Icons.check_circle, size: 20)
+              : const SizedBox(width: 20),
+      title: Text(label),
+      subtitle: Text(subtitle),
+      onTap: onTap,
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Template preview card (shared)
+// ---------------------------------------------------------------------------
+
+class _TemplatePreviewCard extends StatelessWidget {
+  final RoundTemplate template;
+  final Widget? trailing;
+
+  const _TemplatePreviewCard({
+    required this.template,
+    this.trailing,
+  });
+
+  Color _colorForSegment(String color) {
+    return switch (color) {
+      'warning' => TimerColors.warning,
+      'rest' => TimerColors.rest,
+      'warmup' => TimerColors.warmup,
+      _ => TimerColors.work,
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Segment rows
+            for (final seg in template.segments)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _colorForSegment(seg.color),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(seg.label),
+                    const Spacer(),
+                    Text(
+                      DurationFormatter.formatSeconds(seg.durationSec),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+
+            // Repeat count + total
+            if (template.repeatCount > 1) ...[
+              const Divider(height: 16),
+              Text(
+                S.of(context).templateRepeatCount(
+                    template.repeatCount,
+                    DurationFormatter.formatSeconds(
+                        template.totalDurationSec)),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
+
+            // Optional trailing widget (e.g. "Edit Copy" button)
+            if (trailing != null) ...[
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: trailing!,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Shared sub-widgets (unchanged from original)
+// ---------------------------------------------------------------------------
 
 /// Stepper for integer values (rounds).
 class _StepperField extends StatelessWidget {
