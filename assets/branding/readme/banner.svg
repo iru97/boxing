@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200" viewBox="0 0 800 200">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Barlow+Condensed:wght@400;500&amp;display=swap');
+    </style>
+  </defs>
+
+  <rect width="800" height="200" fill="#000000"/>
+
+  <!-- Subtle grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <rect width="40" height="40" fill="none"/>
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  </pattern>
+  <rect width="800" height="200" fill="url(#grid)"/>
+
+  <!-- Left accent line -->
+  <rect x="0" y="0" width="4" height="200" fill="#E53935"/>
+
+  <!-- B letter -->
+  <text x="200" y="126" font-family="'Bebas Neue', Impact, sans-serif" font-size="88" fill="#FFFFFF" letter-spacing="3" text-anchor="end">B</text>
+
+  <!-- Timer ring O -->
+  <g transform="translate(225, 90)">
+    <circle cx="0" cy="0" r="28" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4.5"/>
+    <circle cx="0" cy="0" r="28" fill="none" stroke="#E53935" stroke-width="4.5"
+      stroke-linecap="round"
+      stroke-dasharray="175.93"
+      stroke-dashoffset="43.98"
+      transform="rotate(-90 0 0)"/>
+    <line x1="0" y1="-26" x2="0" y2="-20" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- XING letters -->
+  <text x="260" y="126" font-family="'Bebas Neue', Impact, sans-serif" font-size="88" fill="#FFFFFF" letter-spacing="3">XING</text>
+
+  <!-- Tagline -->
+  <text x="200" y="158" font-family="'Barlow Condensed', Arial Narrow, sans-serif" font-size="16" fill="rgba(255,255,255,0.45)" letter-spacing="4" font-weight="400">THE TIMER THAT NEVER STOPS</text>
+
+  <!-- Right side: phase color dots -->
+  <circle cx="620" cy="70" r="6" fill="#00C853"/>
+  <text x="636" y="75" font-family="'Barlow Condensed', Arial Narrow, sans-serif" font-size="13" fill="rgba(255,255,255,0.5)" font-weight="500">WORK</text>
+
+  <circle cx="620" cy="96" r="6" fill="#FFB300"/>
+  <text x="636" y="101" font-family="'Barlow Condensed', Arial Narrow, sans-serif" font-size="13" fill="rgba(255,255,255,0.5)" font-weight="500">WARNING</text>
+
+  <circle cx="620" cy="122" r="6" fill="#E53935"/>
+  <text x="636" y="127" font-family="'Barlow Condensed', Arial Narrow, sans-serif" font-size="13" fill="rgba(255,255,255,0.5)" font-weight="500">REST</text>
+</svg>

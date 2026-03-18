@@ -1,24 +1,158 @@
-# Boxing — Training Timer App
+<p align="center">
+  <img src="assets/branding/readme/banner.svg" alt="Boxing — The timer that never stops" width="800"/>
+</p>
 
-A **boxing-first** training timer for Android and iOS. Built with Flutter.
+<p align="center">
+  <strong>A boxing-first training timer for Android & iOS.</strong><br/>
+  Built to solve the #1 complaint across every competing app: <em>the timer dies in the background.</em>
+</p>
 
-Solves the #1 complaint across every competing app: **the timer dies in the background**. Boxing keeps running through screen lock, Spotify, and Android battery optimization.
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-3.38-02569B?logo=flutter&logoColor=white" alt="Flutter"/>
+  <img src="https://img.shields.io/badge/Dart-3.7-0175C2?logo=dart&logoColor=white" alt="Dart"/>
+  <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-green" alt="Platform"/>
+  <img src="https://img.shields.io/badge/License-Proprietary-lightgrey" alt="License"/>
+</p>
+
+---
+
+<p align="center">
+  <img src="assets/branding/readme/timer-work.svg" alt="Work phase" width="200"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/branding/readme/timer-warning.svg" alt="Warning phase" width="200"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="assets/branding/readme/timer-rest.svg" alt="Rest phase" width="200"/>
+</p>
+
+<p align="center">
+  <sub>Phase colors: <strong style="color:#00C853;">WORK</strong> (green) &rarr; <strong style="color:#FFB300;">WARNING</strong> (amber) &rarr; <strong style="color:#E53935;">REST</strong> (red)</sub>
+</p>
+
+---
+
+## Why Boxing?
+
+Every boxing timer app on the market shares the same fatal flaw: **the timer stops when you need it most** — when the screen locks, when you switch to Spotify, when Samsung's battery optimization decides your workout is over.
+
+Boxing fixes this with a DateTime-anchored timer engine, foreground service audio, and silent keep-alive — so the bell rings no matter what.
+
+### What makes it different
+
+| Problem | Everyone Else | Boxing |
+|---------|--------------|--------|
+| Timer in background | Stops or drifts | DateTime-anchored, self-corrects every 50ms |
+| Audio over music | Stops Spotify entirely | Audio ducking — bell plays over your music |
+| Using with gloves | "Push start with your tongue" | 64-80dp touch targets, designed for gloves |
+| Sound quality | Generic beeps | Authentic gym bell sounds, 3 sound packs |
+| Pricing | Subscription for a timer | One-time purchase, zero ads |
+| Bloat | HIIT/Yoga/CrossFit/Everything | Boxing-first. Period. |
 
 ---
 
 ## Features
 
-- **17 built-in presets** — Pro Boxing, Amateur, Heavy Bag, Tabata, MMA, Muay Thai, and more
+### Timer Engine
+- **DateTime-anchored** — cannot drift, survives backgrounding and screen lock
+- **Foreground service** — runs reliably on Samsung, Huawei, Xiaomi
+- **Silent audio keep-alive** — prevents OS from killing the process
+- **Checkpoint recovery** — resume interrupted sessions after crashes
+
+### Audio
+- **3 sound packs** — Classic Bell, Digital Buzzer, Minimal Beep
+- **Audio ducking** — bell sounds play over Spotify/Apple Music without stopping it
+- **Voice announcements** — "Round 3" in English, Spanish, Portuguese via TTS
+- **Volume override** — force audible even on low volume
+
+### Sessions
+- **17 built-in presets** — Pro Boxing, Amateur, Heavy Bag, Tabata, MMA, and more
 - **Custom sessions** — create, edit, duplicate, delete with full persistence
-- **Reliable background timer** — foreground service + silent audio keep-alive
-- **Audio ducking** — bell sounds play over your music without stopping it
+- **Per-round overrides** — different duration for each round
+- **Round templates** — compound rounds with labeled sub-segments (Offense/Defense, Bag Work + Conditioning)
+
+### UX
+- **Phase colors** — instant visual feedback: green (work), amber (warning), red (rest)
+- **Circular progress ring** — glanceable from across the gym
 - **Wake lock** — screen stays on during your workout
-- **Phase colors** — green (WORK), amber (WARNING), red (REST)
-- **Warning cue** — configurable bell X seconds before round ends
-- **Warmup countdown** — optional countdown before round 1
-- **Skip controls** — skip forward/back between phases; disabled while paused
-- **Settings** — default warning, warmup, sound pack, theme, haptic feedback
-- **Dark/Light/System theme** — Material 3
+- **Dark-first design** — true black (#000000) for OLED battery savings
+- **Glove-friendly** — all controls 64dp+ minimum touch targets
+- **Localized** — English, Spanish, Portuguese
+
+---
+
+## Presets
+
+| Session | Rounds | Work | Rest | Category |
+|---------|:------:|:----:|:----:|:--------:|
+| Pro Boxing (Men) | 12 | 3:00 | 1:00 | Boxing |
+| Pro Boxing (Women) | 10 | 2:00 | 1:00 | Boxing |
+| Amateur Boxing | 3 | 3:00 | 1:00 | Boxing |
+| Amateur Women | 3 | 2:00 | 1:00 | Boxing |
+| Shadow Boxing | 5 | 3:00 | 0:30 | Beginner |
+| Heavy Bag | 8 | 3:00 | 1:00 | Bag Work |
+| Speed Bag | 6 | 2:00 | 0:30 | Bag Work |
+| Sparring | 6 | 3:00 | 1:00 | Boxing |
+| Pad Work | 4 | 3:00 | 1:00 | Boxing |
+| Conditioning | 10 | 0:30 | 0:30 | Conditioning |
+| Tabata | 8 | 0:20 | 0:10 | Conditioning |
+| EMOM | 10 | 1:00 | 0:00 | Conditioning |
+| Beginner | 4 | 2:00 | 1:00 | Beginner |
+| Youth Boxing | 4 | 1:30 | 1:00 | Beginner |
+| Muay Thai | 5 | 3:00 | 2:00 | Combat Sports |
+| MMA | 3 | 5:00 | 1:00 | Combat Sports |
+| Kickboxing | 3 | 3:00 | 1:00 | Combat Sports |
+
+---
+
+## Architecture
+
+```
+                    ┌─────────────────┐
+                    │   Timer Screen  │
+                    │   (Riverpod)    │
+                    └────────┬────────┘
+                             │ StreamProvider
+                    ┌────────▼────────┐
+                    │  Timer Engine   │  Pure Dart, no UI deps
+                    │  (DateTime-     │  Self-corrects every tick
+                    │   anchored)     │  Cannot drift
+                    └────────┬────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+     ┌────────▼───────┐ ┌───▼────┐ ┌───────▼───────┐
+     │ Audio Handler  │ │  Wake  │ │  Checkpoint   │
+     │ (audio_service)│ │  Lock  │ │  (Hive)       │
+     │                │ │        │ │               │
+     │ bell_player    │ │ Screen │ │ Save state    │
+     │ silent_player  │ │ on/off │ │ for recovery  │
+     └────────────────┘ └────────┘ └───────────────┘
+```
+
+### State Machine
+
+```
+idle ──▶ warmup ──▶ work ──▶ rest ──▶ work ──▶ rest ──▶ ... ──▶ complete
+                      │                 │
+                      └── pause/resume ─┘
+```
+
+The timer stores `_phaseStartTime = DateTime.now()` and computes remaining time on each 50ms tick. This means it **self-corrects** and cannot accumulate drift — even after minutes in the background.
+
+---
+
+## Tech Stack
+
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| Framework | Flutter 3.38 / Dart 3.7 | Cross-platform mobile |
+| State | Riverpod 2.6 | Reactive state management |
+| Models | Freezed 2.5 | Immutable data classes + sealed unions |
+| Navigation | go_router 14.8 | Declarative routing |
+| Audio | just_audio + audio_service | Background-safe playback + foreground service |
+| Voice | flutter_tts | Round announcements (en/es/pt) |
+| Storage | Hive 2.2 | Local persistence (JSON, no TypeAdapters) |
+| Wake Lock | wakelock_plus 1.3 | Keep screen on during sessions |
+| Time | clock 1.1 | Testable DateTime for fakeAsync |
 
 ---
 
@@ -27,36 +161,31 @@ Solves the #1 complaint across every competing app: **the timer dies in the back
 ### Prerequisites
 
 - Flutter SDK `^3.7.2` ([install](https://docs.flutter.dev/get-started/install))
-- Android SDK (API 24+) or Xcode 14+ for iOS
-- A physical device for background/audio testing (emulators have limited audio)
+- Android SDK (API 24+) or Xcode 14+
+- A physical device for background/audio testing
 
-### Install & Run
+### Run
 
 ```bash
-# Get dependencies
 flutter pub get
-
-# Run on connected device (debug)
-export PATH="/opt/flutter/bin:$PATH"
 flutter run
-
-# Run tests
-flutter test
-
-# Analyze
-flutter analyze
 ```
 
-### Build for Release
+### Test
 
 ```bash
-# Android APK
-flutter build apk --release
+flutter test          # 73 tests (unit + widget + integration)
+flutter analyze       # Zero issues expected
+```
 
-# Android App Bundle (Play Store)
+### Build
+
+```bash
+# Android
+flutter build apk --release
 flutter build appbundle --release
 
-# iOS (requires Xcode + Apple Developer account)
+# iOS
 flutter build ios --release
 ```
 
@@ -66,130 +195,31 @@ flutter build ios --release
 
 ```
 lib/
-├── main.dart                        # Hive init, audio_service init, ProviderScope
+├── main.dart                          # Hive init, audio_service, ProviderScope
 ├── app/
-│   ├── app.dart                     # MaterialApp.router, theme switching
-│   └── router.dart                  # GoRouter — 5 routes
+│   ├── app.dart                       # MaterialApp.router, theme switching
+│   └── router.dart                    # GoRouter (5 routes)
 ├── core/
-│   ├── constants/
-│   │   ├── app_constants.dart       # Limits, defaults, option lists
-│   │   └── preset_sessions.dart     # 17 built-in presets (immutable)
-│   ├── theme/
-│   │   ├── app_theme.dart           # Material 3 light + dark ThemeData
-│   │   ├── app_colors.dart          # Brand palette
-│   │   └── timer_colors.dart        # Phase colors (work/warning/rest/warmup)
-│   └── utils/
-│       └── duration_formatter.dart  # Duration → "M:SS" / "MM:SS"
+│   ├── constants/                     # Presets, sound assets, app limits
+│   ├── theme/                         # Material 3 theme, brand colors, typography
+│   └── utils/                         # Duration formatting, session categories
 ├── features/
-│   ├── timer/
-│   │   ├── domain/
-│   │   │   ├── timer_engine.dart    # Core engine: DateTime-anchored, pure Dart
-│   │   │   └── timer_state.dart     # Freezed sealed union: idle|warmup|work|rest|paused|complete
-│   │   ├── data/
-│   │   │   └── timer_lifecycle_service.dart  # Wake lock, keep-alive, notifications
-│   │   └── presentation/
-│   │       ├── timer_screen.dart    # Session summary + active timer + complete screen
-│   │       ├── timer_controller.dart # Riverpod providers
-│   │       └── widgets/             # CountdownDisplay, ProgressRing, TimerControls, …
-│   ├── sessions/
-│   │   ├── domain/session_model.dart         # Freezed SessionModel (Duration as int seconds)
-│   │   ├── data/session_repository.dart      # Hive CRUD (JSON strings, no TypeAdapters)
-│   │   └── presentation/
-│   │       ├── session_list_screen.dart       # Home: presets + custom sessions
-│   │       ├── session_editor_screen.dart     # Create / edit / customize preset
-│   │       └── sessions_controller.dart       # Riverpod providers + controller
-│   ├── audio/
-│   │   └── data/
-│   │       ├── boxing_audio_handler.dart      # AudioHandler: bells + silent keep-alive
-│   │       └── audio_player_service.dart      # Facade: handler mode or fallback player
-│   └── settings/
-│       ├── domain/app_settings.dart           # Freezed AppSettings
-│       ├── data/settings_repository.dart      # Hive persistence
-│       └── presentation/
-│           ├── settings_screen.dart           # Full settings UI
-│           └── settings_controller.dart       # StateNotifier + provider
-└── test/
-    ├── timer_engine_test.dart                 # 23 unit tests (state machine, accuracy, audio)
-    ├── timer_screen_test.dart                 # 19 widget tests (display, controls, colors)
-    └── session_repository_test.dart           # 18 integration tests (CRUD, presets, serialize)
+│   ├── timer/                         # Core timer engine + screen + controls
+│   ├── sessions/                      # Session list, editor, round templates
+│   ├── audio/                         # AudioHandler, player service, TTS voice
+│   ├── history/                       # Training records + history screen
+│   └── settings/                      # App settings + persistence
+└── l10n/                              # Localization (en, es, pt)
 ```
 
 ---
 
-## Architecture
+## Platform Config
 
-### Timer Engine
+### Android
 
-The core timer uses **DateTime anchoring** — not tick counting — to prevent drift:
-
-```dart
-// On each 50ms tick:
-final elapsed = DateTime.now().difference(_phaseStartTime!);
-final remaining = _phaseDuration - elapsed;
-if (remaining <= Duration.zero) _onPhaseComplete();
-```
-
-This means the timer self-corrects every tick and cannot drift, even after backgrounding.
-
-**State machine:**
-```
-idle → warmup → work ⟶ rest ⟶ work ⟶ rest ⟶ … ⟶ complete
-                  ↑                ↓
-                  └── (pause/resume can occur at any active state)
-```
-
-### Background Execution
-
-```
-BoxingAudioHandler (audio_service)
-  ├── _bellPlayer     — plays bell sounds on phase transitions
-  └── _silentPlayer   — loops silence.wav to keep foreground service alive
-
-TimerLifecycleService
-  ├── onSessionStart() — enables WakelockPlus, starts silent audio, registers observer
-  └── onSessionEnd()  — releases wake lock, stops silent audio, clears notification
-```
-
-Android foreground service is declared via `audio_service` — no manual service needed.
-
-### State Management
-
-- **Riverpod 2.6** with `Provider` and `StateNotifierProvider`
-- `timerEngineProvider` — singleton `TimerEngine`, disposed on provider scope close
-- `timerStateProvider` — `StreamProvider` wrapping `engine.stateStream`
-- `appSettingsProvider` — `StateNotifierProvider<AppSettingsNotifier, AppSettings>`
-- `audioServiceProvider` — overridden in `main.dart` with pre-initialized instance
-
-### Data Persistence
-
-- **Hive 2.2** with JSON-encoded strings (no TypeAdapters — avoids code-gen complexity)
-- `sessions` box — custom sessions only; presets are compile-time constants
-- `settings` box — single JSON document, loaded at startup
-
----
-
-## Key Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `flutter_riverpod` | ^2.6.1 | State management |
-| `go_router` | ^14.8.1 | Navigation |
-| `freezed_annotation` | ^2.4.4 | Immutable models + sealed unions |
-| `hive` + `hive_flutter` | ^2.2.3 | Local persistence |
-| `just_audio` | ^0.9.43 | Low-latency audio playback |
-| `audio_service` | ^0.18.17 | Background audio + foreground service |
-| `wakelock_plus` | ^1.3.1 | Keep screen on during sessions |
-| `clock` | ^1.1.1 | Testable DateTime (fakeAsync) |
-| `fake_async` | ^1.3.2 | Timer unit testing |
-
----
-
-## Platform Configuration
-
-### Android (`android/app/src/main/AndroidManifest.xml`)
-
-Permissions already configured:
 ```xml
+<!-- Already configured in AndroidManifest.xml -->
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
@@ -198,10 +228,10 @@ Permissions already configured:
 - `minSdkVersion`: 24 (Android 7.0)
 - `targetSdkVersion`: 34
 
-### iOS (`ios/Runner/Info.plist`)
+### iOS
 
-Background mode required:
 ```xml
+<!-- Info.plist -->
 <key>UIBackgroundModes</key>
 <array>
   <string>audio</string>
@@ -212,22 +242,30 @@ Background mode required:
 
 ---
 
-## Testing
+## Design System
 
-See **[docs/TESTING.md](docs/TESTING.md)** for the full testing guide, including:
+### Colors
 
-- Automated test suite (73 tests)
-- Device testing checklist (background survival, audio ducking, wake lock)
-- Performance targets and DevTools profiling
-- Samsung battery optimization workarounds
-- CI pipeline setup
+| Role | Color | Hex |
+|------|:-----:|-----|
+| Brand | ![#E53935](https://via.placeholder.com/12/E53935/E53935.png) | `#E53935` |
+| Gold | ![#FFB300](https://via.placeholder.com/12/FFB300/FFB300.png) | `#FFB300` |
+| Work | ![#00C853](https://via.placeholder.com/12/00C853/00C853.png) | `#00C853` |
+| Warning | ![#FFB300](https://via.placeholder.com/12/FFB300/FFB300.png) | `#FFB300` |
+| Rest | ![#E53935](https://via.placeholder.com/12/E53935/E53935.png) | `#E53935` |
+| Warmup | ![#1E88E5](https://via.placeholder.com/12/1E88E5/1E88E5.png) | `#1E88E5` |
+| Background | ![#000000](https://via.placeholder.com/12/000000/000000.png) | `#000000` |
 
-Quick start:
+### Typography
 
-```bash
-flutter test          # All 73 tests
-flutter analyze       # Zero issues expected
-```
+| Role | Font | Usage |
+|------|------|-------|
+| Display | Roboto Condensed Bold | Timer countdown (tabular figures) |
+| Heading | Teko SemiBold | Phase labels, round indicators |
+| Body | Barlow Condensed | Session names, settings, forms |
+| Marketing | Bebas Neue | Logo wordmark, session titles |
+
+All fonts bundled as assets — no runtime fetching.
 
 ---
 
@@ -235,60 +273,17 @@ flutter analyze       # Zero issues expected
 
 | Doc | Description |
 |-----|-------------|
-| [docs/VISION.md](docs/VISION.md) | Product vision, competitive analysis, feature roadmap |
-| [docs/FLUTTER_ARCHITECTURE.md](docs/FLUTTER_ARCHITECTURE.md) | Definitive architecture decisions |
-| [docs/TESTING.md](docs/TESTING.md) | Testing guide — unit, widget, device |
-| [docs/AUDIO_IMPLEMENTATION.md](docs/AUDIO_IMPLEMENTATION.md) | Audio ducking and background audio deep-dive |
-| [docs/TIMER_ENGINE_RESEARCH.md](docs/TIMER_ENGINE_RESEARCH.md) | Timer accuracy research and DateTime anchoring |
-| [docs/REFERENCES.md](docs/REFERENCES.md) | Flutter packages, competitor apps, user quotes |
-| [docs/sprints/SPRINT_PLAN.md](docs/sprints/SPRINT_PLAN.md) | Master sprint plan (Sprints 0–6) |
+| [VISION.md](docs/VISION.md) | Product vision, competitive analysis, roadmap |
+| [BRANDING.md](docs/BRANDING.md) | Complete brand identity guide |
+| [DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) | Design tokens, colors, typography, spacing |
+| [FLUTTER_ARCHITECTURE.md](docs/FLUTTER_ARCHITECTURE.md) | Architecture decisions |
+| [AUDIO_IMPLEMENTATION.md](docs/AUDIO_IMPLEMENTATION.md) | Audio ducking & background audio |
+| [TIMER_ENGINE_RESEARCH.md](docs/TIMER_ENGINE_RESEARCH.md) | DateTime anchoring research |
+| [TESTING.md](docs/TESTING.md) | Testing guide (73 tests) |
+| [SPRINT_PLAN.md](docs/sprints/SPRINT_PLAN.md) | Master sprint plan (Sprints 0-6) |
 
 ---
 
-## Session Presets
-
-| Session | Rounds | Work | Rest | Use Case |
-|---------|--------|------|------|----------|
-| Pro Boxing (Men) | 12 | 3:00 | 1:00 | Pro fight simulation |
-| Pro Boxing (Women) | 10 | 2:00 | 1:00 | Pro women's rules |
-| Amateur Boxing | 3 | 3:00 | 1:00 | Amateur fight |
-| Heavy Bag | 8 | 3:00 | 1:00 | Power & combos |
-| Shadow Boxing | 5 | 3:00 | 0:30 | Technique warm-up |
-| Speed Bag | 6 | 2:00 | 0:30 | Speed & rhythm |
-| Sparring | 6 | 3:00 | 1:00 | Partner work |
-| Pad Work | 4 | 3:00 | 1:00 | Mitts with coach |
-| Conditioning | 10 | 0:30 | 0:30 | HIIT boxing |
-| Tabata | 8 | 0:20 | 0:10 | Tabata protocol |
-| EMOM | 10 | 1:00 | 0:00 | Every Minute On the Minute |
-| Beginner | 4 | 2:00 | 1:00 | New boxers |
-| Youth Boxing | 4 | 1:30 | 1:00 | Junior fighters |
-| Muay Thai | 5 | 3:00 | 2:00 | Muay Thai rules |
-| MMA | 3 | 5:00 | 1:00 | MMA fight simulation |
-| Kickboxing | 3 | 3:00 | 1:00 | Kickboxing rules |
-| Amateur Women | 3 | 2:00 | 1:00 | Women's amateur |
-
----
-
-## Development Workflow
-
-```bash
-# Before starting work
-flutter analyze
-
-# Run tests
-flutter test
-
-# Build runner (if models change)
-dart run build_runner build --delete-conflicting-outputs
-
-# Profile mode (for performance testing)
-flutter run --profile
-```
-
-Branch: `claude/setup-project-config-lict0`
-
----
-
-## License
-
-Private — all rights reserved.
+<p align="center">
+  <sub>Private — All rights reserved.</sub>
+</p>
