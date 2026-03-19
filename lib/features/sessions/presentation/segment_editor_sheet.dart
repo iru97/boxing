@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import 'package:boxing/core/constants/app_constants.dart';
 import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
+import 'package:boxing/features/combos/domain/technique.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
@@ -391,119 +392,216 @@ class _SegmentRowState extends State<_SegmentRow> {
     final dropdownValue =
         _isCustomLabel ? 'Custom...' : widget.segment.label;
 
+    final comboCategories = widget.segment.comboCategories ?? [];
+
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       color: AppColors.raisedSurface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Drag handle — 48dp
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: Icon(
-                Icons.drag_handle,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Drag handle — 48dp
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: Icon(
+                    Icons.drag_handle,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
 
-            // Label column
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                // Label column
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Color dot (tap to pick)
-                      _ColorChip(
-                        colorKey: widget.segment.color,
-                        onChanged: (c) => widget.onChanged(
-                          widget.segment.copyWith(color: c),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      // Label dropdown
-                      Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            value: dropdownValue,
-                            isExpanded: true,
-                            isDense: true,
-                            style: theme.textTheme.bodyMedium,
-                            dropdownColor: AppColors.raisedSurface,
-                            items: _kSegmentLabels
-                                .map(
-                                  (l) => DropdownMenuItem(
-                                    value: l,
-                                    child: Text(l),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: _onDropdownChanged,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Color dot (tap to pick)
+                          _ColorChip(
+                            colorKey: widget.segment.color,
+                            onChanged: (c) => widget.onChanged(
+                              widget.segment.copyWith(color: c),
+                            ),
                           ),
-                        ),
+                          const SizedBox(width: 8),
+                          // Label dropdown
+                          Expanded(
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: dropdownValue,
+                                isExpanded: true,
+                                isDense: true,
+                                style: theme.textTheme.bodyMedium,
+                                dropdownColor: AppColors.raisedSurface,
+                                items: _kSegmentLabels
+                                    .map(
+                                      (l) => DropdownMenuItem(
+                                        value: l,
+                                        child: Text(l),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: _onDropdownChanged,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      // Freeform text field shown only for custom labels
+                      if (_isCustomLabel) ...[
+                        const SizedBox(height: 6),
+                        TextField(
+                          controller: _customLabelController,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter label',
+                            isDense: true,
+                            border: OutlineInputBorder(),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          ),
+                          textCapitalization: TextCapitalization.words,
+                          onChanged: (v) {
+                            if (v.trim().isNotEmpty) {
+                              widget.onChanged(
+                                widget.segment.copyWith(label: v.trim()),
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ],
                   ),
-                  // Freeform text field shown only for custom labels
-                  if (_isCustomLabel) ...[
-                    const SizedBox(height: 6),
-                    TextField(
-                      controller: _customLabelController,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter label',
-                        isDense: true,
-                        border: OutlineInputBorder(),
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                      ),
-                      textCapitalization: TextCapitalization.words,
-                      onChanged: (v) {
-                        if (v.trim().isNotEmpty) {
-                          widget.onChanged(
-                            widget.segment.copyWith(label: v.trim()),
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                ],
-              ),
-            ),
-
-            const SizedBox(width: 4),
-
-            // Duration stepper (±5s)
-            _DurationStepper(
-              durationSec: widget.segment.durationSec,
-              onDecrement: () => _changeDuration(-5),
-              onIncrement: () => _changeDuration(5),
-            ),
-
-            // Delete button — 48dp, disabled when only 1 segment
-            SizedBox(
-              width: 48,
-              height: 48,
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                icon: Icon(
-                  Icons.close,
-                  color: widget.canDelete
-                      ? theme.colorScheme.error
-                      : theme.colorScheme.onSurface.withAlpha(50),
                 ),
-                onPressed: widget.canDelete ? widget.onDelete : null,
-                tooltip: 'Remove segment',
+
+                const SizedBox(width: 4),
+
+                // Duration stepper (±5s)
+                _DurationStepper(
+                  durationSec: widget.segment.durationSec,
+                  onDecrement: () => _changeDuration(-5),
+                  onIncrement: () => _changeDuration(5),
+                ),
+
+                // Delete button — 48dp, disabled when only 1 segment
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: Icon(
+                      Icons.close,
+                      color: widget.canDelete
+                          ? theme.colorScheme.error
+                          : theme.colorScheme.onSurface.withAlpha(50),
+                    ),
+                    onPressed: widget.canDelete ? widget.onDelete : null,
+                    tooltip: 'Remove segment',
+                  ),
+                ),
+              ],
+            ),
+
+            // Technique category filter
+            Padding(
+              padding: const EdgeInsets.only(left: 48, right: 4),
+              child: _TechniqueCategoryFilter(
+                selected: comboCategories,
+                onChanged: (categories) {
+                  widget.onChanged(widget.segment.copyWith(
+                    comboCategories: categories.isEmpty ? null : categories,
+                  ));
+                },
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Technique category filter
+// ---------------------------------------------------------------------------
+
+/// Categories available for filtering. We exclude [TechniqueCategory.other]
+/// because it has no meaningful training purpose.
+const _kFilterableCategories = [
+  TechniqueCategory.punch,
+  TechniqueCategory.defense,
+  TechniqueCategory.footwork,
+  TechniqueCategory.kick,
+  TechniqueCategory.elbow,
+  TechniqueCategory.knee,
+  TechniqueCategory.grappling,
+];
+
+class _TechniqueCategoryFilter extends StatelessWidget {
+  final List<String> selected;
+  final ValueChanged<List<String>> onChanged;
+
+  const _TechniqueCategoryFilter({
+    required this.selected,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final label = selected.isEmpty
+        ? 'All techniques'
+        : '${selected.length} ${selected.length == 1 ? 'category' : 'categories'}';
+
+    return ExpansionTile(
+      title: Text(
+        label,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+      tilePadding: EdgeInsets.zero,
+      childrenPadding: const EdgeInsets.only(bottom: 8),
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      leading: Icon(
+        Icons.filter_list,
+        size: 16,
+        color: theme.colorScheme.onSurfaceVariant,
+      ),
+      children: [
+        Wrap(
+          spacing: 6,
+          runSpacing: 4,
+          children: _kFilterableCategories.map((category) {
+            final name = category.name;
+            final isSelected = selected.contains(name);
+            return FilterChip(
+              label: Text(name),
+              selected: isSelected,
+              visualDensity: VisualDensity.compact,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              onSelected: (toggled) {
+                final updated = List<String>.from(selected);
+                if (toggled) {
+                  updated.add(name);
+                } else {
+                  updated.remove(name);
+                }
+                onChanged(updated);
+              },
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }

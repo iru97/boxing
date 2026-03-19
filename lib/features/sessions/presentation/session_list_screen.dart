@@ -15,6 +15,9 @@ import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
 import 'package:boxing/features/ads/presentation/widgets/banner_ad_widget.dart';
 import 'package:boxing/features/timer/domain/timer_checkpoint.dart';
 import 'package:boxing/features/timer/presentation/checkpoint_controller.dart';
+import 'package:boxing/features/programs/presentation/programs_controller.dart';
+import 'package:boxing/features/programs/domain/training_program.dart';
+import 'package:boxing/features/programs/domain/program_progress.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
 class SessionListScreen extends ConsumerWidget {
@@ -142,6 +145,10 @@ class SessionListScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                   ],
+
+                  // Active programs + browse shortcut
+                  _ProgramsHomeSection(),
+                  const SizedBox(height: 16),
 
                   // Custom sessions section
                   if (custom.isNotEmpty) ...[
@@ -374,6 +381,159 @@ class SessionListScreen extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Programs home section – active programs + browse button
+// ---------------------------------------------------------------------------
+
+class _ProgramsHomeSection extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final activePrograms = ref.watch(activeProgramsProvider);
+    final controller = ref.watch(programsControllerProvider);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Active programs shortcuts
+        if (activePrograms.isNotEmpty) ...[
+          _SectionHeader(
+            label: 'Programs',
+            color: AppColors.brandRed,
+            icon: Icons.fitness_center,
+          ),
+          const SizedBox(height: 8),
+          for (final (program, progress) in activePrograms) ...[
+            _ActiveProgramCard(
+              program: program,
+              progress: progress,
+              nextDay: controller.nextIncompleteDay(program, progress),
+              onTap: () => context.push('/programs/${program.id}'),
+              onContinue: (weekNum, dayNum) {
+                context.push(
+                  '/programs/${program.id}/day/w${weekNum}d$dayNum',
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+          ],
+          const SizedBox(height: 8),
+        ],
+
+        // Browse all programs button
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            icon: const Icon(Icons.explore, size: 18),
+            label: Text(
+              activePrograms.isEmpty ? 'Training Programs' : 'Browse All Programs',
+            ),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white.withValues(alpha: 0.7),
+              side: BorderSide(
+                color: Colors.white.withValues(alpha: 0.15),
+              ),
+              minimumSize: const Size.fromHeight(44),
+            ),
+            onPressed: () => context.push('/programs'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ActiveProgramCard extends StatelessWidget {
+  final TrainingProgram program;
+  final ProgramProgress progress;
+  final (int, int)? nextDay;
+  final VoidCallback onTap;
+  final void Function(int weekNum, int dayNum) onContinue;
+
+  const _ActiveProgramCard({
+    required this.program,
+    required this.progress,
+    required this.nextDay,
+    required this.onTap,
+    required this.onContinue,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final sport = Sport.fromId(program.sport);
+    final sportColor = sport?.color ?? SportColors.boxing;
+    final completionPct = progress.completionPercentage(program.totalDays);
+
+    return Card(
+      color: AppColors.cardSurface,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              // Progress circle
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      value: completionPct,
+                      strokeWidth: 3,
+                      backgroundColor: AppColors.divider,
+                      valueColor: AlwaysStoppedAnimation(sportColor),
+                    ),
+                    Text(
+                      '${(completionPct * 100).round()}%',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: sportColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+
+              // Program info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      program.name,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    if (nextDay != null)
+                      Text(
+                        'Next: Week ${nextDay!.$1}, Day ${nextDay!.$2}',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.white.withValues(alpha: 0.4),
+                            ),
+                      ),
+                  ],
+                ),
+              ),
+
+              // Continue button
+              if (nextDay != null)
+                IconButton(
+                  icon: Icon(Icons.play_circle_fill,
+                      color: sportColor, size: 28),
+                  onPressed: () => onContinue(nextDay!.$1, nextDay!.$2),
+                  tooltip: 'Continue',
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }

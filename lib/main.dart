@@ -17,6 +17,7 @@ import 'package:boxing/features/history/presentation/history_controller.dart';
 import 'package:boxing/features/sessions/presentation/template_controller.dart';
 import 'package:boxing/features/timer/presentation/checkpoint_controller.dart';
 import 'package:boxing/features/timer/presentation/timer_controller.dart';
+import 'package:boxing/features/programs/presentation/programs_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +37,8 @@ Future<void> main() async {
       await Hive.openBox<String>(AppConstants.historyBoxName);
   final checkpointBox =
       await Hive.openBox<String>(AppConstants.checkpointBoxName);
+  final programProgressBox =
+      await Hive.openBox<String>(AppConstants.programProgressBoxName);
 
   // Initialize audio service for background playback
   final audioService = BoxingAudioService();
@@ -77,6 +80,7 @@ Future<void> main() async {
         templateBoxProvider.overrideWithValue(templatesBox),
         historyBoxProvider.overrideWithValue(historyBox),
         checkpointBoxProvider.overrideWithValue(checkpointBox),
+        programProgressBoxProvider.overrideWithValue(programProgressBox),
         audioServiceProvider.overrideWithValue(audioService),
         voiceServiceProvider.overrideWithValue(voiceService),
         adServiceProvider.overrideWithValue(adService),

@@ -31,16 +31,31 @@ import 'package:boxing/features/timer/presentation/widgets/round_indicator.dart'
 import 'package:boxing/features/timer/presentation/widgets/timer_controls.dart';
 import 'package:boxing/features/history/presentation/history_controller.dart';
 import 'package:boxing/features/timer/presentation/checkpoint_controller.dart';
+import 'package:boxing/features/programs/presentation/programs_controller.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
 class TimerScreen extends ConsumerStatefulWidget {
   final String sessionId;
   final bool resumeFromCheckpoint;
 
+  /// Optional pre-resolved session (used for program workouts that are not
+  /// stored in the session repository).
+  final SessionModel? sessionOverride;
+
+  /// When this workout belongs to a training program, these fields allow
+  /// the timer to mark the program day as complete on session finish.
+  final String? programId;
+  final int? programWeekNum;
+  final int? programDayNum;
+
   const TimerScreen({
     super.key,
     required this.sessionId,
     this.resumeFromCheckpoint = false,
+    this.sessionOverride,
+    this.programId,
+    this.programWeekNum,
+    this.programDayNum,
   });
 
   @override
@@ -51,12 +66,15 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   SessionModel? _session;
   bool _started = false;
   bool _recordSaved = false;
+  bool _programDayMarked = false;
   TimerLifecycleService? _lifecycleService;
   StreamSubscription<ComboCallout>? _comboSubscription;
 
   @override
   void initState() {
     super.initState();
+    // Pre-set session from override (program workouts)
+    _session = widget.sessionOverride;
     if (widget.resumeFromCheckpoint) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _resumeSession());
     }
@@ -400,6 +418,19 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
         totalRounds: timerState.totalRounds,
         completedFully: true,
       );
+
+      // Mark program day as complete if this is a program workout
+      if (!_programDayMarked &&
+          widget.programId != null &&
+          widget.programWeekNum != null &&
+          widget.programDayNum != null) {
+        _programDayMarked = true;
+        ref.read(programsControllerProvider).completeDay(
+              widget.programId!,
+              widget.programWeekNum!,
+              widget.programDayNum!,
+            );
+      }
     }
 
     final settings = ref.watch(appSettingsProvider);

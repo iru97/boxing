@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:boxing/core/constants/app_constants.dart';
+import 'package:boxing/core/constants/sport.dart';
 import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
@@ -36,6 +38,11 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
   int _warmupDurationSec = 0;
   bool _autoAdvance = true;
   bool _keepScreenOn = true;
+  bool _voiceAnnounce = false;
+  bool _volumeOverride = false;
+  String? _sport;
+  String? _category;
+  String _soundPack = 'classic_bell';
   RoundTemplate? _roundTemplate;
   Map<int, RoundTemplate> _roundTemplateOverrides = {};
   bool _perRoundMode = false;
@@ -62,6 +69,7 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
     _warmupDurationSec = settings.defaultWarmupSec;
     _autoAdvance = settings.defaultAutoAdvance;
     _keepScreenOn = settings.defaultKeepScreenOn;
+    _soundPack = settings.defaultSoundPack;
   }
 
   void _loadSession() {
@@ -78,6 +86,11 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
         _warmupDurationSec = session.warmupDurationSec;
         _autoAdvance = session.autoAdvance;
         _keepScreenOn = session.keepScreenOn;
+        _voiceAnnounce = session.voiceAnnounce;
+        _volumeOverride = session.volumeOverride;
+        _sport = session.sport;
+        _category = session.category;
+        _soundPack = session.soundPack;
         _roundTemplate = session.roundTemplate;
         _roundTemplateOverrides = Map.of(session.roundTemplateOverrides);
         _perRoundMode = session.roundTemplateOverrides.isNotEmpty;
@@ -98,6 +111,12 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
   void dispose() {
     _nameController.dispose();
     super.dispose();
+  }
+
+  void _persistTemplateIfNeeded(RoundTemplate template) {
+    if (!template.isPreset) {
+      ref.read(templatesControllerProvider).saveTemplate(template);
+    }
   }
 
   int get _totalDurationSec {
@@ -131,6 +150,11 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
       warmupDurationSec: _warmupDurationSec,
       autoAdvance: _autoAdvance,
       keepScreenOn: _keepScreenOn,
+      voiceAnnounce: _voiceAnnounce,
+      volumeOverride: _volumeOverride,
+      sport: _sport,
+      category: _category,
+      soundPack: _soundPack,
       roundTemplate: _perRoundMode ? null : _roundTemplate,
       roundTemplateOverrides: _perRoundMode ? _roundTemplateOverrides : {},
       comboConfig: _comboConfig.enabled ? _comboConfig : null,
@@ -190,6 +214,20 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
             ),
             const SizedBox(height: 16),
 
+            // Sport / Category selector
+            _SportCategorySelector(
+              sport: _sport,
+              category: _category,
+              onSportChanged: (value) => setState(() {
+                _sport = value;
+                // Clear category when sport changes
+                _category = null;
+              }),
+              onCategoryChanged: (value) =>
+                  setState(() => _category = value),
+            ),
+            const SizedBox(height: 16),
+
             // Rounds stepper
             _StepperField(
               label: S.of(context).labelRounds,
@@ -231,6 +269,7 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
                 _roundTemplate = template;
                 if (template != null) {
                   _roundDurationSec = template.totalDurationSec;
+                  _persistTemplateIfNeeded(template);
                 }
               }),
               onOverrideChanged: (round, template) => setState(() {
@@ -241,6 +280,7 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
                     ..._roundTemplateOverrides,
                     round: template,
                   };
+                  _persistTemplateIfNeeded(template);
                 }
               }),
               onApplyTemplateToAll: (template) => setState(() {
@@ -288,6 +328,13 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
             ),
             const SizedBox(height: 16),
 
+            // Sound pack picker
+            _SoundPackSelector(
+              selectedPack: _soundPack,
+              onChanged: (pack) => setState(() => _soundPack = pack),
+            ),
+            const SizedBox(height: 16),
+
             // Switches
             SwitchListTile(
               title: Text(S.of(context).labelAutoAdvance),
@@ -300,6 +347,19 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
               subtitle: Text(S.of(context).descriptionKeepScreenOn),
               value: _keepScreenOn,
               onChanged: (v) => setState(() => _keepScreenOn = v),
+            ),
+            SwitchListTile(
+              title: const Text('Voice Announcements'),
+              subtitle: const Text('Announce round numbers by voice'),
+              value: _voiceAnnounce,
+              onChanged: (v) => setState(() => _voiceAnnounce = v),
+            ),
+            SwitchListTile(
+              title: const Text('Volume Override'),
+              subtitle: const Text(
+                  'Use alarm channel for louder audio (ignores silent mode)'),
+              value: _volumeOverride,
+              onChanged: (v) => setState(() => _volumeOverride = v),
             ),
 
             const SizedBox(height: 16),
@@ -613,9 +673,14 @@ class _PerRoundList extends StatelessWidget {
       current: null,
       title: S.of(context).applyToAllRounds,
     );
-    if (picked != null) {
-      // Special sentinel: picked == _kSimple means clear template
-      onApplyTemplateToAll(picked == _kSimpleSentinel ? null : picked);
+    if (picked == _kCustomSentinel) {
+      if (!context.mounted) return;
+      final result = await SegmentEditorSheet.show(context);
+      if (result != null) onApplyTemplateToAll(result);
+    } else if (picked == _kSimpleSentinel) {
+      onApplyTemplateToAll(null);
+    } else if (picked != null) {
+      onApplyTemplateToAll(picked);
     }
   }
 }
@@ -705,8 +770,14 @@ class _RoundRow extends StatelessWidget {
       current: template,
       title: S.of(context).roundNLabel(round),
     );
-    if (picked != null) {
-      onChanged(picked == _kSimpleSentinel ? null : picked);
+    if (picked == _kCustomSentinel) {
+      if (!context.mounted) return;
+      final result = await SegmentEditorSheet.show(context);
+      if (result != null) onChanged(result);
+    } else if (picked == _kSimpleSentinel) {
+      onChanged(null);
+    } else if (picked != null) {
+      onChanged(picked);
     }
   }
 }
@@ -719,6 +790,14 @@ class _RoundRow extends StatelessWidget {
 final _kSimpleSentinel = RoundTemplate(
   id: '__simple__',
   name: 'Simple',
+  segments: const [],
+);
+
+/// Sentinel value returned from the picker to indicate "+ Custom" was tapped.
+/// The caller is responsible for opening the segment editor.
+final _kCustomSentinel = RoundTemplate(
+  id: '__custom__',
+  name: 'Custom',
   segments: const [],
 );
 
@@ -778,20 +857,12 @@ class _TemplatePickerDialog extends StatelessWidget {
                   isSelected: current?.id == tpl.id,
                   onTap: () => Navigator.of(context).pop(tpl),
                 )),
-            // + Custom entry
+            // + Custom entry — pops with sentinel; caller opens segment editor
             _PickerTile(
               label: '+ ${S.of(context).templateCreateCustom}',
               subtitle: S.of(context).segmentEditorTitle,
               isSelected: false,
-              onTap: () async {
-                Navigator.of(context).pop(); // close dialog first
-                final result = await SegmentEditorSheet.show(context);
-                if (result != null && context.mounted) {
-                  // Return through a second pop is not possible here since
-                  // dialog is already closed; caller handles this via the
-                  // ActionChip path on the main screen.
-                }
-              },
+              onTap: () => Navigator.of(context).pop(_kCustomSentinel),
               leadingIcon: Icons.add,
             ),
           ],
@@ -919,6 +990,179 @@ class _TemplatePreviewCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sport / Category Selector
+// ---------------------------------------------------------------------------
+
+/// Chip-based selector for sport and training category.
+///
+/// Displays all [Sport] enum values as [ChoiceChip]s plus a "None" chip to
+/// clear the selection. When a sport is active, a second row of category chips
+/// appears below.
+class _SportCategorySelector extends StatelessWidget {
+  final String? sport;
+  final String? category;
+  final ValueChanged<String?> onSportChanged;
+  final ValueChanged<String?> onCategoryChanged;
+
+  const _SportCategorySelector({
+    required this.sport,
+    required this.category,
+    required this.onSportChanged,
+    required this.onCategoryChanged,
+  });
+
+  static const _categories = [
+    ('competition', 'Competition'),
+    ('training', 'Training'),
+    ('drills', 'Drills'),
+    ('conditioning', 'Conditioning'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final activeSport = Sport.fromId(sport);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Sport', style: theme.textTheme.titleMedium),
+        const SizedBox(height: 8),
+
+        // Sport chips
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            // None chip
+            ChoiceChip(
+              label: const Text('None'),
+              selected: sport == null,
+              onSelected: (_) => onSportChanged(null),
+            ),
+            // One chip per sport
+            ...Sport.values.map((s) {
+              final isSelected = sport == s.id;
+              return ChoiceChip(
+                avatar: Icon(
+                  s.icon,
+                  size: 16,
+                  color: isSelected ? Colors.black : s.color,
+                ),
+                label: Text(s.label),
+                selected: isSelected,
+                selectedColor: s.color,
+                onSelected: (_) => onSportChanged(s.id),
+              );
+            }),
+          ],
+        ),
+
+        // Category chips — only shown when a sport is selected
+        if (activeSport != null) ...[
+          const SizedBox(height: 12),
+          Text('Category', style: theme.textTheme.titleSmall),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _categories.map((entry) {
+              final (id, label) = entry;
+              final isSelected = category == id;
+              return ChoiceChip(
+                label: Text(label),
+                selected: isSelected,
+                selectedColor: activeSport.color.withAlpha(204),
+                onSelected: (_) =>
+                    onCategoryChanged(isSelected ? null : id),
+              );
+            }).toList(),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sound Pack Selector
+// ---------------------------------------------------------------------------
+
+/// Chip-based selector for sound pack with an inline preview button.
+///
+/// Three packs are available. The preview button plays `round_start.wav` from
+/// the selected pack so the user can audition sounds without leaving the editor.
+class _SoundPackSelector extends StatelessWidget {
+  final String selectedPack;
+  final ValueChanged<String> onChanged;
+
+  const _SoundPackSelector({
+    required this.selectedPack,
+    required this.onChanged,
+  });
+
+  static const _packs = [
+    ('classic_bell', 'Classic Bell'),
+    ('digital_buzzer', 'Digital Buzzer'),
+    ('minimal_beep', 'Minimal Beep'),
+  ];
+
+  Future<void> _preview() async {
+    final player = AudioPlayer();
+    try {
+      await player.setAsset(
+          'assets/sounds/$selectedPack/round_start.wav');
+      await player.play();
+    } finally {
+      await player.dispose();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Sound Pack', style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 8),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Pack chips — scrollable if needed
+            Expanded(
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: _packs.map((entry) {
+                  final (id, label) = entry;
+                  return ChoiceChip(
+                    label: Text(label),
+                    selected: selectedPack == id,
+                    onSelected: (_) => onChanged(id),
+                  );
+                }).toList(),
+              ),
+            ),
+
+            // Preview button — 64dp touch target
+            SizedBox(
+              width: 64,
+              height: 64,
+              child: IconButton(
+                icon: const Icon(Icons.play_arrow),
+                tooltip: 'Preview sound',
+                iconSize: 28,
+                onPressed: _preview,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
