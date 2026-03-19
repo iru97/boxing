@@ -14,12 +14,14 @@ class RoundTemplates {
           label: 'Offense',
           durationSec: 120,
           color: 'work',
-          audioCue: 'bell_single'),
+          audioCue: 'bell_single',
+          comboCategories: ['punch']),
       RoundSegment(
           label: 'Defense',
           durationSec: 60,
           color: 'warning',
-          audioCue: 'bell_double'),
+          audioCue: 'bell_double',
+          comboCategories: ['defense']),
     ],
     repeatCount: 1, // 3 min total
   );
@@ -104,12 +106,14 @@ class RoundTemplates {
           label: 'Left Kicks',
           durationSec: 90,
           color: 'work',
-          audioCue: 'bell_single'),
+          audioCue: 'bell_single',
+          comboCategories: ['kick']),
       RoundSegment(
           label: 'Right Kicks',
           durationSec: 90,
           color: 'warning',
-          audioCue: 'bell_double'),
+          audioCue: 'bell_double',
+          comboCategories: ['kick']),
     ],
     repeatCount: 1, // 3:00 total
   );
@@ -123,12 +127,14 @@ class RoundTemplates {
           label: 'Clinch',
           durationSec: 120,
           color: 'work',
-          audioCue: 'bell_single'),
+          audioCue: 'bell_single',
+          comboCategories: ['grappling']),
       RoundSegment(
           label: 'Knee Barrage',
           durationSec: 60,
           color: 'warning',
-          audioCue: 'bell_double'),
+          audioCue: 'bell_double',
+          comboCategories: ['knee']),
     ],
     repeatCount: 1, // 3:00 total
   );
@@ -142,12 +148,14 @@ class RoundTemplates {
           label: 'Combos',
           durationSec: 90,
           color: 'work',
-          audioCue: 'bell_single'),
+          audioCue: 'bell_single',
+          comboCategories: ['punch', 'kick']),
       RoundSegment(
           label: 'Elbows',
           durationSec: 90,
           color: 'warning',
-          audioCue: 'bell_double'),
+          audioCue: 'bell_double',
+          comboCategories: ['elbow']),
     ],
     repeatCount: 1, // 3:00 total
   );
@@ -272,12 +280,14 @@ class RoundTemplates {
           label: 'Boxing Combos',
           durationSec: 90,
           color: 'work',
-          audioCue: 'bell_single'),
+          audioCue: 'bell_single',
+          comboCategories: ['punch']),
       RoundSegment(
           label: 'Kick Combos',
           durationSec: 90,
           color: 'warning',
-          audioCue: 'bell_double'),
+          audioCue: 'bell_double',
+          comboCategories: ['kick']),
     ],
     repeatCount: 1, // 3:00 total
   );

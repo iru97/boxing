@@ -7,6 +7,10 @@ import 'package:boxing/features/combos/data/technique_library.dart';
 import 'package:boxing/features/timer/presentation/timer_controller.dart';
 
 /// Provides the filtered combo pool based on the active session's config.
+///
+/// Uses cumulative difficulty: intermediate includes beginner combos,
+/// advanced includes beginner + intermediate. This gives larger pools
+/// at higher difficulties while maintaining progression feel.
 final filteredCombosProvider = Provider.family<List<Combo>, ComboCalloutConfig>((ref, config) {
   final sport = ComboSport.values.firstWhere(
     (s) => s.name == config.sport,
@@ -17,7 +21,7 @@ final filteredCombosProvider = Provider.family<List<Combo>, ComboCalloutConfig>(
     orElse: () => ComboDifficulty.beginner,
   );
 
-  var combos = ComboLibrary.filtered(sport: sport, difficulty: difficulty);
+  var combos = ComboLibrary.filteredCumulative(sport: sport, maxDifficulty: difficulty);
 
   // Add defense combos if enabled
   if (config.includeDefense) {

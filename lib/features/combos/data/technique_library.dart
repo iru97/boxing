@@ -296,29 +296,161 @@ class TechniqueLibrary {
       id: 'clinch',
       displayText: 'CL',
       ttsText: {'en': 'Clinch', 'es': 'Clinch', 'pt': 'Clinch'},
-      category: TechniqueCategory.other,
+      category: TechniqueCategory.grappling,
     ),
 
     // ---------------------------------------------------------------
-    // MMA (3)
+    // MMA / Grappling
     // ---------------------------------------------------------------
     'level_change': Technique(
       id: 'level_change',
       displayText: 'LC',
       ttsText: {'en': 'Level change', 'es': 'Cambio de nivel', 'pt': 'Mudanca de nivel'},
-      category: TechniqueCategory.other,
+      category: TechniqueCategory.grappling,
     ),
     'sprawl': Technique(
       id: 'sprawl',
       displayText: 'SP',
       ttsText: {'en': 'Sprawl', 'es': 'Sprawl', 'pt': 'Sprawl'},
-      category: TechniqueCategory.other,
+      category: TechniqueCategory.grappling,
     ),
     'superman': Technique(
       id: 'superman',
       displayText: 'SM',
       ttsText: {'en': 'Superman punch', 'es': 'Golpe superman', 'pt': 'Soco superman'},
-      category: TechniqueCategory.other,
+      category: TechniqueCategory.punch,
+    ),
+    'takedown': Technique(
+      id: 'takedown',
+      displayText: 'TD',
+      ttsText: {'en': 'Takedown', 'es': 'Derribo', 'pt': 'Queda'},
+      category: TechniqueCategory.grappling,
+    ),
+    'single_leg': Technique(
+      id: 'single_leg',
+      displayText: 'SL',
+      ttsText: {'en': 'Single leg', 'es': 'Una pierna', 'pt': 'Uma perna'},
+      category: TechniqueCategory.grappling,
+    ),
+    'double_leg': Technique(
+      id: 'double_leg',
+      displayText: 'DL',
+      ttsText: {'en': 'Double leg', 'es': 'Dos piernas', 'pt': 'Duas pernas'},
+      category: TechniqueCategory.grappling,
+    ),
+    'clinch_break': Technique(
+      id: 'clinch_break',
+      displayText: 'CB',
+      ttsText: {'en': 'Break clinch', 'es': 'Romper clinch', 'pt': 'Quebrar clinch'},
+      category: TechniqueCategory.grappling,
+    ),
+    'overhand': Technique(
+      id: 'overhand',
+      displayText: 'OH',
+      ttsText: {'en': 'Overhand', 'es': 'Overhand', 'pt': 'Overhand'},
+      category: TechniqueCategory.punch,
+    ),
+    'ground_strike': Technique(
+      id: 'ground_strike',
+      displayText: 'GS',
+      ttsText: {'en': 'Ground strikes', 'es': 'Golpes al suelo', 'pt': 'Golpes no chao'},
+      category: TechniqueCategory.punch,
+    ),
+
+    // ---------------------------------------------------------------
+    // Kickboxing extras
+    // ---------------------------------------------------------------
+    'spinning_back_kick': Technique(
+      id: 'spinning_back_kick',
+      displayText: 'SBK',
+      ttsText: {'en': 'Spinning back kick', 'es': 'Patada giratoria', 'pt': 'Chute giratório'},
+      category: TechniqueCategory.kick,
+    ),
+    'axe_kick': Technique(
+      id: 'axe_kick',
+      displayText: 'AK',
+      ttsText: {'en': 'Axe kick', 'es': 'Patada hacha', 'pt': 'Chute machado'},
+      category: TechniqueCategory.kick,
+    ),
+    'check': Technique(
+      id: 'check',
+      displayText: 'CK',
+      ttsText: {'en': 'Check', 'es': 'Bloquear patada', 'pt': 'Checar chute'},
+      category: TechniqueCategory.defense,
+    ),
+
+    // ---------------------------------------------------------------
+    // Muay Thai extras
+    // ---------------------------------------------------------------
+    'spinning_elbow': Technique(
+      id: 'spinning_elbow',
+      displayText: 'SE',
+      ttsText: {'en': 'Spinning elbow', 'es': 'Codo giratorio', 'pt': 'Cotovelada giratória'},
+      category: TechniqueCategory.elbow,
+    ),
+    'diagonal_knee': Technique(
+      id: 'diagonal_knee',
+      displayText: 'DK',
+      ttsText: {'en': 'Diagonal knee', 'es': 'Rodilla diagonal', 'pt': 'Joelhada diagonal'},
+      category: TechniqueCategory.knee,
+    ),
+
+    // ---------------------------------------------------------------
+    // Wrestling
+    // ---------------------------------------------------------------
+    'shot': Technique(
+      id: 'shot',
+      displayText: 'SH',
+      ttsText: {'en': 'Shoot', 'es': 'Entrada', 'pt': 'Entrada'},
+      category: TechniqueCategory.grappling,
+    ),
+    'snap_down': Technique(
+      id: 'snap_down',
+      displayText: 'SD',
+      ttsText: {'en': 'Snap down', 'es': 'Tirar abajo', 'pt': 'Puxar para baixo'},
+      category: TechniqueCategory.grappling,
+    ),
+    'duck_under': Technique(
+      id: 'duck_under',
+      displayText: 'DU',
+      ttsText: {'en': 'Duck under', 'es': 'Pasar por debajo', 'pt': 'Passar por baixo'},
+      category: TechniqueCategory.grappling,
+    ),
+    'front_headlock': Technique(
+      id: 'front_headlock',
+      displayText: 'FH',
+      ttsText: {'en': 'Front headlock', 'es': 'Guillotina frontal', 'pt': 'Guilhotina frontal'},
+      category: TechniqueCategory.grappling,
+    ),
+    'stand_up': Technique(
+      id: 'stand_up',
+      displayText: 'SU',
+      ttsText: {'en': 'Stand up', 'es': 'Levantarse', 'pt': 'Levantar'},
+      category: TechniqueCategory.grappling,
+    ),
+    'switch_wr': Technique(
+      id: 'switch_wr',
+      displayText: 'SW',
+      ttsText: {'en': 'Switch', 'es': 'Cambiar', 'pt': 'Trocar'},
+      category: TechniqueCategory.grappling,
+    ),
+    'sit_out': Technique(
+      id: 'sit_out',
+      displayText: 'SO',
+      ttsText: {'en': 'Sit out', 'es': 'Salida lateral', 'pt': 'Saída lateral'},
+      category: TechniqueCategory.grappling,
+    ),
+    'ankle_pick': Technique(
+      id: 'ankle_pick',
+      displayText: 'AP',
+      ttsText: {'en': 'Ankle pick', 'es': 'Tomar tobillo', 'pt': 'Pegar tornozelo'},
+      category: TechniqueCategory.grappling,
+    ),
+    'arm_drag': Technique(
+      id: 'arm_drag',
+      displayText: 'AD',
+      ttsText: {'en': 'Arm drag', 'es': 'Arrastre de brazo', 'pt': 'Arrasto de braco'},
+      category: TechniqueCategory.grappling,
     ),
   };
 }

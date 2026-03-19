@@ -25,7 +25,12 @@ mixin _$RoundSegment {
   int get durationSec => throw _privateConstructorUsedError;
   String get audioCue =>
       throw _privateConstructorUsedError; // '' | 'bell_single' | 'bell_double' | 'whistle'
-  String get color => throw _privateConstructorUsedError;
+  String get color =>
+      throw _privateConstructorUsedError; // 'work' | 'rest' | 'warning' | 'warmup'
+  /// Optional technique category filter for segment-aware combo callouts.
+  /// When set, only combos whose techniques match these categories are used.
+  /// e.g. ['kick'] for kick-only segments, ['punch'] for boxing-only segments.
+  List<String>? get comboCategories => throw _privateConstructorUsedError;
 
   /// Serializes this RoundSegment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +49,13 @@ abstract class $RoundSegmentCopyWith<$Res> {
     $Res Function(RoundSegment) then,
   ) = _$RoundSegmentCopyWithImpl<$Res, RoundSegment>;
   @useResult
-  $Res call({String label, int durationSec, String audioCue, String color});
+  $Res call({
+    String label,
+    int durationSec,
+    String audioCue,
+    String color,
+    List<String>? comboCategories,
+  });
 }
 
 /// @nodoc
@@ -66,6 +77,7 @@ class _$RoundSegmentCopyWithImpl<$Res, $Val extends RoundSegment>
     Object? durationSec = null,
     Object? audioCue = null,
     Object? color = null,
+    Object? comboCategories = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -89,6 +101,11 @@ class _$RoundSegmentCopyWithImpl<$Res, $Val extends RoundSegment>
                     ? _value.color
                     : color // ignore: cast_nullable_to_non_nullable
                         as String,
+            comboCategories:
+                freezed == comboCategories
+                    ? _value.comboCategories
+                    : comboCategories // ignore: cast_nullable_to_non_nullable
+                        as List<String>?,
           )
           as $Val,
     );
@@ -104,7 +121,13 @@ abstract class _$$RoundSegmentImplCopyWith<$Res>
   ) = __$$RoundSegmentImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String label, int durationSec, String audioCue, String color});
+  $Res call({
+    String label,
+    int durationSec,
+    String audioCue,
+    String color,
+    List<String>? comboCategories,
+  });
 }
 
 /// @nodoc
@@ -125,6 +148,7 @@ class __$$RoundSegmentImplCopyWithImpl<$Res>
     Object? durationSec = null,
     Object? audioCue = null,
     Object? color = null,
+    Object? comboCategories = freezed,
   }) {
     return _then(
       _$RoundSegmentImpl(
@@ -148,6 +172,11 @@ class __$$RoundSegmentImplCopyWithImpl<$Res>
                 ? _value.color
                 : color // ignore: cast_nullable_to_non_nullable
                     as String,
+        comboCategories:
+            freezed == comboCategories
+                ? _value._comboCategories
+                : comboCategories // ignore: cast_nullable_to_non_nullable
+                    as List<String>?,
       ),
     );
   }
@@ -161,7 +190,8 @@ class _$RoundSegmentImpl implements _RoundSegment {
     required this.durationSec,
     this.audioCue = '',
     this.color = 'work',
-  });
+    final List<String>? comboCategories = null,
+  }) : _comboCategories = comboCategories;
 
   factory _$RoundSegmentImpl.fromJson(Map<String, dynamic> json) =>
       _$$RoundSegmentImplFromJson(json);
@@ -177,10 +207,28 @@ class _$RoundSegmentImpl implements _RoundSegment {
   @override
   @JsonKey()
   final String color;
+  // 'work' | 'rest' | 'warning' | 'warmup'
+  /// Optional technique category filter for segment-aware combo callouts.
+  /// When set, only combos whose techniques match these categories are used.
+  /// e.g. ['kick'] for kick-only segments, ['punch'] for boxing-only segments.
+  final List<String>? _comboCategories;
+  // 'work' | 'rest' | 'warning' | 'warmup'
+  /// Optional technique category filter for segment-aware combo callouts.
+  /// When set, only combos whose techniques match these categories are used.
+  /// e.g. ['kick'] for kick-only segments, ['punch'] for boxing-only segments.
+  @override
+  @JsonKey()
+  List<String>? get comboCategories {
+    final value = _comboCategories;
+    if (value == null) return null;
+    if (_comboCategories is EqualUnmodifiableListView) return _comboCategories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'RoundSegment(label: $label, durationSec: $durationSec, audioCue: $audioCue, color: $color)';
+    return 'RoundSegment(label: $label, durationSec: $durationSec, audioCue: $audioCue, color: $color, comboCategories: $comboCategories)';
   }
 
   @override
@@ -193,13 +241,23 @@ class _$RoundSegmentImpl implements _RoundSegment {
                 other.durationSec == durationSec) &&
             (identical(other.audioCue, audioCue) ||
                 other.audioCue == audioCue) &&
-            (identical(other.color, color) || other.color == color));
+            (identical(other.color, color) || other.color == color) &&
+            const DeepCollectionEquality().equals(
+              other._comboCategories,
+              _comboCategories,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, label, durationSec, audioCue, color);
+  int get hashCode => Object.hash(
+    runtimeType,
+    label,
+    durationSec,
+    audioCue,
+    color,
+    const DeepCollectionEquality().hash(_comboCategories),
+  );
 
   /// Create a copy of RoundSegment
   /// with the given fields replaced by the non-null parameter values.
@@ -221,6 +279,7 @@ abstract class _RoundSegment implements RoundSegment {
     required final int durationSec,
     final String audioCue,
     final String color,
+    final List<String>? comboCategories,
   }) = _$RoundSegmentImpl;
 
   factory _RoundSegment.fromJson(Map<String, dynamic> json) =
@@ -233,7 +292,12 @@ abstract class _RoundSegment implements RoundSegment {
   @override
   String get audioCue; // '' | 'bell_single' | 'bell_double' | 'whistle'
   @override
-  String get color;
+  String get color; // 'work' | 'rest' | 'warning' | 'warmup'
+  /// Optional technique category filter for segment-aware combo callouts.
+  /// When set, only combos whose techniques match these categories are used.
+  /// e.g. ['kick'] for kick-only segments, ['punch'] for boxing-only segments.
+  @override
+  List<String>? get comboCategories;
 
   /// Create a copy of RoundSegment
   /// with the given fields replaced by the non-null parameter values.

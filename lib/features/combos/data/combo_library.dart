@@ -2,11 +2,12 @@ import 'package:boxing/features/combos/domain/combo_model.dart';
 
 /// Static library of all built-in combos across all supported sports.
 ///
-/// 120 combos total:
+/// 190 combos total:
 ///   Boxing:     50 (16 beginner + 18 intermediate + 16 advanced)
-///   Muay Thai:  30 (10 beginner + 12 intermediate + 8 advanced)
-///   MMA:        10
-///   Kickboxing: 10
+///   Muay Thai:  34 (10 beginner + 12 intermediate + 12 advanced)
+///   MMA:        30 (8 beginner + 12 intermediate + 10 advanced)
+///   Kickboxing: 28 (8 beginner + 12 intermediate + 8 advanced)
+///   Wrestling:  26 (8 beginner + 10 intermediate + 8 advanced)
 ///   Defense:    10
 ///   Footwork:   10
 class ComboLibrary {
@@ -119,32 +120,132 @@ class ComboLibrary {
     Combo(id: 'MT-A8', techniqueIds: ['1', '2', 'duck', 'bk', 'lead_elbow', 'rear_knee'], difficulty: ComboDifficulty.advanced, sport: ComboSport.muayThai),
 
     // =================================================================
-    // MMA (10)
+    // MMA - BEGINNER (8)
     // =================================================================
-    Combo(id: 'MMA1', techniqueIds: ['1', '2', 'lk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
-    Combo(id: 'MMA2', techniqueIds: ['1', '2', '3', 'level_change'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
-    Combo(id: 'MMA3', techniqueIds: ['1', '2', 'bk', '2', '3'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
-    Combo(id: 'MMA4', techniqueIds: ['lk', '1', 'superman'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
-    Combo(id: 'MMA5', techniqueIds: ['1', '2', '3', '2', 'lk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
-    Combo(id: 'MMA6', techniqueIds: ['teep', '1', '2', '3', 'hk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
-    Combo(id: 'MMA7', techniqueIds: ['sprawl', '2', '3', '2'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
-    Combo(id: 'MMA8', techniqueIds: ['1', '2', 'clinch', 'rear_knee', 'lead_elbow'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
-    Combo(id: 'MMA9', techniqueIds: ['1', '2', 'duck', '2', 'lk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
-    Combo(id: 'MMA10', techniqueIds: ['bk', '2', '3', 'level_change', '2'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-B1', techniqueIds: ['1', '2', 'lk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
+    Combo(id: 'MMA-B2', techniqueIds: ['1', '2', '3', 'level_change'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
+    Combo(id: 'MMA-B3', techniqueIds: ['1', '2', 'teep'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
+    Combo(id: 'MMA-B4', techniqueIds: ['lk', '1', '2'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
+    Combo(id: 'MMA-B5', techniqueIds: ['1', '2', 'bk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
+    Combo(id: 'MMA-B6', techniqueIds: ['teep', '2', '3'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
+    Combo(id: 'MMA-B7', techniqueIds: ['1', '2', '3', 'lk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
+    Combo(id: 'MMA-B8', techniqueIds: ['1', 'overhand'], difficulty: ComboDifficulty.beginner, sport: ComboSport.mma),
 
     // =================================================================
-    // KICKBOXING (10)
+    // MMA - INTERMEDIATE (12)
     // =================================================================
-    Combo(id: 'KB1', techniqueIds: ['1', '2', 'lk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
-    Combo(id: 'KB2', techniqueIds: ['1', '2', 'hk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
-    Combo(id: 'KB3', techniqueIds: ['1', '2', '3', 'bk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
-    Combo(id: 'KB4', techniqueIds: ['lk', '1', '2', '3'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
-    Combo(id: 'KB5', techniqueIds: ['1', '2', '3', '2', 'lk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
-    Combo(id: 'KB6', techniqueIds: ['2', '3', 'hk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
-    Combo(id: 'KB7', techniqueIds: ['switch_kick', '2', '3', '2'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
-    Combo(id: 'KB8', techniqueIds: ['teep', '1', '2', 'bk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
-    Combo(id: 'KB9', techniqueIds: ['1', '2', 'slip_r', '2', 'lk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
-    Combo(id: 'KB10', techniqueIds: ['1', '2', '3', 'switch_kick', '2'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+    Combo(id: 'MMA-I1', techniqueIds: ['1', '2', 'bk', '2', '3'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I2', techniqueIds: ['lk', '1', 'superman'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I3', techniqueIds: ['1', '2', '3', '2', 'lk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I4', techniqueIds: ['teep', '1', '2', '3', 'hk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I5', techniqueIds: ['sprawl', '2', '3', '2'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I6', techniqueIds: ['1', '2', 'level_change', 'takedown'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I7', techniqueIds: ['overhand', '3', 'clinch', 'rear_knee'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I8', techniqueIds: ['1', '2', 'bk', 'level_change'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I9', techniqueIds: ['lk', '2', '3', 'teep'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I10', techniqueIds: ['1', 'overhand', 'clinch'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I11', techniqueIds: ['sprawl', 'overhand', 'lk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+    Combo(id: 'MMA-I12', techniqueIds: ['1', '2', 'duck', 'bk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.mma),
+
+    // =================================================================
+    // MMA - ADVANCED (10)
+    // =================================================================
+    Combo(id: 'MMA-A1', techniqueIds: ['1', '2', 'clinch', 'rear_knee', 'lead_elbow'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A2', techniqueIds: ['1', '2', 'duck', '2', 'lk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A3', techniqueIds: ['bk', '2', '3', 'level_change', 'takedown'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A4', techniqueIds: ['sprawl', '2', '3', 'overhand', 'clinch', 'rear_knee'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A5', techniqueIds: ['1', '2', '3', 'bk', 'level_change', 'ground_strike'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A6', techniqueIds: ['teep', 'overhand', '3', 'clinch', 'lead_knee', 'lead_elbow'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A7', techniqueIds: ['lk', '1', '2', 'duck', 'takedown'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A8', techniqueIds: ['1', '2', '3', '2', 'bk', 'clinch_break', '2'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A9', techniqueIds: ['superman', '2', '3', 'level_change', 'single_leg'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+    Combo(id: 'MMA-A10', techniqueIds: ['1', '2', 'sprawl', '2', '3', 'hk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.mma),
+
+    // =================================================================
+    // KICKBOXING - BEGINNER (8)
+    // =================================================================
+    Combo(id: 'KB-B1', techniqueIds: ['1', '2', 'lk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-B2', techniqueIds: ['1', '2', 'hk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-B3', techniqueIds: ['1', '2', '3', 'bk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-B4', techniqueIds: ['teep', '1', '2'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-B5', techniqueIds: ['lk', '2', '3'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-B6', techniqueIds: ['1', '2', 'teep'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-B7', techniqueIds: ['1', 'bk'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-B8', techniqueIds: ['1', '2', 'switch_kick'], difficulty: ComboDifficulty.beginner, sport: ComboSport.kickboxing),
+
+    // =================================================================
+    // KICKBOXING - INTERMEDIATE (12)
+    // =================================================================
+    Combo(id: 'KB-I1', techniqueIds: ['lk', '1', '2', '3'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I2', techniqueIds: ['1', '2', '3', '2', 'lk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I3', techniqueIds: ['2', '3', 'hk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I4', techniqueIds: ['switch_kick', '2', '3', '2'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I5', techniqueIds: ['teep', '1', '2', 'bk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I6', techniqueIds: ['1', '2', '3', 'bk', 'lk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I7', techniqueIds: ['lk', 'lk', '1', '2'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I8', techniqueIds: ['check', '2', '3', 'lk'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I9', techniqueIds: ['1', '2', 'hk', '2'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I10', techniqueIds: ['bk', '2', '3', 'teep'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I11', techniqueIds: ['1', '2', 'switch_kick', '2', '3'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-I12', techniqueIds: ['teep', 'lk', '1', '2', '3'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.kickboxing),
+
+    // =================================================================
+    // KICKBOXING - ADVANCED (8)
+    // =================================================================
+    Combo(id: 'KB-A1', techniqueIds: ['1', '2', 'slip_r', '2', 'lk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-A2', techniqueIds: ['1', '2', '3', 'switch_kick', '2'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-A3', techniqueIds: ['lk', '1', '2', '3', 'hk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-A4', techniqueIds: ['teep', '2', '3', 'spinning_back_kick'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-A5', techniqueIds: ['1', '2', 'duck', 'bk', '2', '3'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-A6', techniqueIds: ['check', 'lk', '1', '2', '3', 'hk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-A7', techniqueIds: ['switch_kick', '1', '2', '3', 'axe_kick'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+    Combo(id: 'KB-A8', techniqueIds: ['1', '2', '3', 'bk', 'slip_l', '2', 'hk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.kickboxing),
+
+    // =================================================================
+    // WRESTLING - BEGINNER (8)
+    // =================================================================
+    Combo(id: 'WR-B1', techniqueIds: ['shot'], difficulty: ComboDifficulty.beginner, sport: ComboSport.wrestling),
+    Combo(id: 'WR-B2', techniqueIds: ['snap_down'], difficulty: ComboDifficulty.beginner, sport: ComboSport.wrestling),
+    Combo(id: 'WR-B3', techniqueIds: ['stand_up'], difficulty: ComboDifficulty.beginner, sport: ComboSport.wrestling),
+    Combo(id: 'WR-B4', techniqueIds: ['switch_wr'], difficulty: ComboDifficulty.beginner, sport: ComboSport.wrestling),
+    Combo(id: 'WR-B5', techniqueIds: ['sit_out'], difficulty: ComboDifficulty.beginner, sport: ComboSport.wrestling),
+    Combo(id: 'WR-B6', techniqueIds: ['single_leg'], difficulty: ComboDifficulty.beginner, sport: ComboSport.wrestling),
+    Combo(id: 'WR-B7', techniqueIds: ['double_leg'], difficulty: ComboDifficulty.beginner, sport: ComboSport.wrestling),
+    Combo(id: 'WR-B8', techniqueIds: ['sprawl'], difficulty: ComboDifficulty.beginner, sport: ComboSport.wrestling),
+
+    // =================================================================
+    // WRESTLING - INTERMEDIATE (10)
+    // =================================================================
+    Combo(id: 'WR-I1', techniqueIds: ['shot', 'single_leg'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I2', techniqueIds: ['snap_down', 'front_headlock'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I3', techniqueIds: ['arm_drag', 'single_leg'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I4', techniqueIds: ['duck_under', 'takedown'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I5', techniqueIds: ['sprawl', 'front_headlock'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I6', techniqueIds: ['sit_out', 'stand_up'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I7', techniqueIds: ['ankle_pick', 'takedown'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I8', techniqueIds: ['snap_down', 'shot'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I9', techniqueIds: ['switch_wr', 'stand_up'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+    Combo(id: 'WR-I10', techniqueIds: ['arm_drag', 'double_leg'], difficulty: ComboDifficulty.intermediate, sport: ComboSport.wrestling),
+
+    // =================================================================
+    // WRESTLING - ADVANCED (8)
+    // =================================================================
+    Combo(id: 'WR-A1', techniqueIds: ['single_leg', 'double_leg', 'takedown'], difficulty: ComboDifficulty.advanced, sport: ComboSport.wrestling),
+    Combo(id: 'WR-A2', techniqueIds: ['snap_down', 'front_headlock', 'takedown'], difficulty: ComboDifficulty.advanced, sport: ComboSport.wrestling),
+    Combo(id: 'WR-A3', techniqueIds: ['arm_drag', 'duck_under', 'takedown'], difficulty: ComboDifficulty.advanced, sport: ComboSport.wrestling),
+    Combo(id: 'WR-A4', techniqueIds: ['shot', 'sprawl', 'front_headlock', 'snap_down'], difficulty: ComboDifficulty.advanced, sport: ComboSport.wrestling),
+    Combo(id: 'WR-A5', techniqueIds: ['sit_out', 'switch_wr', 'stand_up'], difficulty: ComboDifficulty.advanced, sport: ComboSport.wrestling),
+    Combo(id: 'WR-A6', techniqueIds: ['ankle_pick', 'single_leg', 'takedown'], difficulty: ComboDifficulty.advanced, sport: ComboSport.wrestling),
+    Combo(id: 'WR-A7', techniqueIds: ['snap_down', 'arm_drag', 'double_leg'], difficulty: ComboDifficulty.advanced, sport: ComboSport.wrestling),
+    Combo(id: 'WR-A8', techniqueIds: ['duck_under', 'snap_down', 'front_headlock', 'takedown'], difficulty: ComboDifficulty.advanced, sport: ComboSport.wrestling),
+
+    // =================================================================
+    // MUAY THAI - ADVANCED (extra 4 to fill gap)
+    // =================================================================
+    Combo(id: 'MT-A9', techniqueIds: ['1', '2', 'clinch', 'diagonal_knee', 'spinning_elbow'], difficulty: ComboDifficulty.advanced, sport: ComboSport.muayThai),
+    Combo(id: 'MT-A10', techniqueIds: ['lk', 'lk', '2', '3', 'hk'], difficulty: ComboDifficulty.advanced, sport: ComboSport.muayThai),
+    Combo(id: 'MT-A11', techniqueIds: ['teep', '1', '2', '3', 'spinning_elbow'], difficulty: ComboDifficulty.advanced, sport: ComboSport.muayThai),
+    Combo(id: 'MT-A12', techniqueIds: ['bk', 'clinch', 'diagonal_knee', 'lead_elbow', 'rear_elbow'], difficulty: ComboDifficulty.advanced, sport: ComboSport.muayThai),
 
     // =================================================================
     // DEFENSE (10)
@@ -180,12 +281,42 @@ class ComboLibrary {
     return all.where((c) => c.sport == sport).toList();
   }
 
-  /// Filter combos by sport and/or difficulty.
+  /// Filter combos by sport and/or difficulty (exact match).
   static List<Combo> filtered({ComboSport? sport, ComboDifficulty? difficulty}) {
     return all.where((c) {
       if (sport != null && c.sport != sport) return false;
       if (difficulty != null && c.difficulty != difficulty) return false;
       return true;
+    }).toList();
+  }
+
+  /// Filter combos with cumulative difficulty: selecting intermediate
+  /// includes beginner + intermediate, advanced includes all levels.
+  /// This gives larger pools at higher difficulties.
+  static List<Combo> filteredCumulative({
+    required ComboSport sport,
+    required ComboDifficulty maxDifficulty,
+  }) {
+    return all.where((c) {
+      if (c.sport != sport) return false;
+      return c.difficulty.index <= maxDifficulty.index;
+    }).toList();
+  }
+
+  /// Filter combos whose techniques all belong to the given categories.
+  /// Used for segment-aware combo callouts (e.g., kick-only segments).
+  static List<Combo> filteredByCategories({
+    required List<Combo> pool,
+    required List<String> categories,
+    required Map<String, dynamic> techniques,
+  }) {
+    if (categories.isEmpty) return pool;
+    return pool.where((combo) {
+      return combo.techniqueIds.every((id) {
+        final technique = techniques[id];
+        if (technique == null) return false;
+        return categories.contains(technique.category.name);
+      });
     }).toList();
   }
 }

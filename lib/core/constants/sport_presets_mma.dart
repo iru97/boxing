@@ -1,4 +1,5 @@
 import 'package:boxing/core/constants/round_templates.dart';
+import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 
 class MmaPresets {
@@ -62,6 +63,12 @@ class MmaPresets {
       isPreset: true,
       sport: 'mma',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'mma',
+        difficulty: 'intermediate',
+        intensity: 'moderate',
+      ),
     ),
     SessionModel(
       id: 'preset_mma_grappling',
@@ -84,6 +91,12 @@ class MmaPresets {
       isPreset: true,
       sport: 'mma',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'mma',
+        difficulty: 'beginner',
+        intensity: 'moderate',
+      ),
     ),
 
     // --- Drills ---

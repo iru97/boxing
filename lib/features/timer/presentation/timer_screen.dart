@@ -18,6 +18,8 @@ import 'package:boxing/features/settings/domain/app_settings.dart';
 import 'package:boxing/features/settings/presentation/settings_controller.dart';
 import 'package:boxing/features/timer/domain/timer_state.dart';
 import 'package:boxing/features/timer/data/timer_lifecycle_service.dart';
+import 'package:boxing/features/combos/data/combo_library.dart';
+import 'package:boxing/features/combos/data/technique_library.dart';
 import 'package:boxing/features/combos/domain/combo_callout_engine.dart';
 import 'package:boxing/features/combos/presentation/combo_callout_provider.dart';
 import 'package:boxing/features/combos/presentation/combo_display_widget.dart';
@@ -272,6 +274,9 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   String? _lastComboPhaseKey;
 
   /// Drive the combo callout engine based on timer state changes.
+  ///
+  /// When entering a segment with [comboCategories], reconfigures the engine's
+  /// combo pool to only include combos matching those technique categories.
   void _driveComboEngine(
     ComboCalloutEngine comboEngine,
     TimerState timerState,
@@ -300,6 +305,34 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
       if (isWorkPhase) {
         comboEngine.onPhaseEnd();
+
+        // Segment-aware combo pool: if this segment has comboCategories,
+        // reconfigure the engine with a filtered pool
+        if (phase is TimerSegment && session.comboConfig != null) {
+          final segments = session.roundTemplate?.expandedSegments;
+          final segIndex = phase.segmentIndex;
+          if (segments != null && segIndex < segments.length) {
+            final categories = segments[segIndex].comboCategories;
+            if (categories != null && categories.isNotEmpty) {
+              final fullPool = ref.read(filteredCombosProvider(session.comboConfig!));
+              final filteredPool = ComboLibrary.filteredByCategories(
+                pool: fullPool,
+                categories: categories,
+                techniques: TechniqueLibrary.all,
+              );
+              // Use filtered pool if non-empty, otherwise fall back to full pool
+              final locale = ref.read(appSettingsProvider).locale == 'system'
+                  ? Localizations.localeOf(context).languageCode
+                  : ref.read(appSettingsProvider).locale;
+              comboEngine.configure(
+                session.comboConfig!,
+                filteredPool.isNotEmpty ? filteredPool : fullPool,
+                locale: locale,
+              );
+            }
+          }
+        }
+
         comboEngine.onWorkPhaseStart(now);
       } else if (phase is TimerPaused) {
         comboEngine.onPause(now);

@@ -12,6 +12,11 @@ _$RoundSegmentImpl _$$RoundSegmentImplFromJson(Map<String, dynamic> json) =>
       durationSec: (json['durationSec'] as num).toInt(),
       audioCue: json['audioCue'] as String? ?? '',
       color: json['color'] as String? ?? 'work',
+      comboCategories:
+          (json['comboCategories'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          null,
     );
 
 Map<String, dynamic> _$$RoundSegmentImplToJson(_$RoundSegmentImpl instance) =>
@@ -20,6 +25,7 @@ Map<String, dynamic> _$$RoundSegmentImplToJson(_$RoundSegmentImpl instance) =>
       'durationSec': instance.durationSec,
       'audioCue': instance.audioCue,
       'color': instance.color,
+      'comboCategories': instance.comboCategories,
     };
 
 _$RoundTemplateImpl _$$RoundTemplateImplFromJson(Map<String, dynamic> json) =>

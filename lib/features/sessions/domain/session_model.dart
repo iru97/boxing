@@ -11,6 +11,10 @@ class RoundSegment with _$RoundSegment {
     required int durationSec,
     @Default('') String audioCue, // '' | 'bell_single' | 'bell_double' | 'whistle'
     @Default('work') String color, // 'work' | 'rest' | 'warning' | 'warmup'
+    /// Optional technique category filter for segment-aware combo callouts.
+    /// When set, only combos whose techniques match these categories are used.
+    /// e.g. ['kick'] for kick-only segments, ['punch'] for boxing-only segments.
+    @Default(null) List<String>? comboCategories,
   }) = _RoundSegment;
 
   factory RoundSegment.fromJson(Map<String, dynamic> json) =>

@@ -69,6 +69,12 @@ class MuayThaiPresets {
       isPreset: true,
       sport: 'muayThai',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'muayThai',
+        difficulty: 'intermediate',
+        intensity: 'moderate',
+      ),
     ),
     SessionModel(
       id: 'preset_mt_clinch',

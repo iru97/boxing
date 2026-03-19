@@ -1,4 +1,5 @@
 import 'package:boxing/core/constants/round_templates.dart';
+import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 
 class WrestlingPresets {
@@ -67,6 +68,12 @@ class WrestlingPresets {
       isPreset: true,
       sport: 'wrestling',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'wrestling',
+        difficulty: 'intermediate',
+        intensity: 'moderate',
+      ),
     ),
     SessionModel(
       id: 'preset_wr_shark_bait',
@@ -89,6 +96,12 @@ class WrestlingPresets {
       isPreset: true,
       sport: 'wrestling',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'wrestling',
+        difficulty: 'beginner',
+        intensity: 'relaxed',
+      ),
     ),
 
     // --- Drills ---

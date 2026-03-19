@@ -4,7 +4,7 @@ import 'package:boxing/features/combos/domain/technique.dart';
 enum ComboDifficulty { beginner, intermediate, advanced }
 
 /// Sport that a combo belongs to.
-enum ComboSport { boxing, muayThai, mma, kickboxing, defense, footwork }
+enum ComboSport { boxing, muayThai, mma, kickboxing, bjj, wrestling, defense, footwork }
 
 /// A combo is an ordered sequence of technique IDs.
 ///

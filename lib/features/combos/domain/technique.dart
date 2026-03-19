@@ -1,5 +1,5 @@
 /// Category of a combat technique.
-enum TechniqueCategory { punch, defense, footwork, kick, elbow, knee, other }
+enum TechniqueCategory { punch, defense, footwork, kick, elbow, knee, grappling, other }
 
 /// A single technique that can appear in a combo sequence.
 ///

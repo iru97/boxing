@@ -148,6 +148,12 @@ class BoxingPresets {
       isPreset: true,
       sport: 'boxing',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'boxing',
+        difficulty: 'beginner',
+        intensity: 'relaxed',
+      ),
     ),
 
     // --- Drills ---

@@ -1,4 +1,5 @@
 import 'package:boxing/core/constants/round_templates.dart';
+import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 
 class KickboxingPresets {
@@ -51,6 +52,12 @@ class KickboxingPresets {
       isPreset: true,
       sport: 'kickboxing',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'kickboxing',
+        difficulty: 'beginner',
+        intensity: 'moderate',
+      ),
     ),
     SessionModel(
       id: 'preset_kb_heavy_bag',
@@ -62,6 +69,12 @@ class KickboxingPresets {
       isPreset: true,
       sport: 'kickboxing',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'kickboxing',
+        difficulty: 'intermediate',
+        intensity: 'moderate',
+      ),
     ),
     SessionModel(
       id: 'preset_kb_sparring',
@@ -84,6 +97,13 @@ class KickboxingPresets {
       isPreset: true,
       sport: 'kickboxing',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'kickboxing',
+        difficulty: 'beginner',
+        intensity: 'moderate',
+        includeDefense: true,
+      ),
     ),
 
     // --- Drills ---

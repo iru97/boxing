@@ -106,6 +106,7 @@ class _TechniqueBadge extends StatelessWidget {
       TechniqueCategory.kick ||
       TechniqueCategory.elbow ||
       TechniqueCategory.knee => const Color(0xFFFF5722),     // deep orange
+      TechniqueCategory.grappling => const Color(0xFF7B1FA2), // purple
       TechniqueCategory.other => const Color(0xFF757575),    // grey
     };
   }
