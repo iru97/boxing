@@ -1,0 +1,127 @@
+import 'package:boxing/core/constants/round_templates.dart';
+import 'package:boxing/features/sessions/domain/session_model.dart';
+
+class MmaPresets {
+  MmaPresets._();
+
+  static const List<SessionModel> all = [
+    // --- Competition ---
+    SessionModel(
+      id: 'preset_mma_pro_3',
+      name: 'MMA (3-Round)',
+      rounds: 3,
+      roundDurationSec: 300,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'competition',
+    ),
+    SessionModel(
+      id: 'preset_mma_pro_5',
+      name: 'MMA (5-Round Title)',
+      rounds: 5,
+      roundDurationSec: 300,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'competition',
+    ),
+    SessionModel(
+      id: 'preset_mma_amateur',
+      name: 'Amateur MMA',
+      rounds: 3,
+      roundDurationSec: 180,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'competition',
+    ),
+
+    // --- Training ---
+    SessionModel(
+      id: 'preset_mma_sparring',
+      name: 'MMA Sparring',
+      rounds: 5,
+      roundDurationSec: 300,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'training',
+    ),
+    SessionModel(
+      id: 'preset_mma_striking',
+      name: 'MMA Striking',
+      rounds: 5,
+      roundDurationSec: 180,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'training',
+    ),
+    SessionModel(
+      id: 'preset_mma_grappling',
+      name: 'MMA Grappling',
+      rounds: 5,
+      roundDurationSec: 300,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'training',
+    ),
+    SessionModel(
+      id: 'preset_mma_cage_work',
+      name: 'Cage/Wall Work',
+      rounds: 4,
+      roundDurationSec: 180,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'training',
+    ),
+
+    // --- Drills ---
+    SessionModel(
+      id: 'preset_mma_ground_pound',
+      name: 'Ground & Pound',
+      rounds: 5,
+      roundDurationSec: 300,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'drills',
+      roundTemplate: RoundTemplates.mmaGroundPound,
+    ),
+    SessionModel(
+      id: 'preset_mma_sprawl_brawl',
+      name: 'Sprawl & Brawl',
+      rounds: 6,
+      roundDurationSec: 180,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'drills',
+      roundTemplate: RoundTemplates.mmaSprawlBrawl,
+    ),
+    SessionModel(
+      id: 'preset_mma_transitions',
+      name: 'Transition Drill',
+      rounds: 5,
+      roundDurationSec: 300,
+      restDurationSec: 60,
+      warningTimeSec: 10,
+      isPreset: true,
+      sport: 'mma',
+      category: 'drills',
+      roundTemplate: RoundTemplates.mmaTransitions,
+    ),
+  ];
+}

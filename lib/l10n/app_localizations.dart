@@ -1352,6 +1352,72 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Purchase pending...'**
   String get purchasePending;
+
+  /// No description provided for @sportFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get sportFilterAll;
+
+  /// No description provided for @sportBoxing.
+  ///
+  /// In en, this message translates to:
+  /// **'Boxing'**
+  String get sportBoxing;
+
+  /// No description provided for @sportMuayThai.
+  ///
+  /// In en, this message translates to:
+  /// **'Muay Thai'**
+  String get sportMuayThai;
+
+  /// No description provided for @sportMma.
+  ///
+  /// In en, this message translates to:
+  /// **'MMA'**
+  String get sportMma;
+
+  /// No description provided for @sportBjj.
+  ///
+  /// In en, this message translates to:
+  /// **'BJJ'**
+  String get sportBjj;
+
+  /// No description provided for @sportKickboxing.
+  ///
+  /// In en, this message translates to:
+  /// **'Kickboxing'**
+  String get sportKickboxing;
+
+  /// No description provided for @sportWrestling.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrestling'**
+  String get sportWrestling;
+
+  /// No description provided for @subcategoryCompetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Competition'**
+  String get subcategoryCompetition;
+
+  /// No description provided for @subcategoryTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Training'**
+  String get subcategoryTraining;
+
+  /// No description provided for @subcategoryDrills.
+  ///
+  /// In en, this message translates to:
+  /// **'Drills'**
+  String get subcategoryDrills;
+
+  /// No description provided for @subcategoryConditioning.
+  ///
+  /// In en, this message translates to:
+  /// **'Conditioning'**
+  String get subcategoryConditioning;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

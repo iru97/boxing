@@ -67,6 +67,9 @@ class SessionModel with _$SessionModel {
     @Default(false) bool isPreset,
     @Default(null) RoundTemplate? roundTemplate,
     @Default({}) Map<int, RoundTemplate> roundTemplateOverrides,
+    // Sport-specific fields (Sprint 8)
+    @Default(null) String? sport,     // 'boxing' | 'muayThai' | 'mma' | 'bjj' | 'kickboxing' | 'wrestling' | null
+    @Default(null) String? category,  // 'competition' | 'training' | 'drills' | 'conditioning' | null
   }) = _SessionModel;
 
   factory SessionModel.fromJson(Map<String, dynamic> json) =>

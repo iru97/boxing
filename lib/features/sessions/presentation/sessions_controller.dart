@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:boxing/core/constants/sport.dart';
 import 'package:boxing/features/sessions/data/session_repository.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/main.dart';
@@ -31,6 +32,21 @@ final sessionByIdProvider =
 
 /// Invalidation counter — increment to refresh session lists.
 final _sessionsInvalidator = StateProvider<int>((ref) => 0);
+
+/// Selected sport filter for the home screen.
+/// null = "All" (show all sports).
+final selectedSportFilterProvider = StateProvider<Sport?>((ref) => null);
+
+/// Presets filtered by the currently selected sport.
+final filteredPresetsProvider = Provider<List<SessionModel>>((ref) {
+  final allSessions = ref.watch(allSessionsProvider);
+  final presets = allSessions.where((s) => s.isPreset).toList();
+  final selectedSport = ref.watch(selectedSportFilterProvider);
+
+  if (selectedSport == null) return presets;
+
+  return presets.where((s) => s.sport == selectedSport.id).toList();
+});
 
 /// Controller for session CRUD operations.
 final sessionsControllerProvider =

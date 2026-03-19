@@ -697,4 +697,37 @@ class SPt extends S {
 
   @override
   String get purchasePending => 'Compra pendente...';
+
+  @override
+  String get sportFilterAll => 'All';
+
+  @override
+  String get sportBoxing => 'Boxing';
+
+  @override
+  String get sportMuayThai => 'Muay Thai';
+
+  @override
+  String get sportMma => 'MMA';
+
+  @override
+  String get sportBjj => 'BJJ';
+
+  @override
+  String get sportKickboxing => 'Kickboxing';
+
+  @override
+  String get sportWrestling => 'Wrestling';
+
+  @override
+  String get subcategoryCompetition => 'Competition';
+
+  @override
+  String get subcategoryTraining => 'Training';
+
+  @override
+  String get subcategoryDrills => 'Drills';
+
+  @override
+  String get subcategoryConditioning => 'Conditioning';
 }

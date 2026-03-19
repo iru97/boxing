@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:boxing/core/constants/sport.dart';
 import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/core/utils/session_category.dart';
@@ -23,215 +24,210 @@ class SessionListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final checkpoint = ref.watch(activeCheckpointProvider);
     final allSessions = ref.watch(allSessionsProvider);
-    final presets = allSessions.where((s) => s.isPreset).toList();
     final custom = allSessions.where((s) => !s.isPreset).toList();
-    final grouped = groupPresetsByCategory(presets);
+
+    // Quick Start uses the first 3 presets unfiltered.
+    final allPresets = allSessions.where((s) => s.isPreset).toList();
+
+    // Preset section respects the sport filter.
+    final filteredPresets = ref.watch(filteredPresetsProvider);
+    final sportGroups = groupPresetsBySport(filteredPresets);
+    final selectedSport = ref.watch(selectedSportFilterProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
-        children: [
-          Expanded(
-            child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          // Action icons row
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.history,
-                      color: Colors.white.withValues(alpha: 0.5)),
-                  onPressed: () => context.push('/history'),
-                ),
-                IconButton(
-                  icon: Icon(Icons.settings,
-                      color: Colors.white.withValues(alpha: 0.5)),
-                  onPressed: () => context.push('/settings'),
-                ),
-              ],
-            ),
-          ),
-
-          // Brand name
-          const SizedBox(height: 8),
-          Center(
-            child: Text(
-              S.of(context).appBrandName,
-              style: GoogleFonts.teko(
-                fontSize: 48,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-                letterSpacing: 6.0,
-                height: 1.0,
-              ),
-            ),
-          ),
-
-          // Accent divider with red dot
-          const SizedBox(height: 10),
-          Center(
-            child: SizedBox(
-              width: 200,
-              child: Row(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      color: AppColors.divider,
+                  // Action icons row
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.history,
+                              color: Colors.white.withValues(alpha: 0.5)),
+                          onPressed: () => context.push('/history'),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.settings,
+                              color: Colors.white.withValues(alpha: 0.5)),
+                          onPressed: () => context.push('/settings'),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: const BoxDecoration(
-                        color: AppColors.brandRed,
-                        shape: BoxShape.circle,
+
+                  // Brand name
+                  const SizedBox(height: 8),
+                  Center(
+                    child: Text(
+                      S.of(context).appBrandName,
+                      style: GoogleFonts.teko(
+                        fontSize: 48,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        letterSpacing: 6.0,
+                        height: 1.0,
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      height: 1,
-                      color: AppColors.divider,
+
+                  // Accent divider with red dot
+                  const SizedBox(height: 10),
+                  Center(
+                    child: SizedBox(
+                      width: 200,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 1,
+                              color: AppColors.divider,
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12),
+                            child: Container(
+                              width: 6,
+                              height: 6,
+                              decoration: const BoxDecoration(
+                                color: AppColors.brandRed,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 1,
+                              color: AppColors.divider,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+
+                  // Tagline
+                  const SizedBox(height: 8),
+                  Center(
+                    child: Text(
+                      S.of(context).appTagline,
+                      style: GoogleFonts.barlowCondensed(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white.withValues(alpha: 0.4),
+                        letterSpacing: 2.5,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // In Progress card
+                  if (checkpoint != null) ...[
+                    _InProgressCard(
+                      checkpoint: checkpoint,
+                      onResume: () => context.push(
+                        '/timer/${checkpoint.sessionId}?resume=true',
+                      ),
+                      onDiscard: () =>
+                          _confirmDiscard(context, ref, checkpoint),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+
+                  // Custom sessions section
+                  if (custom.isNotEmpty) ...[
+                    _SectionHeader(
+                      label: S.of(context).sectionMySessionsTitle,
+                      color: CategoryColors.custom,
+                      icon: Icons.person,
+                    ),
+                    const SizedBox(height: 8),
+                    ...custom.map((session) => _SessionCard(
+                          session: session,
+                          onTap: () => context.push('/timer/${session.id}'),
+                          onLongPress: () =>
+                              _showCustomActions(context, ref, session),
+                        )),
+                    const SizedBox(height: 24),
+                  ],
+
+                  // Quick Start horizontal row
+                  Text(
+                    S.of(context).sectionQuickStartTitle,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 100,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                          allPresets.length > 3 ? 3 : allPresets.length,
+                      separatorBuilder: (_, __) =>
+                          const SizedBox(width: 12),
+                      itemBuilder: (context, index) {
+                        final session = allPresets[index];
+                        return _QuickStartCard(
+                          session: session,
+                          onTap: () =>
+                              context.push('/timer/${session.id}'),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Sport filter chips
+                  Text(
+                    S.of(context).sectionPresetsTitle,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  _SportFilterChips(
+                    selectedSport: selectedSport,
+                    onSelected: (sport) {
+                      ref
+                          .read(selectedSportFilterProvider.notifier)
+                          .state = sport;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Sport-grouped preset sections
+                  for (final (sportLabel, sportColor, subcategories)
+                      in sportGroups)
+                    _SportSection(
+                      sportLabel: sportLabel,
+                      sportColor: sportColor,
+                      subcategories: subcategories,
+                      onSessionTap: (session) =>
+                          context.push('/timer/${session.id}'),
+                      onSessionLongPress: (session) =>
+                          _showPresetActions(context, ref, session),
+                    ),
+
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
-          ),
-
-          // Tagline
-          const SizedBox(height: 8),
-          Center(
-            child: Text(
-              S.of(context).appTagline,
-              style: GoogleFonts.barlowCondensed(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: Colors.white.withValues(alpha: 0.4),
-                letterSpacing: 2.5,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 24),
-
-          // In Progress card
-          if (checkpoint != null) ...[
-            _InProgressCard(
-              checkpoint: checkpoint,
-              onResume: () => context.push(
-                '/timer/${checkpoint.sessionId}?resume=true',
-              ),
-              onDiscard: () => _confirmDiscard(context, ref, checkpoint),
-            ),
-            const SizedBox(height: 16),
+            const BannerAdWidget(),
           ],
-
-          // Custom sessions section
-          if (custom.isNotEmpty) ...[
-            _SectionHeader(
-              label: S.of(context).sectionMySessionsTitle,
-              color: CategoryColors.custom,
-              icon: Icons.person,
-            ),
-            const SizedBox(height: 8),
-            ...custom.map((session) => _SessionCard(
-                  session: session,
-                  onTap: () => context.push('/timer/${session.id}'),
-                  onLongPress: () =>
-                      _showCustomActions(context, ref, session),
-                )),
-            const SizedBox(height: 24),
-          ],
-
-          // Quick Start horizontal row
-          Text(
-            S.of(context).sectionQuickStartTitle,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            height: 100,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: presets.length > 3 ? 3 : presets.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final session = presets[index];
-                return _QuickStartCard(
-                  session: session,
-                  onTap: () => context.push('/timer/${session.id}'),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Grouped preset sections — collapsible, default closed
-          Text(
-            S.of(context).sectionPresetsTitle,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 4),
-          for (final (category, sessions) in grouped)
-            _CollapsibleCategory(
-              label: _localizedCategoryLabel(context, category),
-              color: category.color,
-              icon: _iconForCategory(category),
-              sessionCount: sessions.length,
-              children: sessions.map((session) => _SessionCard(
-                    session: session,
-                    onTap: () => context.push('/timer/${session.id}'),
-                    onLongPress: () =>
-                        _showPresetActions(context, ref, session),
-                  )).toList(),
-            ),
-          const SizedBox(height: 20),
-        ],
-      ),
-          ),
-          const BannerAdWidget(),
-        ],
-      ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/session/new'),
         child: const Icon(Icons.add),
       ),
     );
-  }
-
-  static String _localizedCategoryLabel(
-      BuildContext context, SessionCategory category) {
-    final l = S.of(context);
-    return switch (category) {
-      SessionCategory.boxing => l.categoryBoxing,
-      SessionCategory.bagWork => l.categoryBagWork,
-      SessionCategory.conditioning => l.categoryConditioning,
-      SessionCategory.combatSport => l.categoryCombatSport,
-      SessionCategory.beginner => l.categoryBeginner,
-      SessionCategory.compound => l.categoryCompound,
-      SessionCategory.custom => l.sectionMySessionsTitle,
-    };
-  }
-
-  static IconData _iconForCategory(SessionCategory category) {
-    return switch (category) {
-      SessionCategory.boxing => Icons.sports_mma,
-      SessionCategory.bagWork => Icons.fitness_center,
-      SessionCategory.conditioning => Icons.local_fire_department,
-      SessionCategory.combatSport => Icons.shield,
-      SessionCategory.beginner => Icons.school,
-      SessionCategory.compound => Icons.view_timeline,
-      SessionCategory.custom => Icons.person,
-    };
   }
 
   void _showCustomActions(
@@ -261,7 +257,8 @@ class SessionListScreen extends ConsumerWidget {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(S.of(context).snackbarSessionCreated(dup.name)),
+                      content: Text(
+                          S.of(context).snackbarSessionCreated(dup.name)),
                     ),
                   );
                 }
@@ -303,7 +300,8 @@ class SessionListScreen extends ConsumerWidget {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(S.of(context).snackbarSessionCreated(dup.name)),
+                      content: Text(
+                          S.of(context).snackbarSessionCreated(dup.name)),
                     ),
                   );
                 }
@@ -364,7 +362,8 @@ class SessionListScreen extends ConsumerWidget {
               if (context.mounted && deleted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(S.of(context).snackbarSessionDeleted(session.name)),
+                    content: Text(
+                        S.of(context).snackbarSessionDeleted(session.name)),
                   ),
                 );
               }
@@ -380,7 +379,224 @@ class SessionListScreen extends ConsumerWidget {
   }
 }
 
-/// Category section header with icon, label, and colored accent line.
+// ---------------------------------------------------------------------------
+// Sport filter chips
+// ---------------------------------------------------------------------------
+
+class _SportFilterChips extends StatelessWidget {
+  final Sport? selectedSport;
+  final ValueChanged<Sport?> onSelected;
+
+  const _SportFilterChips({
+    required this.selectedSport,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l = S.of(context);
+    return SizedBox(
+      height: 36,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          // "All" chip
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: FilterChip(
+              label: Text(l.sportFilterAll),
+              selected: selectedSport == null,
+              onSelected: (_) => onSelected(null),
+              selectedColor: AppColors.brandRed.withValues(alpha: 0.25),
+              checkmarkColor: AppColors.brandRed,
+              labelStyle: TextStyle(
+                color: selectedSport == null
+                    ? AppColors.brandRed
+                    : Colors.white.withValues(alpha: 0.6),
+                fontSize: 13,
+                fontWeight: selectedSport == null
+                    ? FontWeight.w600
+                    : FontWeight.normal,
+              ),
+              backgroundColor: AppColors.cardSurface,
+              side: BorderSide(
+                color: selectedSport == null
+                    ? AppColors.brandRed.withValues(alpha: 0.6)
+                    : AppColors.divider,
+              ),
+              visualDensity: VisualDensity.compact,
+            ),
+          ),
+          // Sport chips
+          for (final sport in Sport.values)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: FilterChip(
+                avatar: Icon(sport.icon, size: 14, color: sport.color),
+                label: Text(_sportLabel(l, sport)),
+                selected: selectedSport == sport,
+                onSelected: (_) =>
+                    onSelected(selectedSport == sport ? null : sport),
+                selectedColor: sport.color.withValues(alpha: 0.2),
+                checkmarkColor: sport.color,
+                labelStyle: TextStyle(
+                  color: selectedSport == sport
+                      ? sport.color
+                      : Colors.white.withValues(alpha: 0.6),
+                  fontSize: 13,
+                  fontWeight: selectedSport == sport
+                      ? FontWeight.w600
+                      : FontWeight.normal,
+                ),
+                backgroundColor: AppColors.cardSurface,
+                side: BorderSide(
+                  color: selectedSport == sport
+                      ? sport.color.withValues(alpha: 0.6)
+                      : AppColors.divider,
+                ),
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  static String _sportLabel(S l, Sport sport) => switch (sport) {
+        Sport.boxing => l.sportBoxing,
+        Sport.muayThai => l.sportMuayThai,
+        Sport.mma => l.sportMma,
+        Sport.bjj => l.sportBjj,
+        Sport.kickboxing => l.sportKickboxing,
+        Sport.wrestling => l.sportWrestling,
+      };
+}
+
+// ---------------------------------------------------------------------------
+// Sport section: one expandable tile per sport, subcategory headers inside
+// ---------------------------------------------------------------------------
+
+class _SportSection extends StatelessWidget {
+  final String sportLabel;
+  final Color sportColor;
+  final List<(String, List<SessionModel>)> subcategories;
+  final ValueChanged<SessionModel> onSessionTap;
+  final ValueChanged<SessionModel> onSessionLongPress;
+
+  const _SportSection({
+    required this.sportLabel,
+    required this.sportColor,
+    required this.subcategories,
+    required this.onSessionTap,
+    required this.onSessionLongPress,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final sessionCount =
+        subcategories.fold(0, (acc, sub) => acc + sub.$2.length);
+
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        childrenPadding: const EdgeInsets.only(bottom: 8),
+        initiallyExpanded: false,
+        leading: Container(
+          width: 4,
+          height: 20,
+          decoration: BoxDecoration(
+            color: sportColor,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        title: Text(
+          sportLabel,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                color: sportColor,
+                letterSpacing: 0.5,
+                fontWeight: FontWeight.w700,
+              ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$sessionCount',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.4),
+                  ),
+            ),
+            const SizedBox(width: 4),
+            Icon(
+              Icons.expand_more,
+              color: Colors.white.withValues(alpha: 0.4),
+            ),
+          ],
+        ),
+        children: [
+          for (final (subcatLabel, sessions) in subcategories) ...[
+            _SubcategoryHeader(
+              label: subcatLabel,
+              color: sportColor,
+            ),
+            const SizedBox(height: 4),
+            ...sessions.map(
+              (session) => _SessionCard(
+                session: session,
+                onTap: () => onSessionTap(session),
+                onLongPress: () => onSessionLongPress(session),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// Small header for subcategories within a sport section.
+class _SubcategoryHeader extends StatelessWidget {
+  final String label;
+  final Color color;
+
+  const _SubcategoryHeader({
+    required this.label,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, top: 4, bottom: 4),
+      child: Row(
+        children: [
+          Text(
+            label.toUpperCase(),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: color.withValues(alpha: 0.7),
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Container(
+              height: 1,
+              color: color.withValues(alpha: 0.15),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Shared section header (used for My Sessions)
+// ---------------------------------------------------------------------------
+
 class _SectionHeader extends StatelessWidget {
   final String label;
   final Color color;
@@ -417,7 +633,10 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-/// Compact horizontal card for Quick Start section.
+// ---------------------------------------------------------------------------
+// Quick Start card
+// ---------------------------------------------------------------------------
+
 class _QuickStartCard extends StatelessWidget {
   final SessionModel session;
   final VoidCallback onTap;
@@ -466,7 +685,8 @@ class _QuickStartCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  S.of(context).sessionCardQuickFormat(session.rounds, totalMin),
+                  S.of(context).sessionCardQuickFormat(
+                      session.rounds, totalMin),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Colors.white.withValues(alpha: 0.5),
                       ),
@@ -480,7 +700,10 @@ class _QuickStartCard extends StatelessWidget {
   }
 }
 
-/// Full session card with category color accent and duration summary.
+// ---------------------------------------------------------------------------
+// Full session card
+// ---------------------------------------------------------------------------
+
 class _SessionCard extends StatelessWidget {
   final SessionModel session;
   final VoidCallback onTap;
@@ -527,7 +750,8 @@ class _SessionCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             session.name,
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style:
+                                Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                         if (hasTemplate)
@@ -542,15 +766,21 @@ class _SessionCard extends StatelessWidget {
                     Text(
                       session.restDurationSec > 0
                           ? S.of(context).sessionCardWorkRest(
-                              DurationFormatter.formatSeconds(session.roundDurationSec),
-                              DurationFormatter.formatSeconds(session.restDurationSec),
+                              DurationFormatter.formatSeconds(
+                                  session.roundDurationSec),
+                              DurationFormatter.formatSeconds(
+                                  session.restDurationSec),
                               totalMin,
                             )
                           : S.of(context).sessionCardWorkOnly(
-                              DurationFormatter.formatSeconds(session.roundDurationSec),
+                              DurationFormatter.formatSeconds(
+                                  session.roundDurationSec),
                               totalMin,
                             ),
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(
                             color: Colors.white.withValues(alpha: 0.5),
                           ),
                     ),
@@ -574,62 +804,10 @@ class _SessionCard extends StatelessWidget {
   }
 }
 
-/// Collapsible category section — starts collapsed to reduce clutter.
-class _CollapsibleCategory extends StatelessWidget {
-  final String label;
-  final Color color;
-  final IconData icon;
-  final int sessionCount;
-  final List<Widget> children;
+// ---------------------------------------------------------------------------
+// In Progress card
+// ---------------------------------------------------------------------------
 
-  const _CollapsibleCategory({
-    required this.label,
-    required this.color,
-    required this.icon,
-    required this.sessionCount,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      // Remove divider lines that ExpansionTile adds by default
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        childrenPadding: const EdgeInsets.only(bottom: 8),
-        initiallyExpanded: false,
-        leading: Icon(icon, size: 18, color: color),
-        title: Text(
-          label,
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: color,
-                letterSpacing: 0.5,
-              ),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '$sessionCount',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.4),
-                  ),
-            ),
-            const SizedBox(width: 4),
-            Icon(
-              Icons.expand_more,
-              color: Colors.white.withValues(alpha: 0.4),
-            ),
-          ],
-        ),
-        children: children,
-      ),
-    );
-  }
-}
-
-/// Card shown when there's an in-progress session that can be resumed.
 class _InProgressCard extends StatelessWidget {
   final TimerCheckpoint checkpoint;
   final VoidCallback onResume;
@@ -669,10 +847,11 @@ class _InProgressCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     S.of(context).inProgressTitle,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: TimerColors.work,
-                          letterSpacing: 1.0,
-                        ),
+                    style:
+                        Theme.of(context).textTheme.labelLarge?.copyWith(
+                              color: TimerColors.work,
+                              letterSpacing: 1.0,
+                            ),
                   ),
                 ],
               ),

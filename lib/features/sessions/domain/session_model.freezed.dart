@@ -710,7 +710,10 @@ mixin _$SessionModel {
   bool get isPreset => throw _privateConstructorUsedError;
   RoundTemplate? get roundTemplate => throw _privateConstructorUsedError;
   Map<int, RoundTemplate> get roundTemplateOverrides =>
-      throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; // Sport-specific fields (Sprint 8)
+  String? get sport =>
+      throw _privateConstructorUsedError; // 'boxing' | 'muayThai' | 'mma' | 'bjj' | 'kickboxing' | 'wrestling' | null
+  String? get category => throw _privateConstructorUsedError;
 
   /// Serializes this SessionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -746,6 +749,8 @@ abstract class $SessionModelCopyWith<$Res> {
     bool isPreset,
     RoundTemplate? roundTemplate,
     Map<int, RoundTemplate> roundTemplateOverrides,
+    String? sport,
+    String? category,
   });
 
   $RoundTemplateCopyWith<$Res>? get roundTemplate;
@@ -782,6 +787,8 @@ class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
     Object? isPreset = null,
     Object? roundTemplate = freezed,
     Object? roundTemplateOverrides = null,
+    Object? sport = freezed,
+    Object? category = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -865,6 +872,16 @@ class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
                     ? _value.roundTemplateOverrides
                     : roundTemplateOverrides // ignore: cast_nullable_to_non_nullable
                         as Map<int, RoundTemplate>,
+            sport:
+                freezed == sport
+                    ? _value.sport
+                    : sport // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            category:
+                freezed == category
+                    ? _value.category
+                    : category // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -911,6 +928,8 @@ abstract class _$$SessionModelImplCopyWith<$Res>
     bool isPreset,
     RoundTemplate? roundTemplate,
     Map<int, RoundTemplate> roundTemplateOverrides,
+    String? sport,
+    String? category,
   });
 
   @override
@@ -947,6 +966,8 @@ class __$$SessionModelImplCopyWithImpl<$Res>
     Object? isPreset = null,
     Object? roundTemplate = freezed,
     Object? roundTemplateOverrides = null,
+    Object? sport = freezed,
+    Object? category = freezed,
   }) {
     return _then(
       _$SessionModelImpl(
@@ -1030,6 +1051,16 @@ class __$$SessionModelImplCopyWithImpl<$Res>
                 ? _value._roundTemplateOverrides
                 : roundTemplateOverrides // ignore: cast_nullable_to_non_nullable
                     as Map<int, RoundTemplate>,
+        sport:
+            freezed == sport
+                ? _value.sport
+                : sport // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        category:
+            freezed == category
+                ? _value.category
+                : category // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }
@@ -1055,6 +1086,8 @@ class _$SessionModelImpl implements _SessionModel {
     this.isPreset = false,
     this.roundTemplate = null,
     final Map<int, RoundTemplate> roundTemplateOverrides = const {},
+    this.sport = null,
+    this.category = null,
   }) : _roundOverrides = roundOverrides,
        _roundTemplateOverrides = roundTemplateOverrides;
 
@@ -1117,9 +1150,18 @@ class _$SessionModelImpl implements _SessionModel {
     return EqualUnmodifiableMapView(_roundTemplateOverrides);
   }
 
+  // Sport-specific fields (Sprint 8)
+  @override
+  @JsonKey()
+  final String? sport;
+  // 'boxing' | 'muayThai' | 'mma' | 'bjj' | 'kickboxing' | 'wrestling' | null
+  @override
+  @JsonKey()
+  final String? category;
+
   @override
   String toString() {
-    return 'SessionModel(id: $id, name: $name, rounds: $rounds, roundDurationSec: $roundDurationSec, restDurationSec: $restDurationSec, warningTimeSec: $warningTimeSec, warmupDurationSec: $warmupDurationSec, autoAdvance: $autoAdvance, keepScreenOn: $keepScreenOn, voiceAnnounce: $voiceAnnounce, volumeOverride: $volumeOverride, soundPack: $soundPack, roundOverrides: $roundOverrides, isPreset: $isPreset, roundTemplate: $roundTemplate, roundTemplateOverrides: $roundTemplateOverrides)';
+    return 'SessionModel(id: $id, name: $name, rounds: $rounds, roundDurationSec: $roundDurationSec, restDurationSec: $restDurationSec, warningTimeSec: $warningTimeSec, warmupDurationSec: $warmupDurationSec, autoAdvance: $autoAdvance, keepScreenOn: $keepScreenOn, voiceAnnounce: $voiceAnnounce, volumeOverride: $volumeOverride, soundPack: $soundPack, roundOverrides: $roundOverrides, isPreset: $isPreset, roundTemplate: $roundTemplate, roundTemplateOverrides: $roundTemplateOverrides, sport: $sport, category: $category)';
   }
 
   @override
@@ -1159,7 +1201,10 @@ class _$SessionModelImpl implements _SessionModel {
             const DeepCollectionEquality().equals(
               other._roundTemplateOverrides,
               _roundTemplateOverrides,
-            ));
+            ) &&
+            (identical(other.sport, sport) || other.sport == sport) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1182,6 +1227,8 @@ class _$SessionModelImpl implements _SessionModel {
     isPreset,
     roundTemplate,
     const DeepCollectionEquality().hash(_roundTemplateOverrides),
+    sport,
+    category,
   );
 
   /// Create a copy of SessionModel
@@ -1216,6 +1263,8 @@ abstract class _SessionModel implements SessionModel {
     final bool isPreset,
     final RoundTemplate? roundTemplate,
     final Map<int, RoundTemplate> roundTemplateOverrides,
+    final String? sport,
+    final String? category,
   }) = _$SessionModelImpl;
 
   factory _SessionModel.fromJson(Map<String, dynamic> json) =
@@ -1252,7 +1301,11 @@ abstract class _SessionModel implements SessionModel {
   @override
   RoundTemplate? get roundTemplate;
   @override
-  Map<int, RoundTemplate> get roundTemplateOverrides;
+  Map<int, RoundTemplate> get roundTemplateOverrides; // Sport-specific fields (Sprint 8)
+  @override
+  String? get sport; // 'boxing' | 'muayThai' | 'mma' | 'bjj' | 'kickboxing' | 'wrestling' | null
+  @override
+  String? get category;
 
   /// Create a copy of SessionModel
   /// with the given fields replaced by the non-null parameter values.

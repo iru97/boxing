@@ -1,25 +1,29 @@
-# Boxing - Training Timer App
+# Boxing - Smart Training Companion
 
 ## Project Overview
-A Flutter mobile app for boxing training round management. The core feature is a reliable, boxing-specific session timer with configurable rounds, rest periods, warnings, and authentic audio cues.
+A Flutter mobile app that started as a boxing training timer and is evolving into a smart training companion for combat sports. V1 (complete) delivers a reliable, background-safe timer. V2 adds training intelligence: combo callouts, sport-specific drill structures, and guided workout programs.
 
-See @docs/VISION.md for full project vision, competitive analysis, and roadmap.
+> "The timer is free. The brain is paid."
+
+See @docs/VISION.md for full project vision, V2 direction, and roadmap.
 
 ## Quick References
-- @docs/VISION.md - Project vision and competitive landscape
+- @docs/VISION.md - Project vision, V1 summary, V2 direction
+- @docs/research/ - V2 research framework (7 documents, 6,893 lines)
 - @docs/REFERENCES.md - Flutter repos, packages, competitor apps, user quotes
-- @docs/sprints/SPRINT_PLAN.md - Master sprint plan with research findings
-- @docs/sprints/ - Individual sprint detail files (Sprint 0-6)
+- @docs/sprints/SPRINT_PLAN.md - V1 sprint plan (all complete)
 - @.claude/CLAUDE.md - Claude Code configuration and standards
 - @.claude/rules/ - Path-specific coding rules
-- @pubspec.yaml - Flutter dependencies (when available)
+- @pubspec.yaml - Flutter dependencies
 
 ## Tech Stack
 - **Framework**: Flutter (Dart)
-- **State Management**: Riverpod or Bloc
-- **Audio**: `just_audio` + `audio_service` (background playback)
+- **State Management**: Riverpod
+- **Audio**: `just_audio` + `audio_service` (background playback) + `flutter_tts` (voice)
 - **Wake Lock**: `wakelock_plus`
-- **Storage**: Hive or SharedPreferences
+- **Storage**: Hive
+- **Routing**: GoRouter
+- **Models**: Freezed (immutable data classes)
 - **Target**: Android + iOS
 
 ## Architecture Principles
@@ -28,6 +32,7 @@ See @docs/VISION.md for full project vision, competitive analysis, and roadmap.
 - Session configuration is the central data model
 - Preset sessions are immutable; user sessions are persisted locally
 - Minimize permissions: audio, foreground service, wake lock only
+- V2: Combo/training data is separate from timer data (composable layers)
 
 ## Development Workflow
 - Branch naming: `feature/`, `fix/`, `chore/` prefixes
@@ -36,6 +41,11 @@ See @docs/VISION.md for full project vision, competitive analysis, and roadmap.
 - Run `flutter test` before pushing
 - Use the planner agent before complex features
 - Use the code-reviewer agent after implementations
+
+## Current Status
+- **V1**: Complete (all 7 sprints done) — reliable timer, background, audio ducking, compound rounds, voice TTS, i18n
+- **V2**: Planning phase — combo callouts, sport-specific training, guided programs
+- **Deferred**: Coach mode (needs dedicated research phase)
 
 ## Model Configuration
 - Default: Opus 4.6 for architecture decisions and complex logic

@@ -53,6 +53,18 @@ class TimerColors {
   static const tintWarmup = Color(0x1A1E88E5);
 }
 
+/// Per-sport accent colors for session cards, filter chips, and section headers.
+class SportColors {
+  SportColors._();
+
+  static const boxing = Color(0xFF00C853);       // Green A700
+  static const muayThai = Color(0xFFFF6D00);     // Orange A700
+  static const mma = Color(0xFFE53935);          // Red 600
+  static const bjj = Color(0xFF7E57C2);          // Deep Purple 400
+  static const kickboxing = Color(0xFF1E88E5);   // Blue 600
+  static const wrestling = Color(0xFFFFB300);     // Amber 700
+}
+
 /// Session category accent colors for card dots.
 class CategoryColors {
   CategoryColors._();

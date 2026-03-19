@@ -394,5 +394,18 @@
   "purchaseRestored": "Purchase restored successfully",
   "purchaseRestoredNone": "No previous purchases found",
   "purchaseError": "Purchase failed. Please try again.",
-  "purchasePending": "Purchase pending..."
+  "purchasePending": "Purchase pending...",
+
+  "sportFilterAll": "All",
+  "sportBoxing": "Boxing",
+  "sportMuayThai": "Muay Thai",
+  "sportMma": "MMA",
+  "sportBjj": "BJJ",
+  "sportKickboxing": "Kickboxing",
+  "sportWrestling": "Wrestling",
+
+  "subcategoryCompetition": "Competition",
+  "subcategoryTraining": "Training",
+  "subcategoryDrills": "Drills",
+  "subcategoryConditioning": "Conditioning"
 }

@@ -52,25 +52,25 @@ void main() {
   });
 
   group('SessionRepository - Presets', () {
-    test('getAllPresets returns 20 presets', () {
+    test('getAllPresets returns 70 presets', () {
       final presets = repo.getAllPresets();
-      expect(presets.length, 20);
+      expect(presets.length, 70);
       expect(presets.every((s) => s.isPreset), isTrue);
     });
 
     test('getAll returns presets when no custom sessions exist', () {
       final all = repo.getAll();
-      expect(all.length, 20);
+      expect(all.length, 70);
     });
 
     test('getById finds preset by ID', () {
-      final session = repo.getById('preset_pro_boxing_men');
+      final session = repo.getById('preset_boxing_pro_men');
       expect(session, isNotNull);
       expect(session!.name, 'Pro Boxing (Men)');
     });
 
     test('deleteSession returns false for presets', () async {
-      final result = await repo.deleteSession('preset_pro_boxing_men');
+      final result = await repo.deleteSession('preset_boxing_pro_men');
       expect(result, isFalse);
     });
   });
@@ -103,7 +103,7 @@ void main() {
     test('getAll includes both presets and custom', () async {
       await repo.saveSession(testSession);
       final all = repo.getAll();
-      expect(all.length, 21); // 20 presets + 1 custom
+      expect(all.length, 71); // 70 presets + 1 custom
     });
 
     test('saveSession overwrites existing session', () async {

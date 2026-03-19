@@ -89,6 +89,8 @@ _$SessionModelImpl _$$SessionModelImplFromJson(Map<String, dynamic> json) =>
             ),
           ) ??
           const {},
+      sport: json['sport'] as String? ?? null,
+      category: json['category'] as String? ?? null,
     );
 
 Map<String, dynamic> _$$SessionModelImplToJson(_$SessionModelImpl instance) =>
@@ -111,4 +113,6 @@ Map<String, dynamic> _$$SessionModelImplToJson(_$SessionModelImpl instance) =>
       'roundTemplateOverrides': instance.roundTemplateOverrides.map(
         (k, e) => MapEntry(k.toString(), e),
       ),
+      'sport': instance.sport,
+      'category': instance.category,
     };

@@ -86,3 +86,45 @@ Sources: MPBA, Expert Boxer, FightCamp
 > "Moved to a subscription model, completely ignoring those people that paid for the app in the past."
 
 > "5 gigs in a few uses is ridiculous" (data usage for a timer app)
+
+## V2 Research Documents
+
+Deep research conducted March 2026 covering competitive landscape, user values, pain points, technology, market expansion, and business models:
+
+| Document | Focus | Lines |
+|----------|-------|-------|
+| `docs/research/RESEARCH_FRAMEWORK.md` | Research methodology and framework | — |
+| `docs/research/01_VALUE_ANALYSIS.md` | What users fundamentally value | 692 |
+| `docs/research/02_COMPETITOR_DEEP_DIVE.md` | 20+ competitor analysis across 4 tiers | 957 |
+| `docs/research/03_USER_PAIN_POINTS.md` | Real user complaints and quotes | 913 |
+| `docs/research/04_TECHNOLOGY_SCAN.md` | AI, wearables, sensors, platform capabilities | 1,184 |
+| `docs/research/05_MARKET_EXPANSION.md` | 15 audience segments analyzed | 1,109 |
+| `docs/research/06_BUSINESS_MODELS.md` | 10 monetization models evaluated | 1,029 |
+| `docs/research/07_OPPORTUNITY_MATRIX.md` | Ranked opportunities and strategic paths | 675 |
+
+## Combat Sport Training References (V2)
+
+### Boxing Combo System
+- 1=Jab, 2=Cross, 3=Lead Hook, 4=Rear Hook, 5=Lead Uppercut, 6=Rear Uppercut
+- "b" modifier = body shot
+- Sources: MPBA, Expert Boxer, FightCamp
+
+### Muay Thai Technique System
+- Kicks: roundhouse, teep (push kick), switch kick, low kick
+- Elbows: horizontal, uppercut, spinning
+- Knees: straight, diagonal, flying
+- Clinch: double collar tie, single collar, body lock
+- Sources: YOKKAO, Evolve MMA, Muay Thai Authority
+
+### BJJ Position System
+- Guard positions: closed guard, open guard, half guard, butterfly, de la riva
+- Top positions: mount, side control, knee on belly, back mount
+- Transitions: sweep, pass, escape, submission attempt
+- Competition formats: IBJJF (points), ADCC (points + submission), sub-only
+- Sources: IBJJF rulebook, Grapplearts, BJJ Fanatics
+
+### MMA Training Structure
+- Striking rounds, grappling rounds, mixed rounds
+- Cage work: clinch against wall, takedown defense
+- Ground and pound positions
+- Sources: UFC Performance Institute, MMA Fighting
