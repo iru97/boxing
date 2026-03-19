@@ -11,6 +11,7 @@ import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/core/utils/session_category.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
+import 'package:boxing/features/ads/presentation/widgets/banner_ad_widget.dart';
 import 'package:boxing/features/timer/domain/timer_checkpoint.dart';
 import 'package:boxing/features/timer/presentation/checkpoint_controller.dart';
 import 'package:boxing/l10n/app_localizations.dart';
@@ -29,7 +30,10 @@ class SessionListScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: ListView(
+        child: Column(
+        children: [
+          Expanded(
+            child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
           // Action icons row
@@ -190,6 +194,10 @@ class SessionListScreen extends ConsumerWidget {
                   )).toList(),
             ),
           const SizedBox(height: 20),
+        ],
+      ),
+          ),
+          const BannerAdWidget(),
         ],
       ),
       ),

@@ -22,6 +22,9 @@ class AppSettings with _$AppSettings {
     @Default('dark') String themeMode, // dark, light, system
     @Default('system') String locale, // system, en, es, pt
     @Default(false) bool tapToPause,
+
+    // Monetization
+    @Default(false) bool isAdFree,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>

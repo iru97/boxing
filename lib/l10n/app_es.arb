@@ -246,5 +246,23 @@
     "placeholders": {
       "name": { "type": "String" }
     }
-  }
+  },
+
+  "sectionSubscription": "Suscripci\u00f3n",
+  "removeAdsTitle": "Eliminar Anuncios",
+  "removeAdsSubtitle": "Compra \u00fanica para eliminar todos los anuncios",
+  "removeAdsPrice": "Eliminar Anuncios - {price}",
+  "@removeAdsPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "adFreeStatus": "Sin Anuncios",
+  "adFreeDescription": "\u00a1Gracias por tu compra!",
+  "restorePurchases": "Restaurar Compras",
+  "restorePurchasesDescription": "Restaurar una compra anterior de eliminaci\u00f3n de anuncios",
+  "purchaseRestored": "Compra restaurada exitosamente",
+  "purchaseRestoredNone": "No se encontraron compras anteriores",
+  "purchaseError": "La compra fall\u00f3. Int\u00e9ntalo de nuevo.",
+  "purchasePending": "Compra pendiente..."
 }

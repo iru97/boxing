@@ -658,4 +658,43 @@ class SPt extends S {
   String discardSessionMessage(String name) {
     return 'Descartar a sessão em andamento \"$name\"? Seu progresso será perdido.';
   }
+
+  @override
+  String get sectionSubscription => 'Assinatura';
+
+  @override
+  String get removeAdsTitle => 'Remover Anúncios';
+
+  @override
+  String get removeAdsSubtitle => 'Compra única para remover todos os anúncios';
+
+  @override
+  String removeAdsPrice(String price) {
+    return 'Remover Anúncios - $price';
+  }
+
+  @override
+  String get adFreeStatus => 'Sem Anúncios';
+
+  @override
+  String get adFreeDescription => 'Obrigado pela sua compra!';
+
+  @override
+  String get restorePurchases => 'Restaurar Compras';
+
+  @override
+  String get restorePurchasesDescription =>
+      'Restaurar uma compra anterior de remoção de anúncios';
+
+  @override
+  String get purchaseRestored => 'Compra restaurada com sucesso';
+
+  @override
+  String get purchaseRestoredNone => 'Nenhuma compra anterior encontrada';
+
+  @override
+  String get purchaseError => 'A compra falhou. Tente novamente.';
+
+  @override
+  String get purchasePending => 'Compra pendente...';
 }

@@ -376,5 +376,23 @@
     "placeholders": {
       "name": { "type": "String" }
     }
-  }
+  },
+
+  "sectionSubscription": "Subscription",
+  "removeAdsTitle": "Remove Ads",
+  "removeAdsSubtitle": "One-time purchase to remove all ads",
+  "removeAdsPrice": "Remove Ads - {price}",
+  "@removeAdsPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "adFreeStatus": "Ad-Free",
+  "adFreeDescription": "Thank you for your purchase!",
+  "restorePurchases": "Restore Purchases",
+  "restorePurchasesDescription": "Restore a previous ad removal purchase",
+  "purchaseRestored": "Purchase restored successfully",
+  "purchaseRestoredNone": "No previous purchases found",
+  "purchaseError": "Purchase failed. Please try again.",
+  "purchasePending": "Purchase pending..."
 }

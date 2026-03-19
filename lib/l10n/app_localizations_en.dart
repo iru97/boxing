@@ -657,4 +657,43 @@ class SEn extends S {
   String discardSessionMessage(String name) {
     return 'Discard the in-progress session \"$name\"? Your progress will be lost.';
   }
+
+  @override
+  String get sectionSubscription => 'Subscription';
+
+  @override
+  String get removeAdsTitle => 'Remove Ads';
+
+  @override
+  String get removeAdsSubtitle => 'One-time purchase to remove all ads';
+
+  @override
+  String removeAdsPrice(String price) {
+    return 'Remove Ads - $price';
+  }
+
+  @override
+  String get adFreeStatus => 'Ad-Free';
+
+  @override
+  String get adFreeDescription => 'Thank you for your purchase!';
+
+  @override
+  String get restorePurchases => 'Restore Purchases';
+
+  @override
+  String get restorePurchasesDescription =>
+      'Restore a previous ad removal purchase';
+
+  @override
+  String get purchaseRestored => 'Purchase restored successfully';
+
+  @override
+  String get purchaseRestoredNone => 'No previous purchases found';
+
+  @override
+  String get purchaseError => 'Purchase failed. Please try again.';
+
+  @override
+  String get purchasePending => 'Purchase pending...';
 }

@@ -19,6 +19,7 @@ _$AppSettingsImpl _$$AppSettingsImplFromJson(Map<String, dynamic> json) =>
       themeMode: json['themeMode'] as String? ?? 'dark',
       locale: json['locale'] as String? ?? 'system',
       tapToPause: json['tapToPause'] as bool? ?? false,
+      isAdFree: json['isAdFree'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
@@ -34,4 +35,5 @@ Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
       'themeMode': instance.themeMode,
       'locale': instance.locale,
       'tapToPause': instance.tapToPause,
+      'isAdFree': instance.isAdFree,
     };

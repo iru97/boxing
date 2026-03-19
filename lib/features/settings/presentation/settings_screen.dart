@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:boxing/core/constants/app_constants.dart';
+import 'package:boxing/features/ads/presentation/ads_controller.dart';
 import 'package:boxing/features/settings/presentation/settings_controller.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
@@ -135,6 +136,46 @@ class SettingsScreen extends ConsumerWidget {
               applicationName: 'Boxing',
               applicationVersion: '1.0.0',
             ),
+          ),
+
+          _SectionHeader(s.sectionSubscription),
+
+          if (!ref.watch(isAdFreeProvider))
+            ListTile(
+              leading: const Icon(Icons.remove_circle_outline),
+              title: Text(s.removeAdsTitle),
+              subtitle: Text(s.removeAdsSubtitle),
+              trailing: FilledButton(
+                onPressed: () async {
+                  final purchaseService = ref.read(purchaseServiceProvider);
+                  await purchaseService.purchaseRemoveAds();
+                },
+                child: Text(
+                  ref.read(purchaseServiceProvider).removeAdsProduct?.price ??
+                      '\$2.99',
+                ),
+              ),
+            )
+          else
+            ListTile(
+              leading: const Icon(Icons.check_circle, color: Colors.green),
+              title: Text(s.adFreeStatus),
+              subtitle: Text(s.adFreeDescription),
+            ),
+
+          ListTile(
+            leading: const Icon(Icons.restore),
+            title: Text(s.restorePurchases),
+            subtitle: Text(s.restorePurchasesDescription),
+            onTap: () async {
+              final purchaseService = ref.read(purchaseServiceProvider);
+              await purchaseService.restorePurchases();
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(s.purchaseRestored)),
+                );
+              }
+            },
           ),
         ],
       ),

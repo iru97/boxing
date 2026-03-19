@@ -660,4 +660,44 @@ class SEs extends S {
   String discardSessionMessage(String name) {
     return '¿Descartar la sesión en progreso \"$name\"? Se perderá tu progreso.';
   }
+
+  @override
+  String get sectionSubscription => 'Suscripción';
+
+  @override
+  String get removeAdsTitle => 'Eliminar Anuncios';
+
+  @override
+  String get removeAdsSubtitle =>
+      'Compra única para eliminar todos los anuncios';
+
+  @override
+  String removeAdsPrice(String price) {
+    return 'Eliminar Anuncios - $price';
+  }
+
+  @override
+  String get adFreeStatus => 'Sin Anuncios';
+
+  @override
+  String get adFreeDescription => '¡Gracias por tu compra!';
+
+  @override
+  String get restorePurchases => 'Restaurar Compras';
+
+  @override
+  String get restorePurchasesDescription =>
+      'Restaurar una compra anterior de eliminación de anuncios';
+
+  @override
+  String get purchaseRestored => 'Compra restaurada exitosamente';
+
+  @override
+  String get purchaseRestoredNone => 'No se encontraron compras anteriores';
+
+  @override
+  String get purchaseError => 'La compra falló. Inténtalo de nuevo.';
+
+  @override
+  String get purchasePending => 'Compra pendiente...';
 }

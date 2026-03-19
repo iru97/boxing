@@ -246,5 +246,23 @@
     "placeholders": {
       "name": { "type": "String" }
     }
-  }
+  },
+
+  "sectionSubscription": "Assinatura",
+  "removeAdsTitle": "Remover An\u00fancios",
+  "removeAdsSubtitle": "Compra \u00fanica para remover todos os an\u00fancios",
+  "removeAdsPrice": "Remover An\u00fancios - {price}",
+  "@removeAdsPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "adFreeStatus": "Sem An\u00fancios",
+  "adFreeDescription": "Obrigado pela sua compra!",
+  "restorePurchases": "Restaurar Compras",
+  "restorePurchasesDescription": "Restaurar uma compra anterior de remo\u00e7\u00e3o de an\u00fancios",
+  "purchaseRestored": "Compra restaurada com sucesso",
+  "purchaseRestoredNone": "Nenhuma compra anterior encontrada",
+  "purchaseError": "A compra falhou. Tente novamente.",
+  "purchasePending": "Compra pendente..."
 }

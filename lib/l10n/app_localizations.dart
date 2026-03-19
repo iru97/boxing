@@ -1280,6 +1280,78 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Discard the in-progress session \"{name}\"? Your progress will be lost.'**
   String discardSessionMessage(String name);
+
+  /// No description provided for @sectionSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get sectionSubscription;
+
+  /// No description provided for @removeAdsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Ads'**
+  String get removeAdsTitle;
+
+  /// No description provided for @removeAdsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time purchase to remove all ads'**
+  String get removeAdsSubtitle;
+
+  /// No description provided for @removeAdsPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Ads - {price}'**
+  String removeAdsPrice(String price);
+
+  /// No description provided for @adFreeStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad-Free'**
+  String get adFreeStatus;
+
+  /// No description provided for @adFreeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your purchase!'**
+  String get adFreeDescription;
+
+  /// No description provided for @restorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchases'**
+  String get restorePurchases;
+
+  /// No description provided for @restorePurchasesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore a previous ad removal purchase'**
+  String get restorePurchasesDescription;
+
+  /// No description provided for @purchaseRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase restored successfully'**
+  String get purchaseRestored;
+
+  /// No description provided for @purchaseRestoredNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No previous purchases found'**
+  String get purchaseRestoredNone;
+
+  /// No description provided for @purchaseError.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase failed. Please try again.'**
+  String get purchaseError;
+
+  /// No description provided for @purchasePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase pending...'**
+  String get purchasePending;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

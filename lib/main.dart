@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +8,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:boxing/app/app.dart';
 import 'package:boxing/core/constants/app_constants.dart';
+import 'package:boxing/features/ads/data/ad_service.dart';
+import 'package:boxing/features/ads/data/purchase_service.dart';
+import 'package:boxing/features/ads/presentation/ads_controller.dart';
 import 'package:boxing/features/audio/data/audio_player_service.dart';
 import 'package:boxing/features/audio/data/voice_service.dart';
 import 'package:boxing/features/history/presentation/history_controller.dart';
@@ -39,6 +45,30 @@ Future<void> main() async {
   final voiceService = VoiceService();
   await voiceService.init();
 
+  // Initialize Mobile Ads SDK
+  final adService = AdService();
+  await adService.initialize();
+
+  // Initialize in-app purchase service
+  final purchaseService = PurchaseService(settingsBox);
+  await purchaseService.initialize();
+
+  // Wire ad-free check so ads are suppressed for purchasers
+  adService.setAdFreeCheck(() => purchaseService.isAdFree);
+
+  // Pre-load interstitial so it is ready for the first natural break
+  await adService.preloadInterstitial();
+
+  // Request ATT permission on iOS (improves ad revenue via personalization)
+  if (Platform.isIOS) {
+    final status =
+        await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status == TrackingStatus.notDetermined) {
+      await Future.delayed(const Duration(seconds: 1));
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+  }
+
   runApp(
     ProviderScope(
       overrides: [
@@ -49,6 +79,9 @@ Future<void> main() async {
         checkpointBoxProvider.overrideWithValue(checkpointBox),
         audioServiceProvider.overrideWithValue(audioService),
         voiceServiceProvider.overrideWithValue(voiceService),
+        adServiceProvider.overrideWithValue(adService),
+        purchaseServiceProvider.overrideWithValue(purchaseService),
+        isAdFreeProvider.overrideWith((ref) => purchaseService.isAdFree),
       ],
       child: const BoxingApp(),
     ),

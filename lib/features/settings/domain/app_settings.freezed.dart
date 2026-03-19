@@ -33,7 +33,8 @@ mixin _$AppSettings {
   String get themeMode =>
       throw _privateConstructorUsedError; // dark, light, system
   String get locale => throw _privateConstructorUsedError; // system, en, es, pt
-  bool get tapToPause => throw _privateConstructorUsedError;
+  bool get tapToPause => throw _privateConstructorUsedError; // Monetization
+  bool get isAdFree => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,6 +65,7 @@ abstract class $AppSettingsCopyWith<$Res> {
     String themeMode,
     String locale,
     bool tapToPause,
+    bool isAdFree,
   });
 }
 
@@ -93,6 +95,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
     Object? themeMode = null,
     Object? locale = null,
     Object? tapToPause = null,
+    Object? isAdFree = null,
   }) {
     return _then(
       _value.copyWith(
@@ -151,6 +154,11 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
                     ? _value.tapToPause
                     : tapToPause // ignore: cast_nullable_to_non_nullable
                         as bool,
+            isAdFree:
+                null == isAdFree
+                    ? _value.isAdFree
+                    : isAdFree // ignore: cast_nullable_to_non_nullable
+                        as bool,
           )
           as $Val,
     );
@@ -178,6 +186,7 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
     String themeMode,
     String locale,
     bool tapToPause,
+    bool isAdFree,
   });
 }
 
@@ -206,6 +215,7 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
     Object? themeMode = null,
     Object? locale = null,
     Object? tapToPause = null,
+    Object? isAdFree = null,
   }) {
     return _then(
       _$AppSettingsImpl(
@@ -264,6 +274,11 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
                 ? _value.tapToPause
                 : tapToPause // ignore: cast_nullable_to_non_nullable
                     as bool,
+        isAdFree:
+            null == isAdFree
+                ? _value.isAdFree
+                : isAdFree // ignore: cast_nullable_to_non_nullable
+                    as bool,
       ),
     );
   }
@@ -284,6 +299,7 @@ class _$AppSettingsImpl implements _AppSettings {
     this.themeMode = 'dark',
     this.locale = 'system',
     this.tapToPause = false,
+    this.isAdFree = false,
   });
 
   factory _$AppSettingsImpl.fromJson(Map<String, dynamic> json) =>
@@ -327,10 +343,14 @@ class _$AppSettingsImpl implements _AppSettings {
   @override
   @JsonKey()
   final bool tapToPause;
+  // Monetization
+  @override
+  @JsonKey()
+  final bool isAdFree;
 
   @override
   String toString() {
-    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause)';
+    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause, isAdFree: $isAdFree)';
   }
 
   @override
@@ -358,7 +378,9 @@ class _$AppSettingsImpl implements _AppSettings {
                 other.themeMode == themeMode) &&
             (identical(other.locale, locale) || other.locale == locale) &&
             (identical(other.tapToPause, tapToPause) ||
-                other.tapToPause == tapToPause));
+                other.tapToPause == tapToPause) &&
+            (identical(other.isAdFree, isAdFree) ||
+                other.isAdFree == isAdFree));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -376,6 +398,7 @@ class _$AppSettingsImpl implements _AppSettings {
     themeMode,
     locale,
     tapToPause,
+    isAdFree,
   );
 
   /// Create a copy of AppSettings
@@ -405,6 +428,7 @@ abstract class _AppSettings implements AppSettings {
     final String themeMode,
     final String locale,
     final bool tapToPause,
+    final bool isAdFree,
   }) = _$AppSettingsImpl;
 
   factory _AppSettings.fromJson(Map<String, dynamic> json) =
@@ -432,7 +456,9 @@ abstract class _AppSettings implements AppSettings {
   @override
   String get locale; // system, en, es, pt
   @override
-  bool get tapToPause;
+  bool get tapToPause; // Monetization
+  @override
+  bool get isAdFree;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.

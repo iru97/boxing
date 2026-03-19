@@ -10,6 +10,7 @@ import 'package:boxing/core/theme/app_typography.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:flutter/services.dart';
 
+import 'package:boxing/features/ads/presentation/ads_controller.dart';
 import 'package:boxing/features/audio/data/voice_service.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
@@ -201,7 +202,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
             child: Text(S.of(context).buttonSaveExit),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               // Save partial training record before stopping
               final currentState = ref.read(timerStateProvider).valueOrNull ??
                   ref.read(timerEngineProvider).currentState;
@@ -218,13 +219,24 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
               ref.read(timerEngineProvider).stop();
               _lifecycleService?.onSessionEnd();
               Navigator.of(ctx).pop();
-              context.go('/');
+              await _navigateHomeWithAd();
             },
             child: Text(S.of(context).buttonEnd),
           ),
         ],
       ),
     );
+  }
+
+  /// Show interstitial at a natural transition (workout ended or stopped),
+  /// then navigate to home. If the ad is not ready or on cooldown, navigates
+  /// immediately. Does NOT show for "Save & Exit" flows.
+  Future<void> _navigateHomeWithAd() async {
+    final adService = ref.read(adServiceProvider);
+    await adService.showInterstitialIfReady();
+    if (mounted) {
+      context.go('/');
+    }
   }
 
   @override
@@ -294,10 +306,10 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
       onSkipForward: () => ref.read(timerEngineProvider).skipForward(),
       onStop: _confirmStop,
       onRepeat: _startSession,
-      onDone: () {
+      onDone: () async {
         ref.read(timerEngineProvider).stop();
         _lifecycleService?.onSessionEnd();
-        context.go('/');
+        await _navigateHomeWithAd();
       },
     );
   }
