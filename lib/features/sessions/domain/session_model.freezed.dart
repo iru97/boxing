@@ -713,7 +713,10 @@ mixin _$SessionModel {
       throw _privateConstructorUsedError; // Sport-specific fields (Sprint 8)
   String? get sport =>
       throw _privateConstructorUsedError; // 'boxing' | 'muayThai' | 'mma' | 'bjj' | 'kickboxing' | 'wrestling' | null
-  String? get category => throw _privateConstructorUsedError;
+  String? get category =>
+      throw _privateConstructorUsedError; // 'competition' | 'training' | 'drills' | 'conditioning' | null
+  // Combo callout settings (Sprint 9)
+  ComboCalloutConfig? get comboConfig => throw _privateConstructorUsedError;
 
   /// Serializes this SessionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -751,9 +754,11 @@ abstract class $SessionModelCopyWith<$Res> {
     Map<int, RoundTemplate> roundTemplateOverrides,
     String? sport,
     String? category,
+    ComboCalloutConfig? comboConfig,
   });
 
   $RoundTemplateCopyWith<$Res>? get roundTemplate;
+  $ComboCalloutConfigCopyWith<$Res>? get comboConfig;
 }
 
 /// @nodoc
@@ -789,6 +794,7 @@ class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
     Object? roundTemplateOverrides = null,
     Object? sport = freezed,
     Object? category = freezed,
+    Object? comboConfig = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -882,6 +888,11 @@ class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
                     ? _value.category
                     : category // ignore: cast_nullable_to_non_nullable
                         as String?,
+            comboConfig:
+                freezed == comboConfig
+                    ? _value.comboConfig
+                    : comboConfig // ignore: cast_nullable_to_non_nullable
+                        as ComboCalloutConfig?,
           )
           as $Val,
     );
@@ -898,6 +909,20 @@ class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
 
     return $RoundTemplateCopyWith<$Res>(_value.roundTemplate!, (value) {
       return _then(_value.copyWith(roundTemplate: value) as $Val);
+    });
+  }
+
+  /// Create a copy of SessionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ComboCalloutConfigCopyWith<$Res>? get comboConfig {
+    if (_value.comboConfig == null) {
+      return null;
+    }
+
+    return $ComboCalloutConfigCopyWith<$Res>(_value.comboConfig!, (value) {
+      return _then(_value.copyWith(comboConfig: value) as $Val);
     });
   }
 }
@@ -930,10 +955,13 @@ abstract class _$$SessionModelImplCopyWith<$Res>
     Map<int, RoundTemplate> roundTemplateOverrides,
     String? sport,
     String? category,
+    ComboCalloutConfig? comboConfig,
   });
 
   @override
   $RoundTemplateCopyWith<$Res>? get roundTemplate;
+  @override
+  $ComboCalloutConfigCopyWith<$Res>? get comboConfig;
 }
 
 /// @nodoc
@@ -968,6 +996,7 @@ class __$$SessionModelImplCopyWithImpl<$Res>
     Object? roundTemplateOverrides = null,
     Object? sport = freezed,
     Object? category = freezed,
+    Object? comboConfig = freezed,
   }) {
     return _then(
       _$SessionModelImpl(
@@ -1061,6 +1090,11 @@ class __$$SessionModelImplCopyWithImpl<$Res>
                 ? _value.category
                 : category // ignore: cast_nullable_to_non_nullable
                     as String?,
+        comboConfig:
+            freezed == comboConfig
+                ? _value.comboConfig
+                : comboConfig // ignore: cast_nullable_to_non_nullable
+                    as ComboCalloutConfig?,
       ),
     );
   }
@@ -1088,6 +1122,7 @@ class _$SessionModelImpl implements _SessionModel {
     final Map<int, RoundTemplate> roundTemplateOverrides = const {},
     this.sport = null,
     this.category = null,
+    this.comboConfig = null,
   }) : _roundOverrides = roundOverrides,
        _roundTemplateOverrides = roundTemplateOverrides;
 
@@ -1158,10 +1193,15 @@ class _$SessionModelImpl implements _SessionModel {
   @override
   @JsonKey()
   final String? category;
+  // 'competition' | 'training' | 'drills' | 'conditioning' | null
+  // Combo callout settings (Sprint 9)
+  @override
+  @JsonKey()
+  final ComboCalloutConfig? comboConfig;
 
   @override
   String toString() {
-    return 'SessionModel(id: $id, name: $name, rounds: $rounds, roundDurationSec: $roundDurationSec, restDurationSec: $restDurationSec, warningTimeSec: $warningTimeSec, warmupDurationSec: $warmupDurationSec, autoAdvance: $autoAdvance, keepScreenOn: $keepScreenOn, voiceAnnounce: $voiceAnnounce, volumeOverride: $volumeOverride, soundPack: $soundPack, roundOverrides: $roundOverrides, isPreset: $isPreset, roundTemplate: $roundTemplate, roundTemplateOverrides: $roundTemplateOverrides, sport: $sport, category: $category)';
+    return 'SessionModel(id: $id, name: $name, rounds: $rounds, roundDurationSec: $roundDurationSec, restDurationSec: $restDurationSec, warningTimeSec: $warningTimeSec, warmupDurationSec: $warmupDurationSec, autoAdvance: $autoAdvance, keepScreenOn: $keepScreenOn, voiceAnnounce: $voiceAnnounce, volumeOverride: $volumeOverride, soundPack: $soundPack, roundOverrides: $roundOverrides, isPreset: $isPreset, roundTemplate: $roundTemplate, roundTemplateOverrides: $roundTemplateOverrides, sport: $sport, category: $category, comboConfig: $comboConfig)';
   }
 
   @override
@@ -1204,12 +1244,14 @@ class _$SessionModelImpl implements _SessionModel {
             ) &&
             (identical(other.sport, sport) || other.sport == sport) &&
             (identical(other.category, category) ||
-                other.category == category));
+                other.category == category) &&
+            (identical(other.comboConfig, comboConfig) ||
+                other.comboConfig == comboConfig));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
     id,
     name,
@@ -1229,7 +1271,8 @@ class _$SessionModelImpl implements _SessionModel {
     const DeepCollectionEquality().hash(_roundTemplateOverrides),
     sport,
     category,
-  );
+    comboConfig,
+  ]);
 
   /// Create a copy of SessionModel
   /// with the given fields replaced by the non-null parameter values.
@@ -1265,6 +1308,7 @@ abstract class _SessionModel implements SessionModel {
     final Map<int, RoundTemplate> roundTemplateOverrides,
     final String? sport,
     final String? category,
+    final ComboCalloutConfig? comboConfig,
   }) = _$SessionModelImpl;
 
   factory _SessionModel.fromJson(Map<String, dynamic> json) =
@@ -1305,7 +1349,10 @@ abstract class _SessionModel implements SessionModel {
   @override
   String? get sport; // 'boxing' | 'muayThai' | 'mma' | 'bjj' | 'kickboxing' | 'wrestling' | null
   @override
-  String? get category;
+  String? get category; // 'competition' | 'training' | 'drills' | 'conditioning' | null
+  // Combo callout settings (Sprint 9)
+  @override
+  ComboCalloutConfig? get comboConfig;
 
   /// Create a copy of SessionModel
   /// with the given fields replaced by the non-null parameter values.

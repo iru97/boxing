@@ -699,10 +699,10 @@ class SPt extends S {
   String get purchasePending => 'Compra pendente...';
 
   @override
-  String get sportFilterAll => 'All';
+  String get sportFilterAll => 'Todos';
 
   @override
-  String get sportBoxing => 'Boxing';
+  String get sportBoxing => 'Boxe';
 
   @override
   String get sportMuayThai => 'Muay Thai';
@@ -717,17 +717,86 @@ class SPt extends S {
   String get sportKickboxing => 'Kickboxing';
 
   @override
-  String get sportWrestling => 'Wrestling';
+  String get sportWrestling => 'Luta';
 
   @override
-  String get subcategoryCompetition => 'Competition';
+  String get subcategoryCompetition => 'Competição';
 
   @override
-  String get subcategoryTraining => 'Training';
+  String get subcategoryTraining => 'Treinamento';
 
   @override
-  String get subcategoryDrills => 'Drills';
+  String get subcategoryDrills => 'Exercícios';
 
   @override
-  String get subcategoryConditioning => 'Conditioning';
+  String get subcategoryConditioning => 'Condicionamento';
+
+  @override
+  String get comboSectionTitle => 'Combos por Voz';
+
+  @override
+  String get comboEnable => 'Ativar combos por voz';
+
+  @override
+  String get comboEnableDescription =>
+      'O treinador chama combinações de golpes durante as fases de trabalho';
+
+  @override
+  String get comboSport => 'Esporte';
+
+  @override
+  String get comboSportBoxing => 'Boxe';
+
+  @override
+  String get comboSportMuayThai => 'Muay Thai';
+
+  @override
+  String get comboSportMMA => 'MMA';
+
+  @override
+  String get comboSportKickboxing => 'Kickboxing';
+
+  @override
+  String get comboDifficulty => 'Dificuldade';
+
+  @override
+  String get comboDifficultyBeginner => 'Iniciante';
+
+  @override
+  String get comboDifficultyIntermediate => 'Intermediário';
+
+  @override
+  String get comboDifficultyAdvanced => 'Avançado';
+
+  @override
+  String get comboIntensity => 'Intensidade';
+
+  @override
+  String get comboIntensityRelaxed => 'Relaxado';
+
+  @override
+  String get comboIntensityModerate => 'Moderado';
+
+  @override
+  String get comboIntensityIntense => 'Intenso';
+
+  @override
+  String get comboIntensityHurricane => 'Furacão';
+
+  @override
+  String get comboIncludeDefense => 'Incluir defesa';
+
+  @override
+  String get comboIncludeFootwork => 'Incluir movimentação';
+
+  @override
+  String comboPoolSize(int count) {
+    return '$count combos disponíveis';
+  }
+
+  @override
+  String get comboPreviewTitle => 'Prévia dos Combos';
+
+  @override
+  String get comboSummaryLabel => 'Combos por Voz';
 }

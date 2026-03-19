@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 
 part 'session_model.freezed.dart';
 part 'session_model.g.dart';
@@ -70,6 +71,8 @@ class SessionModel with _$SessionModel {
     // Sport-specific fields (Sprint 8)
     @Default(null) String? sport,     // 'boxing' | 'muayThai' | 'mma' | 'bjj' | 'kickboxing' | 'wrestling' | null
     @Default(null) String? category,  // 'competition' | 'training' | 'drills' | 'conditioning' | null
+    // Combo callout settings (Sprint 9)
+    @Default(null) ComboCalloutConfig? comboConfig,
   }) = _SessionModel;
 
   factory SessionModel.fromJson(Map<String, dynamic> json) =>

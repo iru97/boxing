@@ -11,6 +11,8 @@ import 'package:boxing/features/sessions/presentation/segment_editor_sheet.dart'
 import 'package:boxing/features/sessions/presentation/sessions_controller.dart';
 import 'package:boxing/features/sessions/presentation/template_controller.dart';
 import 'package:boxing/features/settings/presentation/settings_controller.dart';
+import 'package:boxing/features/combos/domain/combo_callout_config.dart';
+import 'package:boxing/features/combos/presentation/combo_settings_section.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
 class SessionEditorScreen extends ConsumerStatefulWidget {
@@ -37,6 +39,7 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
   RoundTemplate? _roundTemplate;
   Map<int, RoundTemplate> _roundTemplateOverrides = {};
   bool _perRoundMode = false;
+  ComboCalloutConfig _comboConfig = const ComboCalloutConfig();
   String? _editingId;
   bool _defaultsApplied = false;
   bool _isPresetCustomize = false;
@@ -78,6 +81,7 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
         _roundTemplate = session.roundTemplate;
         _roundTemplateOverrides = Map.of(session.roundTemplateOverrides);
         _perRoundMode = session.roundTemplateOverrides.isNotEmpty;
+        _comboConfig = session.comboConfig ?? const ComboCalloutConfig();
       });
     } else {
       // Session not found (deleted or invalid ID)
@@ -129,6 +133,7 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
       keepScreenOn: _keepScreenOn,
       roundTemplate: _perRoundMode ? null : _roundTemplate,
       roundTemplateOverrides: _perRoundMode ? _roundTemplateOverrides : {},
+      comboConfig: _comboConfig.enabled ? _comboConfig : null,
       isPreset: false,
     );
 
@@ -295,6 +300,14 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
               subtitle: Text(S.of(context).descriptionKeepScreenOn),
               value: _keepScreenOn,
               onChanged: (v) => setState(() => _keepScreenOn = v),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Combo callout settings
+            ComboSettingsSection(
+              config: _comboConfig,
+              onChanged: (config) => setState(() => _comboConfig = config),
             ),
 
             const SizedBox(height: 24),

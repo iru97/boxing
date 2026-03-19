@@ -1,0 +1,281 @@
+import 'package:flutter/material.dart';
+
+import 'package:boxing/features/combos/data/combo_library.dart';
+import 'package:boxing/features/combos/domain/combo_callout_config.dart';
+import 'package:boxing/features/combos/domain/combo_model.dart';
+
+/// A section for the session editor that configures combo callouts.
+///
+/// Follows the same visual style as other session editor sections:
+/// section title (titleMedium) + content below — no wrapping Card,
+/// the surrounding ListView padding provides the spacing.
+/// Collapses to a single toggle when disabled.
+class ComboSettingsSection extends StatelessWidget {
+  final ComboCalloutConfig config;
+  final ValueChanged<ComboCalloutConfig> onChanged;
+
+  const ComboSettingsSection({
+    super.key,
+    required this.config,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Section title — matches other sections in session_editor_screen
+        Text(
+          'Combo Callouts',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 8),
+
+        // Enable toggle
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          title: const Text('Enable combo callouts'),
+          subtitle: const Text('Voice calls out combos during work rounds'),
+          value: config.enabled,
+          onChanged: (v) => onChanged(config.copyWith(enabled: v)),
+        ),
+
+        // Expanded settings — visible only when enabled
+        if (config.enabled) ...[
+          const SizedBox(height: 12),
+          _SportSelector(
+            selected: config.sport,
+            onChanged: (v) => onChanged(config.copyWith(sport: v)),
+          ),
+          const SizedBox(height: 16),
+          _DifficultySelector(
+            selected: config.difficulty,
+            onChanged: (v) => onChanged(config.copyWith(difficulty: v)),
+          ),
+          const SizedBox(height: 16),
+          _IntensitySelector(
+            selected: config.intensity,
+            onChanged: (v) => onChanged(config.copyWith(intensity: v)),
+          ),
+          const SizedBox(height: 8),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Include defense cues'),
+            subtitle: const Text('Slip, roll, block callouts'),
+            value: config.includeDefense,
+            onChanged: (v) => onChanged(config.copyWith(includeDefense: v)),
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Include footwork cues'),
+            subtitle: const Text('Pivot, angle, cut the ring'),
+            value: config.includeFootwork,
+            onChanged: (v) => onChanged(config.copyWith(includeFootwork: v)),
+          ),
+          const SizedBox(height: 4),
+          _PoolSizeIndicator(config: config),
+        ],
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sport selector — SegmentedButton matching _ModeToggle style in editor
+// ---------------------------------------------------------------------------
+
+class _SportSelector extends StatelessWidget {
+  final String selected;
+  final ValueChanged<String> onChanged;
+
+  const _SportSelector({
+    required this.selected,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Sport', style: Theme.of(context).textTheme.labelLarge),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: double.infinity,
+          child: SegmentedButton<String>(
+            style: SegmentedButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            showSelectedIcon: false,
+            segments: const [
+              ButtonSegment(value: 'boxing', label: Text('Boxing')),
+              ButtonSegment(value: 'muayThai', label: Text('Muay Thai')),
+              ButtonSegment(value: 'mma', label: Text('MMA')),
+              ButtonSegment(value: 'kickboxing', label: Text('Kickboxing')),
+            ],
+            selected: {selected},
+            onSelectionChanged: (sel) => onChanged(sel.first),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Difficulty selector
+// ---------------------------------------------------------------------------
+
+class _DifficultySelector extends StatelessWidget {
+  final String selected;
+  final ValueChanged<String> onChanged;
+
+  const _DifficultySelector({
+    required this.selected,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Difficulty', style: Theme.of(context).textTheme.labelLarge),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: double.infinity,
+          child: SegmentedButton<String>(
+            style: SegmentedButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            showSelectedIcon: false,
+            segments: const [
+              ButtonSegment(value: 'beginner', label: Text('Beginner')),
+              ButtonSegment(
+                value: 'intermediate',
+                label: Text('Intermediate'),
+              ),
+              ButtonSegment(value: 'advanced', label: Text('Advanced')),
+            ],
+            selected: {selected},
+            onSelectionChanged: (sel) => onChanged(sel.first),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Intensity selector — ChoiceChips because 4 options with subtitle labels
+// ---------------------------------------------------------------------------
+
+class _IntensitySelector extends StatelessWidget {
+  final String selected;
+  final ValueChanged<String> onChanged;
+
+  const _IntensitySelector({
+    required this.selected,
+    required this.onChanged,
+  });
+
+  static const _options = [
+    (value: 'relaxed', label: 'Relaxed', interval: '8-12s'),
+    (value: 'moderate', label: 'Moderate', interval: '5-8s'),
+    (value: 'intense', label: 'Intense', interval: '3-5s'),
+    (value: 'hurricane', label: 'Hurricane', interval: '2-3s'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Intensity', style: Theme.of(context).textTheme.labelLarge),
+        const SizedBox(height: 4),
+        Text(
+          'How often combos are called',
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withAlpha(153),
+              ),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 4,
+          children: _options
+              .map(
+                (opt) => ChoiceChip(
+                  label: Text('${opt.label} (${opt.interval})'),
+                  selected: selected == opt.value,
+                  onSelected: (_) => onChanged(opt.value),
+                ),
+              )
+              .toList(),
+        ),
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Pool size indicator — shows how many combos match the current config
+// ---------------------------------------------------------------------------
+
+class _PoolSizeIndicator extends StatelessWidget {
+  final ComboCalloutConfig config;
+
+  const _PoolSizeIndicator({required this.config});
+
+  int _poolSize() {
+    final sport = ComboSport.values.firstWhere(
+      (e) => e.name == config.sport,
+      orElse: () => ComboSport.boxing,
+    );
+    final difficulty = ComboDifficulty.values.firstWhere(
+      (e) => e.name == config.difficulty,
+      orElse: () => ComboDifficulty.beginner,
+    );
+
+    var combos = ComboLibrary.filtered(sport: sport, difficulty: difficulty);
+
+    if (config.includeDefense) {
+      combos = [
+        ...combos,
+        ...ComboLibrary.forSport(ComboSport.defense),
+      ];
+    }
+    if (config.includeFootwork) {
+      combos = [
+        ...combos,
+        ...ComboLibrary.forSport(ComboSport.footwork),
+      ];
+    }
+
+    return combos.length;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final count = _poolSize();
+    final hasEnough = count >= 3;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: Text(
+        '$count combos in pool',
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: hasEnough
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.error,
+            ),
+      ),
+    );
+  }
+}

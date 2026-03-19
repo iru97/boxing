@@ -91,6 +91,12 @@ _$SessionModelImpl _$$SessionModelImplFromJson(Map<String, dynamic> json) =>
           const {},
       sport: json['sport'] as String? ?? null,
       category: json['category'] as String? ?? null,
+      comboConfig:
+          json['comboConfig'] == null
+              ? null
+              : ComboCalloutConfig.fromJson(
+                json['comboConfig'] as Map<String, dynamic>,
+              ),
     );
 
 Map<String, dynamic> _$$SessionModelImplToJson(_$SessionModelImpl instance) =>
@@ -115,4 +121,5 @@ Map<String, dynamic> _$$SessionModelImplToJson(_$SessionModelImpl instance) =>
       ),
       'sport': instance.sport,
       'category': instance.category,
+      'comboConfig': instance.comboConfig,
     };

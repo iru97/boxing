@@ -729,4 +729,73 @@ class SEn extends S {
 
   @override
   String get subcategoryConditioning => 'Conditioning';
+
+  @override
+  String get comboSectionTitle => 'Combo Callouts';
+
+  @override
+  String get comboEnable => 'Enable combo callouts';
+
+  @override
+  String get comboEnableDescription =>
+      'Coach calls out punch combinations during work phases';
+
+  @override
+  String get comboSport => 'Sport';
+
+  @override
+  String get comboSportBoxing => 'Boxing';
+
+  @override
+  String get comboSportMuayThai => 'Muay Thai';
+
+  @override
+  String get comboSportMMA => 'MMA';
+
+  @override
+  String get comboSportKickboxing => 'Kickboxing';
+
+  @override
+  String get comboDifficulty => 'Difficulty';
+
+  @override
+  String get comboDifficultyBeginner => 'Beginner';
+
+  @override
+  String get comboDifficultyIntermediate => 'Intermediate';
+
+  @override
+  String get comboDifficultyAdvanced => 'Advanced';
+
+  @override
+  String get comboIntensity => 'Intensity';
+
+  @override
+  String get comboIntensityRelaxed => 'Relaxed';
+
+  @override
+  String get comboIntensityModerate => 'Moderate';
+
+  @override
+  String get comboIntensityIntense => 'Intense';
+
+  @override
+  String get comboIntensityHurricane => 'Hurricane';
+
+  @override
+  String get comboIncludeDefense => 'Include defense cues';
+
+  @override
+  String get comboIncludeFootwork => 'Include footwork cues';
+
+  @override
+  String comboPoolSize(int count) {
+    return '$count combos in pool';
+  }
+
+  @override
+  String get comboPreviewTitle => 'Combo Pool Preview';
+
+  @override
+  String get comboSummaryLabel => 'Combo Callouts';
 }

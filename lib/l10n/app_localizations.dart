@@ -1418,6 +1418,138 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Conditioning'**
   String get subcategoryConditioning;
+
+  /// No description provided for @comboSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Combo Callouts'**
+  String get comboSectionTitle;
+
+  /// No description provided for @comboEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable combo callouts'**
+  String get comboEnable;
+
+  /// No description provided for @comboEnableDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Coach calls out punch combinations during work phases'**
+  String get comboEnableDescription;
+
+  /// No description provided for @comboSport.
+  ///
+  /// In en, this message translates to:
+  /// **'Sport'**
+  String get comboSport;
+
+  /// No description provided for @comboSportBoxing.
+  ///
+  /// In en, this message translates to:
+  /// **'Boxing'**
+  String get comboSportBoxing;
+
+  /// No description provided for @comboSportMuayThai.
+  ///
+  /// In en, this message translates to:
+  /// **'Muay Thai'**
+  String get comboSportMuayThai;
+
+  /// No description provided for @comboSportMMA.
+  ///
+  /// In en, this message translates to:
+  /// **'MMA'**
+  String get comboSportMMA;
+
+  /// No description provided for @comboSportKickboxing.
+  ///
+  /// In en, this message translates to:
+  /// **'Kickboxing'**
+  String get comboSportKickboxing;
+
+  /// No description provided for @comboDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty'**
+  String get comboDifficulty;
+
+  /// No description provided for @comboDifficultyBeginner.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner'**
+  String get comboDifficultyBeginner;
+
+  /// No description provided for @comboDifficultyIntermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get comboDifficultyIntermediate;
+
+  /// No description provided for @comboDifficultyAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get comboDifficultyAdvanced;
+
+  /// No description provided for @comboIntensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Intensity'**
+  String get comboIntensity;
+
+  /// No description provided for @comboIntensityRelaxed.
+  ///
+  /// In en, this message translates to:
+  /// **'Relaxed'**
+  String get comboIntensityRelaxed;
+
+  /// No description provided for @comboIntensityModerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get comboIntensityModerate;
+
+  /// No description provided for @comboIntensityIntense.
+  ///
+  /// In en, this message translates to:
+  /// **'Intense'**
+  String get comboIntensityIntense;
+
+  /// No description provided for @comboIntensityHurricane.
+  ///
+  /// In en, this message translates to:
+  /// **'Hurricane'**
+  String get comboIntensityHurricane;
+
+  /// No description provided for @comboIncludeDefense.
+  ///
+  /// In en, this message translates to:
+  /// **'Include defense cues'**
+  String get comboIncludeDefense;
+
+  /// No description provided for @comboIncludeFootwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Include footwork cues'**
+  String get comboIncludeFootwork;
+
+  /// No description provided for @comboPoolSize.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} combos in pool'**
+  String comboPoolSize(int count);
+
+  /// No description provided for @comboPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Combo Pool Preview'**
+  String get comboPreviewTitle;
+
+  /// No description provided for @comboSummaryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Combo Callouts'**
+  String get comboSummaryLabel;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

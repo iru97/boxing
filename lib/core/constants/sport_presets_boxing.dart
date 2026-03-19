@@ -1,4 +1,5 @@
 import 'package:boxing/core/constants/round_templates.dart';
+import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 
 class BoxingPresets {
@@ -73,6 +74,13 @@ class BoxingPresets {
       isPreset: true,
       sport: 'boxing',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'boxing',
+        difficulty: 'beginner',
+        intensity: 'moderate',
+        includeDefense: true,
+      ),
     ),
     SessionModel(
       id: 'preset_boxing_heavy_bag',
@@ -84,6 +92,12 @@ class BoxingPresets {
       isPreset: true,
       sport: 'boxing',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'boxing',
+        difficulty: 'intermediate',
+        intensity: 'moderate',
+      ),
     ),
     SessionModel(
       id: 'preset_boxing_speed_bag',
@@ -117,6 +131,12 @@ class BoxingPresets {
       isPreset: true,
       sport: 'boxing',
       category: 'training',
+      comboConfig: ComboCalloutConfig(
+        enabled: true,
+        sport: 'boxing',
+        difficulty: 'intermediate',
+        intensity: 'moderate',
+      ),
     ),
     SessionModel(
       id: 'preset_boxing_beginner',

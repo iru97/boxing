@@ -18,6 +18,9 @@ import 'package:boxing/features/settings/domain/app_settings.dart';
 import 'package:boxing/features/settings/presentation/settings_controller.dart';
 import 'package:boxing/features/timer/domain/timer_state.dart';
 import 'package:boxing/features/timer/data/timer_lifecycle_service.dart';
+import 'package:boxing/features/combos/domain/combo_callout_engine.dart';
+import 'package:boxing/features/combos/presentation/combo_callout_provider.dart';
+import 'package:boxing/features/combos/presentation/combo_display_widget.dart';
 import 'package:boxing/features/timer/presentation/timer_controller.dart';
 import 'package:boxing/features/timer/presentation/widgets/countdown_display.dart';
 import 'package:boxing/features/timer/presentation/widgets/phase_label.dart';
@@ -47,6 +50,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   bool _started = false;
   bool _recordSaved = false;
   TimerLifecycleService? _lifecycleService;
+  StreamSubscription<ComboCallout>? _comboSubscription;
 
   @override
   void initState() {
@@ -58,6 +62,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
   @override
   void dispose() {
+    _comboSubscription?.cancel();
     _lifecycleService?.onSessionEnd();
     _lifecycleService?.dispose();
     super.dispose();
@@ -90,6 +95,30 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
     // Set voice locale based on settings
     await voiceService.setLocale(voiceLocale);
+
+    // Set active session so combo providers can resolve
+    ref.read(activeSessionProvider.notifier).state = session;
+
+    // Configure combo callout engine if enabled
+    _comboSubscription?.cancel();
+    final comboEngine = ref.read(comboCalloutEngineProvider);
+    if (comboEngine != null && session.comboConfig != null) {
+      comboEngine.configure(
+        session.comboConfig!,
+        ref.read(filteredCombosProvider(session.comboConfig!)),
+        locale: voiceLocale,
+      );
+      // Subscribe to combo stream to speak callouts via TTS
+      final speechRate = switch (session.comboConfig!.intensity) {
+        'relaxed' => 0.6,
+        'intense' => 0.8,
+        'hurricane' => 0.9,
+        _ => 0.7, // moderate
+      };
+      _comboSubscription = comboEngine.comboStream.listen((callout) {
+        voiceService.speakCombo(callout.ttsText, rate: speechRate);
+      });
+    }
 
     _recordSaved = false;
     engine.start(session);
@@ -239,6 +268,63 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
     }
   }
 
+  /// Track the previous phase key to detect transitions for combo engine.
+  String? _lastComboPhaseKey;
+
+  /// Drive the combo callout engine based on timer state changes.
+  void _driveComboEngine(
+    ComboCalloutEngine comboEngine,
+    TimerState timerState,
+    SessionModel session,
+  ) {
+    final now = DateTime.now();
+    final phase = timerState.phase;
+    final isWorkPhase = phase is TimerWork || phase is TimerSegment;
+
+    // Determine the current phase key for transition detection
+    final phaseKey = switch (phase) {
+      TimerWork(:final roundNumber) => 'work_$roundNumber',
+      TimerSegment(:final roundNumber, :final segmentIndex) =>
+        'segment_${roundNumber}_$segmentIndex',
+      TimerRest(:final afterRound) => 'rest_$afterRound',
+      TimerPaused(:final previousPhase) => 'paused_${previousPhase.runtimeType}',
+      TimerWarmup() => 'warmup',
+      TimerCompleted() => 'complete',
+      TimerIdle() => 'idle',
+    };
+
+    // Detect phase transitions
+    if (phaseKey != _lastComboPhaseKey) {
+      final oldKey = _lastComboPhaseKey;
+      _lastComboPhaseKey = phaseKey;
+
+      if (isWorkPhase) {
+        comboEngine.onPhaseEnd();
+        comboEngine.onWorkPhaseStart(now);
+      } else if (phase is TimerPaused) {
+        comboEngine.onPause(now);
+      } else if (oldKey != null && oldKey.startsWith('paused_')) {
+        comboEngine.onResume(now);
+      } else {
+        comboEngine.onPhaseEnd();
+      }
+    }
+
+    // Drive tick for active work/segment phases
+    if (isWorkPhase) {
+      final remaining = switch (phase) {
+        TimerWork(:final remaining) => remaining,
+        TimerSegment(:final remaining) => remaining,
+        _ => Duration.zero,
+      };
+      comboEngine.onTick(
+        now,
+        remaining,
+        Duration(seconds: session.warningTimeSec),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _session ??= ref.read(sessionByIdProvider(widget.sessionId));
@@ -285,6 +371,12 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 
     final settings = ref.watch(appSettingsProvider);
 
+    // Drive combo callout engine with current timer state
+    final comboEngine = ref.read(comboCalloutEngineProvider);
+    if (comboEngine != null && _session != null) {
+      _driveComboEngine(comboEngine, timerState, _session!);
+    }
+
     return _ActiveTimerView(
       session: _session!,
       timerState: timerState,
@@ -314,6 +406,9 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
     );
   }
 }
+
+String _capitalizeFirst(String s) =>
+    s.isEmpty ? s : '${s[0].toUpperCase()}${s.substring(1)}';
 
 /// Pre-workout session summary screen
 class _SessionSummaryView extends StatelessWidget {
@@ -374,6 +469,11 @@ class _SessionSummaryView extends StatelessWidget {
                 _SummaryRow(
                   S.of(context).labelWarmup,
                   DurationFormatter.formatSeconds(session.warmupDurationSec),
+                ),
+              if (session.comboConfig != null && session.comboConfig!.enabled)
+                _SummaryRow(
+                  S.of(context).comboSummaryLabel,
+                  '${_capitalizeFirst(session.comboConfig!.sport)} - ${_capitalizeFirst(session.comboConfig!.difficulty)}',
                 ),
               const SizedBox(height: 24),
               _SummaryRow(
@@ -666,6 +766,11 @@ class _ActiveTimerViewState extends State<_ActiveTimerView>
 
                 // Segment indicator (compound rounds only)
                 _buildSegmentIndicator(timerState.phase, phaseColor),
+
+                const SizedBox(height: 8),
+
+                // Combo callout display (shows active combo badges)
+                const ComboDisplayWidget(),
 
                 const Spacer(),
 
