@@ -842,6 +842,15 @@ class _QuickStartCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    if (session.comboConfig?.enabled == true)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: Icon(
+                          Icons.record_voice_over,
+                          size: 14,
+                          color: Colors.amber.withValues(alpha: 0.7),
+                        ),
+                      ),
                   ],
                 ),
                 Text(
@@ -914,6 +923,15 @@ class _SessionCard extends StatelessWidget {
                                 Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
+                        if (session.comboConfig?.enabled == true)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: Icon(
+                              Icons.record_voice_over,
+                              size: 16,
+                              color: Colors.amber.withValues(alpha: 0.7),
+                            ),
+                          ),
                         if (hasTemplate)
                           Icon(
                             Icons.view_timeline,

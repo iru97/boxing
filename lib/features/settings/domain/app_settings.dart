@@ -25,6 +25,9 @@ class AppSettings with _$AppSettings {
 
     // Monetization
     @Default(false) bool isAdFree,
+
+    // Progression nudge
+    @Default('') String dismissedProgressionNudge,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>

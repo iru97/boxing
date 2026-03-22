@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,7 @@ import 'package:boxing/features/timer/data/timer_lifecycle_service.dart';
 import 'package:boxing/features/combos/data/combo_library.dart';
 import 'package:boxing/features/combos/data/technique_library.dart';
 import 'package:boxing/features/combos/domain/combo_callout_engine.dart';
+import 'package:boxing/features/combos/domain/combo_model.dart';
 import 'package:boxing/features/combos/presentation/combo_callout_provider.dart';
 import 'package:boxing/features/combos/presentation/combo_display_widget.dart';
 import 'package:boxing/features/timer/presentation/timer_controller.dart';
@@ -66,9 +68,10 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   SessionModel? _session;
   bool _started = false;
   bool _recordSaved = false;
+  bool _nudgeDismissed = false;
   bool _programDayMarked = false;
   TimerLifecycleService? _lifecycleService;
-  StreamSubscription<ComboCallout>? _comboSubscription;
+  StreamSubscription<ComboCallout?>? _comboSubscription;
 
   @override
   void initState() {
@@ -123,6 +126,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
     _comboSubscription?.cancel();
     final comboEngine = ref.read(comboCalloutEngineProvider);
     if (comboEngine != null && session.comboConfig != null) {
+      comboEngine.resetStats();
       comboEngine.configure(
         session.comboConfig!,
         ref.read(filteredCombosProvider(session.comboConfig!)),
@@ -136,7 +140,9 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
         _ => 0.7, // moderate
       };
       _comboSubscription = comboEngine.comboStream.listen((callout) {
-        voiceService.speakCombo(callout.ttsText, rate: speechRate);
+        if (callout != null) {
+          voiceService.speakCombo(callout.ttsText, rate: speechRate);
+        }
       });
     }
 
@@ -263,6 +269,9 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                   roundsCompleted: currentState.currentRound,
                   totalRounds: currentState.totalRounds,
                   completedFully: false,
+                  combosCompleted: ref.read(comboCalloutEngineProvider)?.combosFired,
+                  comboDifficulty: _session!.comboConfig?.difficulty,
+                  comboSport: _session!.comboConfig?.sport,
                 );
               }
               ref.read(timerEngineProvider).stop();
@@ -324,31 +333,57 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
       if (isWorkPhase) {
         comboEngine.onPhaseEnd();
 
-        // Segment-aware combo pool: if this segment has comboCategories,
-        // reconfigure the engine with a filtered pool
-        if (phase is TimerSegment && session.comboConfig != null) {
-          final segments = session.roundTemplate?.expandedSegments;
-          final segIndex = phase.segmentIndex;
-          if (segments != null && segIndex < segments.length) {
-            final categories = segments[segIndex].comboCategories;
-            if (categories != null && categories.isNotEmpty) {
-              final fullPool = ref.read(filteredCombosProvider(session.comboConfig!));
-              final filteredPool = ComboLibrary.filteredByCategories(
-                pool: fullPool,
-                categories: categories,
-                techniques: TechniqueLibrary.all,
-              );
-              // Use filtered pool if non-empty, otherwise fall back to full pool
-              final locale = ref.read(appSettingsProvider).locale == 'system'
-                  ? Localizations.localeOf(context).languageCode
-                  : ref.read(appSettingsProvider).locale;
-              comboEngine.configure(
-                session.comboConfig!,
-                filteredPool.isNotEmpty ? filteredPool : fullPool,
-                locale: locale,
-              );
+        // E3: Round-over-round difficulty progression — compute effective
+        // difficulty based on position within the session, then rebuild pool.
+        if (session.comboConfig != null) {
+          final roundNumber = switch (phase) {
+            TimerWork(:final roundNumber) => roundNumber,
+            TimerSegment(:final roundNumber) => roundNumber,
+            _ => 1,
+          };
+          comboEngine.setRoundContext(roundNumber, timerState.totalRounds);
+
+          final configuredMax = session.comboConfig!.difficulty;
+          final effectiveDifficulty = ComboCalloutEngine.progressiveDifficulty(
+            roundNumber,
+            timerState.totalRounds,
+            configuredMax,
+          );
+          final effectiveConfig = session.comboConfig!.copyWith(
+            difficulty: effectiveDifficulty,
+          );
+
+          // Rebuild pool with progressive difficulty
+          var pool = ref.read(filteredCombosProvider(effectiveConfig));
+
+          // Segment-aware combo pool: if this segment has comboCategories,
+          // further filter the pool to only matching technique categories
+          if (phase is TimerSegment) {
+            final segments = session.roundTemplate?.expandedSegments;
+            final segIndex = phase.segmentIndex;
+            if (segments != null && segIndex < segments.length) {
+              final categories = segments[segIndex].comboCategories;
+              if (categories != null && categories.isNotEmpty) {
+                final filteredPool = ComboLibrary.filteredByCategories(
+                  pool: pool,
+                  categories: categories,
+                  techniques: TechniqueLibrary.all,
+                );
+                if (filteredPool.isNotEmpty) {
+                  pool = filteredPool;
+                }
+              }
             }
           }
+
+          final locale = ref.read(appSettingsProvider).locale == 'system'
+              ? Localizations.localeOf(context).languageCode
+              : ref.read(appSettingsProvider).locale;
+          comboEngine.configure(
+            effectiveConfig,
+            pool,
+            locale: locale,
+          );
         }
 
         comboEngine.onWorkPhaseStart(now);
@@ -417,6 +452,9 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
         roundsCompleted: timerState.totalRounds,
         totalRounds: timerState.totalRounds,
         completedFully: true,
+        combosCompleted: ref.read(comboCalloutEngineProvider)?.combosFired,
+        comboDifficulty: _session!.comboConfig?.difficulty,
+        comboSport: _session!.comboConfig?.sport,
       );
 
       // Mark program day as complete if this is a program workout
@@ -441,11 +479,46 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
       _driveComboEngine(comboEngine, timerState, _session!);
     }
 
+    // D2: Progression nudge logic
+    var showNudge = false;
+    String? nextDiff;
+    if (!_nudgeDismissed &&
+        _session!.comboConfig != null &&
+        _session!.comboConfig!.enabled &&
+        timerState.phase is TimerCompleted &&
+        (comboEngine?.combosFired ?? 0) > 0) {
+      final currentDiff = _session!.comboConfig!.difficulty;
+      if (currentDiff != 'advanced') {
+        nextDiff = currentDiff == 'beginner' ? 'intermediate' : 'advanced';
+        if (settings.dismissedProgressionNudge != currentDiff) {
+          final records = ref.read(historyListProvider);
+          final count = records.where((r) =>
+            r.comboDifficulty == currentDiff &&
+            r.completedFully == true &&
+            r.combosCompleted != null &&
+            r.combosCompleted! > 0
+          ).length;
+          showNudge = count >= 3;
+        }
+      }
+    }
+
     return _ActiveTimerView(
       session: _session!,
       timerState: timerState,
       settings: settings,
       voiceService: ref.read(voiceServiceProvider),
+      combosCompleted: comboEngine?.combosFired ?? 0,
+      comboDifficulty: _session!.comboConfig?.difficulty,
+      showProgressionNudge: showNudge,
+      nextDifficulty: nextDiff,
+      onDismissNudge: () {
+        setState(() => _nudgeDismissed = true);
+        final currentDiff = _session!.comboConfig?.difficulty ?? '';
+        ref.read(appSettingsProvider.notifier).update(
+          settings.copyWith(dismissedProgressionNudge: currentDiff),
+        );
+      },
       onPauseResume: () {
         final engine = ref.read(timerEngineProvider);
         if (engine.isPaused) {
@@ -474,8 +547,17 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
 String _capitalizeFirst(String s) =>
     s.isEmpty ? s : '${s[0].toUpperCase()}${s.substring(1)}';
 
+String _localizedDifficulty(BuildContext context, String difficulty) {
+  final s = S.of(context);
+  return switch (difficulty) {
+    'intermediate' => s.comboDifficultyIntermediate,
+    'advanced' => s.comboDifficultyAdvanced,
+    _ => s.comboDifficultyBeginner,
+  };
+}
+
 /// Pre-workout session summary screen
-class _SessionSummaryView extends StatelessWidget {
+class _SessionSummaryView extends ConsumerStatefulWidget {
   final SessionModel session;
   final VoidCallback onStart;
   final VoidCallback onBack;
@@ -487,14 +569,66 @@ class _SessionSummaryView extends StatelessWidget {
   });
 
   @override
+  ConsumerState<_SessionSummaryView> createState() =>
+      _SessionSummaryViewState();
+}
+
+class _SessionSummaryViewState extends ConsumerState<_SessionSummaryView> {
+  bool _isPreviewing = false;
+  Timer? _previewTimer;
+
+  @override
+  void dispose() {
+    _previewTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _previewCombos() async {
+    final config = widget.session.comboConfig;
+    if (config == null) return;
+
+    final pool = ref.read(filteredCombosProvider(config));
+    if (pool.isEmpty) return;
+
+    // Pick up to 3 random combos without repeats
+    final rng = math.Random();
+    final shuffled = List<Combo>.from(pool)..shuffle(rng);
+    final picks = shuffled.take(3).toList();
+
+    final voiceService = ref.read(voiceServiceProvider);
+    final calloutStyle = config.calloutStyle;
+    final techniques = TechniqueLibrary.all;
+    final locale = ref.read(appSettingsProvider).locale == 'system'
+        ? Localizations.localeOf(context).languageCode
+        : ref.read(appSettingsProvider).locale;
+
+    setState(() => _isPreviewing = true);
+
+    for (var i = 0; i < picks.length; i++) {
+      if (!mounted || !_isPreviewing) break;
+      final text = picks[i].ttsTextForStyle(techniques, locale, calloutStyle);
+      await voiceService.speakCombo(text);
+      if (i < picks.length - 1) {
+        // 2-second gap between combos
+        await Future<void>.delayed(const Duration(seconds: 2));
+      }
+    }
+
+    if (mounted) {
+      setState(() => _isPreviewing = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final session = widget.session;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: onBack,
+          onPressed: widget.onBack,
         ),
         title: Text(session.name),
       ),
@@ -539,6 +673,19 @@ class _SessionSummaryView extends StatelessWidget {
                   S.of(context).comboSummaryLabel,
                   '${_capitalizeFirst(session.comboConfig!.sport)} - ${_capitalizeFirst(session.comboConfig!.difficulty)}',
                 ),
+              if (session.comboConfig?.enabled == true)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: OutlinedButton.icon(
+                    onPressed: _isPreviewing ? null : _previewCombos,
+                    icon: Icon(
+                      _isPreviewing ? Icons.stop : Icons.volume_up,
+                    ),
+                    label: Text(
+                      _isPreviewing ? S.of(context).comboPreviewPlaying : S.of(context).comboPreviewButton,
+                    ),
+                  ),
+                ),
               const SizedBox(height: 24),
               _SummaryRow(
                 S.of(context).labelTotalTime,
@@ -549,7 +696,7 @@ class _SessionSummaryView extends StatelessWidget {
               SizedBox(
                 height: 80,
                 child: FilledButton(
-                  onPressed: onStart,
+                  onPressed: widget.onStart,
                   style: FilledButton.styleFrom(
                     backgroundColor: TimerColors.work,
                     foregroundColor: Colors.black,
@@ -619,6 +766,11 @@ class _ActiveTimerView extends StatefulWidget {
   final VoidCallback onStop;
   final VoidCallback onRepeat;
   final VoidCallback onDone;
+  final int combosCompleted;
+  final String? comboDifficulty;
+  final bool showProgressionNudge;
+  final String? nextDifficulty;
+  final VoidCallback? onDismissNudge;
 
   const _ActiveTimerView({
     required this.session,
@@ -632,6 +784,11 @@ class _ActiveTimerView extends StatefulWidget {
     required this.onStop,
     required this.onRepeat,
     required this.onDone,
+    this.combosCompleted = 0,
+    this.comboDifficulty,
+    this.showProgressionNudge = false,
+    this.nextDifficulty,
+    this.onDismissNudge,
   });
 
   @override
@@ -760,6 +917,11 @@ class _ActiveTimerViewState extends State<_ActiveTimerView>
         totalElapsed: timerState.totalElapsed,
         onRepeat: widget.onRepeat,
         onDone: widget.onDone,
+        combosCompleted: widget.combosCompleted,
+        comboDifficulty: widget.comboDifficulty,
+        showProgressionNudge: widget.showProgressionNudge,
+        nextDifficulty: widget.nextDifficulty,
+        onDismissNudge: widget.onDismissNudge,
       );
     }
 
@@ -1056,6 +1218,11 @@ class _SessionCompleteView extends StatefulWidget {
   final Duration totalElapsed;
   final VoidCallback onRepeat;
   final VoidCallback onDone;
+  final int combosCompleted;
+  final String? comboDifficulty;
+  final bool showProgressionNudge;
+  final String? nextDifficulty;
+  final VoidCallback? onDismissNudge;
 
   const _SessionCompleteView({
     required this.sessionName,
@@ -1063,6 +1230,11 @@ class _SessionCompleteView extends StatefulWidget {
     required this.totalElapsed,
     required this.onRepeat,
     required this.onDone,
+    this.combosCompleted = 0,
+    this.comboDifficulty,
+    this.showProgressionNudge = false,
+    this.nextDifficulty,
+    this.onDismissNudge,
   });
 
   @override
@@ -1143,6 +1315,86 @@ class _SessionCompleteViewState extends State<_SessionCompleteView>
                       color: Colors.white.withValues(alpha: 0.6),
                     ),
               ),
+              if (widget.combosCompleted > 0) ...[
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.record_voice_over,
+                      size: 16,
+                      color: Colors.amber.withValues(alpha: 0.8),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      '${S.of(context).sessionCompleteCombos(widget.combosCompleted)}'
+                      '${widget.comboDifficulty != null ? ' · ${_localizedDifficulty(context, widget.comboDifficulty!)}' : ''}',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Colors.amber.withValues(alpha: 0.8),
+                          ),
+                    ),
+                  ],
+                ),
+              ],
+              if (widget.showProgressionNudge && widget.nextDifficulty != null) ...[
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.amber.withValues(alpha: 0.3),
+                    ),
+                    color: Colors.amber.withValues(alpha: 0.08),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        S.of(context).progressionNudgeTitle,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Colors.amber,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        S.of(context).progressionNudgeMessage(
+                          3,
+                          _localizedDifficulty(context, widget.comboDifficulty ?? 'beginner'),
+                          _localizedDifficulty(context, widget.nextDifficulty!),
+                        ),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: widget.onDismissNudge,
+                            child: Text(S.of(context).progressionNudgeDismiss),
+                          ),
+                          const SizedBox(width: 8),
+                          FilledButton(
+                            onPressed: () {
+                              widget.onDismissNudge?.call();
+                              widget.onDone();
+                            },
+                            style: FilledButton.styleFrom(
+                              backgroundColor: Colors.amber,
+                              foregroundColor: Colors.black,
+                            ),
+                            child: Text(S.of(context).progressionNudgeCta(
+                              _localizedDifficulty(context, widget.nextDifficulty!),
+                            )),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               const Spacer(),
               SizedBox(
                 height: 64,

@@ -16,6 +16,9 @@ _$TrainingRecordImpl _$$TrainingRecordImplFromJson(Map<String, dynamic> json) =>
       roundsCompleted: (json['roundsCompleted'] as num).toInt(),
       totalRounds: (json['totalRounds'] as num).toInt(),
       completedFully: json['completedFully'] as bool? ?? true,
+      combosCompleted: (json['combosCompleted'] as num?)?.toInt(),
+      comboDifficulty: json['comboDifficulty'] as String?,
+      comboSport: json['comboSport'] as String?,
     );
 
 Map<String, dynamic> _$$TrainingRecordImplToJson(
@@ -29,4 +32,7 @@ Map<String, dynamic> _$$TrainingRecordImplToJson(
   'roundsCompleted': instance.roundsCompleted,
   'totalRounds': instance.totalRounds,
   'completedFully': instance.completedFully,
+  'combosCompleted': instance.combosCompleted,
+  'comboDifficulty': instance.comboDifficulty,
+  'comboSport': instance.comboSport,
 };

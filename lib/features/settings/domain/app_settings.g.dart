@@ -20,6 +20,8 @@ _$AppSettingsImpl _$$AppSettingsImplFromJson(Map<String, dynamic> json) =>
       locale: json['locale'] as String? ?? 'system',
       tapToPause: json['tapToPause'] as bool? ?? false,
       isAdFree: json['isAdFree'] as bool? ?? false,
+      dismissedProgressionNudge:
+          json['dismissedProgressionNudge'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
@@ -36,4 +38,5 @@ Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
       'locale': instance.locale,
       'tapToPause': instance.tapToPause,
       'isAdFree': instance.isAdFree,
+      'dismissedProgressionNudge': instance.dismissedProgressionNudge,
     };

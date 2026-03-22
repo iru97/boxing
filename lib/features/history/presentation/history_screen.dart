@@ -225,6 +225,19 @@ class _RecordCard extends ConsumerWidget {
                   : s.historyRecordStopped,
               isCompleted: record.completedFully,
             ),
+            if (record.combosCompleted != null && record.combosCompleted! > 0) ...[
+              const SizedBox(width: 12),
+              const Icon(
+                Icons.record_voice_over,
+                size: 14,
+                color: Colors.amber,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                s.historyRecordCombos(record.combosCompleted!),
+                style: theme.textTheme.bodySmall,
+              ),
+            ],
           ],
         ),
         trailing: IconButton(

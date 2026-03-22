@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:boxing/features/combos/data/combo_library.dart';
 import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 import 'package:boxing/features/combos/domain/combo_model.dart';
+import 'package:boxing/l10n/app_localizations.dart';
 
 /// A section for the session editor that configures combo callouts.
 ///
@@ -22,12 +23,13 @@ class ComboSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Section title — matches other sections in session_editor_screen
         Text(
-          'Combo Callouts',
+          s.comboSectionTitle,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 8),
@@ -35,8 +37,8 @@ class ComboSettingsSection extends StatelessWidget {
         // Enable toggle
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
-          title: const Text('Enable combo callouts'),
-          subtitle: const Text('Voice calls out combos during work rounds'),
+          title: Text(s.comboEnable),
+          subtitle: Text(s.comboEnableDescription),
           value: config.enabled,
           onChanged: (v) => onChanged(config.copyWith(enabled: v)),
         ),
@@ -58,18 +60,23 @@ class ComboSettingsSection extends StatelessWidget {
             selected: config.intensity,
             onChanged: (v) => onChanged(config.copyWith(intensity: v)),
           ),
+          const SizedBox(height: 16),
+          _CalloutStyleSelector(
+            selected: config.calloutStyle,
+            onChanged: (v) => onChanged(config.copyWith(calloutStyle: v)),
+          ),
           const SizedBox(height: 8),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Include defense cues'),
-            subtitle: const Text('Slip, roll, block callouts'),
+            title: Text(s.comboIncludeDefense),
+            subtitle: Text(s.comboDefenseDescription),
             value: config.includeDefense,
             onChanged: (v) => onChanged(config.copyWith(includeDefense: v)),
           ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Include footwork cues'),
-            subtitle: const Text('Pivot, angle, cut the ring'),
+            title: Text(s.comboIncludeFootwork),
+            subtitle: Text(s.comboFootworkDescription),
             value: config.includeFootwork,
             onChanged: (v) => onChanged(config.copyWith(includeFootwork: v)),
           ),
@@ -96,10 +103,11 @@ class _SportSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Sport', style: Theme.of(context).textTheme.labelLarge),
+        Text(s.comboSport, style: Theme.of(context).textTheme.labelLarge),
         const SizedBox(height: 8),
         SizedBox(
           width: double.infinity,
@@ -109,11 +117,11 @@ class _SportSelector extends StatelessWidget {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             showSelectedIcon: false,
-            segments: const [
-              ButtonSegment(value: 'boxing', label: Text('Boxing')),
-              ButtonSegment(value: 'muayThai', label: Text('Muay Thai')),
-              ButtonSegment(value: 'mma', label: Text('MMA')),
-              ButtonSegment(value: 'kickboxing', label: Text('Kickboxing')),
+            segments: [
+              ButtonSegment(value: 'boxing', label: Text(s.comboSportBoxing)),
+              ButtonSegment(value: 'muayThai', label: Text(s.comboSportMuayThai)),
+              ButtonSegment(value: 'mma', label: Text(s.comboSportMMA)),
+              ButtonSegment(value: 'kickboxing', label: Text(s.comboSportKickboxing)),
             ],
             selected: {selected},
             onSelectionChanged: (sel) => onChanged(sel.first),
@@ -139,10 +147,11 @@ class _DifficultySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Difficulty', style: Theme.of(context).textTheme.labelLarge),
+        Text(s.comboDifficulty, style: Theme.of(context).textTheme.labelLarge),
         const SizedBox(height: 8),
         SizedBox(
           width: double.infinity,
@@ -152,13 +161,10 @@ class _DifficultySelector extends StatelessWidget {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             showSelectedIcon: false,
-            segments: const [
-              ButtonSegment(value: 'beginner', label: Text('Beginner')),
-              ButtonSegment(
-                value: 'intermediate',
-                label: Text('Intermediate'),
-              ),
-              ButtonSegment(value: 'advanced', label: Text('Advanced')),
+            segments: [
+              ButtonSegment(value: 'beginner', label: Text(s.comboDifficultyBeginner)),
+              ButtonSegment(value: 'intermediate', label: Text(s.comboDifficultyIntermediate)),
+              ButtonSegment(value: 'advanced', label: Text(s.comboDifficultyAdvanced)),
             ],
             selected: {selected},
             onSelectionChanged: (sel) => onChanged(sel.first),
@@ -182,22 +188,31 @@ class _IntensitySelector extends StatelessWidget {
     required this.onChanged,
   });
 
-  static const _options = [
-    (value: 'relaxed', label: 'Relaxed', interval: '8-12s'),
-    (value: 'moderate', label: 'Moderate', interval: '5-8s'),
-    (value: 'intense', label: 'Intense', interval: '3-5s'),
-    (value: 'hurricane', label: 'Hurricane', interval: '2-3s'),
-  ];
+  // Interval hints are numeric ranges — no translation needed.
+  static const _intervals = {
+    'relaxed': '8-12s',
+    'moderate': '5-8s',
+    'intense': '3-5s',
+    'hurricane': '2-3s',
+  };
+
+  List<({String value, String label, String interval})> _options(S s) => [
+        (value: 'relaxed', label: s.comboIntensityRelaxed, interval: _intervals['relaxed']!),
+        (value: 'moderate', label: s.comboIntensityModerate, interval: _intervals['moderate']!),
+        (value: 'intense', label: s.comboIntensityIntense, interval: _intervals['intense']!),
+        (value: 'hurricane', label: s.comboIntensityHurricane, interval: _intervals['hurricane']!),
+      ];
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Intensity', style: Theme.of(context).textTheme.labelLarge),
+        Text(s.comboIntensity, style: Theme.of(context).textTheme.labelLarge),
         const SizedBox(height: 4),
         Text(
-          'How often combos are called',
+          s.comboIntensityDescription,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context)
                     .colorScheme
@@ -209,7 +224,7 @@ class _IntensitySelector extends StatelessWidget {
         Wrap(
           spacing: 8,
           runSpacing: 4,
-          children: _options
+          children: _options(s)
               .map(
                 (opt) => ChoiceChip(
                   label: Text('${opt.label} (${opt.interval})'),
@@ -218,6 +233,76 @@ class _IntensitySelector extends StatelessWidget {
                 ),
               )
               .toList(),
+        ),
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Callout style selector — numbers (fast) vs names (beginner-friendly)
+// ---------------------------------------------------------------------------
+
+class _CalloutStyleSelector extends StatelessWidget {
+  final String selected;
+  final ValueChanged<String> onChanged;
+
+  const _CalloutStyleSelector({
+    required this.selected,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final s = S.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(s.comboCalloutStyle, style: Theme.of(context).textTheme.labelLarge),
+        const SizedBox(height: 4),
+        Text(
+          s.comboCalloutStyleDescription,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withAlpha(153),
+              ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: double.infinity,
+          child: SegmentedButton<String>(
+            style: SegmentedButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            showSelectedIcon: false,
+            segments: [
+              ButtonSegment(
+                value: 'numbers',
+                label: Text(s.comboCalloutNumbers),
+                icon: const Icon(Icons.tag, size: 16),
+              ),
+              ButtonSegment(
+                value: 'names',
+                label: Text(s.comboCalloutNames),
+                icon: const Icon(Icons.abc, size: 16),
+              ),
+            ],
+            selected: {selected},
+            onSelectionChanged: (sel) => onChanged(sel.first),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          selected == 'numbers'
+              ? s.comboCalloutNumbersHint
+              : s.comboCalloutNamesHint,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.primary.withAlpha(179),
+                fontStyle: FontStyle.italic,
+              ),
         ),
       ],
     );
@@ -269,7 +354,7 @@ class _PoolSizeIndicator extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 4),
       child: Text(
-        '$count combos in pool',
+        S.of(context).comboPoolSize(count),
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: hasEnough
                   ? Theme.of(context).colorScheme.primary

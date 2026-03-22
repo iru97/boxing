@@ -94,7 +94,7 @@ class ProgramDayScreen extends ConsumerWidget {
               day.name,
               style: GoogleFonts.teko(
                 fontSize: 32,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 color: Colors.white,
                 letterSpacing: 2,
                 height: 1.1,

@@ -783,10 +783,38 @@ class SEn extends S {
   String get comboIntensityHurricane => 'Hurricane';
 
   @override
+  String get comboIntensityDescription => 'How often combos are called';
+
+  @override
+  String get comboCalloutStyle => 'Callout Style';
+
+  @override
+  String get comboCalloutStyleDescription => 'How combos are spoken aloud';
+
+  @override
+  String get comboCalloutNumbers => 'Numbers';
+
+  @override
+  String get comboCalloutNames => 'Names';
+
+  @override
+  String get comboCalloutNumbersHint =>
+      'Fast — \"1 2 3\" (how coaches call combos)';
+
+  @override
+  String get comboCalloutNamesHint => 'Beginner — \"Jab, Cross, Hook\"';
+
+  @override
   String get comboIncludeDefense => 'Include defense cues';
 
   @override
+  String get comboDefenseDescription => 'Slip, roll, block callouts';
+
+  @override
   String get comboIncludeFootwork => 'Include footwork cues';
+
+  @override
+  String get comboFootworkDescription => 'Pivot, angle, cut the ring';
 
   @override
   String comboPoolSize(int count) {
@@ -798,4 +826,36 @@ class SEn extends S {
 
   @override
   String get comboSummaryLabel => 'Combo Callouts';
+
+  @override
+  String get comboPreviewButton => 'Preview Combos';
+
+  @override
+  String get comboPreviewPlaying => 'Playing...';
+
+  @override
+  String sessionCompleteCombos(int count) {
+    return '$count combos';
+  }
+
+  @override
+  String historyRecordCombos(int count) {
+    return '$count combos';
+  }
+
+  @override
+  String get progressionNudgeTitle => 'Level up?';
+
+  @override
+  String progressionNudgeMessage(int count, String level, String next) {
+    return 'You\'ve completed $count sessions at $level. Ready to try $next?';
+  }
+
+  @override
+  String progressionNudgeCta(String next) {
+    return 'Try $next';
+  }
+
+  @override
+  String get progressionNudgeDismiss => 'Not yet';
 }

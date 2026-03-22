@@ -304,6 +304,14 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
             ),
             const SizedBox(height: 16),
 
+            // Combo callout settings — placed directly after rest so users
+            // see it before the less-used timing/audio options below
+            ComboSettingsSection(
+              config: _comboConfig,
+              onChanged: (config) => setState(() => _comboConfig = config),
+            ),
+            const SizedBox(height: 16),
+
             // Warning time chips
             _ChipSelector(
               label: S.of(context).labelWarningTime,
@@ -360,14 +368,6 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
                   'Use alarm channel for louder audio (ignores silent mode)'),
               value: _volumeOverride,
               onChanged: (v) => setState(() => _volumeOverride = v),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Combo callout settings
-            ComboSettingsSection(
-              config: _comboConfig,
-              onChanged: (config) => setState(() => _comboConfig = config),
             ),
 
             const SizedBox(height: 24),

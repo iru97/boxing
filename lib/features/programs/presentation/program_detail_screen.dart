@@ -104,7 +104,7 @@ class ProgramDetailScreen extends ConsumerWidget {
                         program.name,
                         style: GoogleFonts.teko(
                           fontSize: 36,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           color: Colors.white,
                           letterSpacing: 2,
                           height: 1.1,

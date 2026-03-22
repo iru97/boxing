@@ -15,6 +15,7 @@ _$ComboCalloutConfigImpl _$$ComboCalloutConfigImplFromJson(
   intensity: json['intensity'] as String? ?? 'moderate',
   includeDefense: json['includeDefense'] as bool? ?? true,
   includeFootwork: json['includeFootwork'] as bool? ?? false,
+  calloutStyle: json['calloutStyle'] as String? ?? 'numbers',
 );
 
 Map<String, dynamic> _$$ComboCalloutConfigImplToJson(
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$ComboCalloutConfigImplToJson(
   'intensity': instance.intensity,
   'includeDefense': instance.includeDefense,
   'includeFootwork': instance.includeFootwork,
+  'calloutStyle': instance.calloutStyle,
 };

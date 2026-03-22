@@ -296,10 +296,50 @@
   "comboIntensityModerate": "Moderado",
   "comboIntensityIntense": "Intenso",
   "comboIntensityHurricane": "Hurac\u00e1n",
+  "comboIntensityDescription": "Con qu\u00e9 frecuencia se llaman los combos",
+  "comboCalloutStyle": "Estilo de Llamada",
+  "comboCalloutStyleDescription": "C\u00f3mo se dicen los combos en voz alta",
+  "comboCalloutNumbers": "N\u00fameros",
+  "comboCalloutNames": "Nombres",
+  "comboCalloutNumbersHint": "R\u00e1pido \u2014 \"1 2 3\" (como llaman los entrenadores)",
+  "comboCalloutNamesHint": "Principiante \u2014 \"Jab, Cruz, Gancho\"",
   "comboIncludeDefense": "Incluir defensa",
+  "comboDefenseDescription": "Llamadas de esquivar, rodar, bloquear",
   "comboIncludeFootwork": "Incluir juego de pies",
+  "comboFootworkDescription": "Pivote, \u00e1ngulo, cortar el ring",
   "comboPoolSize": "{count} combos disponibles",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
   "comboPreviewTitle": "Vista Previa de Combos",
-  "comboSummaryLabel": "Combos por Voz"
+  "comboSummaryLabel": "Combos por Voz",
+
+  "comboPreviewButton": "Vista Previa",
+  "comboPreviewPlaying": "Reproduciendo...",
+  "sessionCompleteCombos": "{count} combos",
+  "@sessionCompleteCombos": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "historyRecordCombos": "{count} combos",
+  "@historyRecordCombos": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "progressionNudgeTitle": "\u00bfSubir de nivel?",
+  "progressionNudgeMessage": "Completaste {count} sesiones en nivel {level}. \u00bfListo para {next}?",
+  "@progressionNudgeMessage": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "level": { "type": "String" },
+      "next": { "type": "String" }
+    }
+  },
+  "progressionNudgeCta": "Probar {next}",
+  "@progressionNudgeCta": {
+    "placeholders": {
+      "next": { "type": "String" }
+    }
+  },
+  "progressionNudgeDismiss": "Todav\u00eda no"
 }

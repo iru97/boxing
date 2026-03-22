@@ -42,6 +42,9 @@ class HistoryController {
     required int roundsCompleted,
     required int totalRounds,
     required bool completedFully,
+    int? combosCompleted,
+    String? comboDifficulty,
+    String? comboSport,
   }) async {
     await _repo.addRecord(
       sessionId: sessionId,
@@ -50,6 +53,9 @@ class HistoryController {
       roundsCompleted: roundsCompleted,
       totalRounds: totalRounds,
       completedFully: completedFully,
+      combosCompleted: combosCompleted,
+      comboDifficulty: comboDifficulty,
+      comboSport: comboSport,
     );
     _invalidate();
   }

@@ -1521,17 +1521,71 @@ abstract class S {
   /// **'Hurricane'**
   String get comboIntensityHurricane;
 
+  /// No description provided for @comboIntensityDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'How often combos are called'**
+  String get comboIntensityDescription;
+
+  /// No description provided for @comboCalloutStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Callout Style'**
+  String get comboCalloutStyle;
+
+  /// No description provided for @comboCalloutStyleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'How combos are spoken aloud'**
+  String get comboCalloutStyleDescription;
+
+  /// No description provided for @comboCalloutNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers'**
+  String get comboCalloutNumbers;
+
+  /// No description provided for @comboCalloutNames.
+  ///
+  /// In en, this message translates to:
+  /// **'Names'**
+  String get comboCalloutNames;
+
+  /// No description provided for @comboCalloutNumbersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast — \"1 2 3\" (how coaches call combos)'**
+  String get comboCalloutNumbersHint;
+
+  /// No description provided for @comboCalloutNamesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner — \"Jab, Cross, Hook\"'**
+  String get comboCalloutNamesHint;
+
   /// No description provided for @comboIncludeDefense.
   ///
   /// In en, this message translates to:
   /// **'Include defense cues'**
   String get comboIncludeDefense;
 
+  /// No description provided for @comboDefenseDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Slip, roll, block callouts'**
+  String get comboDefenseDescription;
+
   /// No description provided for @comboIncludeFootwork.
   ///
   /// In en, this message translates to:
   /// **'Include footwork cues'**
   String get comboIncludeFootwork;
+
+  /// No description provided for @comboFootworkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pivot, angle, cut the ring'**
+  String get comboFootworkDescription;
 
   /// No description provided for @comboPoolSize.
   ///
@@ -1550,6 +1604,54 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Combo Callouts'**
   String get comboSummaryLabel;
+
+  /// No description provided for @comboPreviewButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview Combos'**
+  String get comboPreviewButton;
+
+  /// No description provided for @comboPreviewPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing...'**
+  String get comboPreviewPlaying;
+
+  /// No description provided for @sessionCompleteCombos.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} combos'**
+  String sessionCompleteCombos(int count);
+
+  /// No description provided for @historyRecordCombos.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} combos'**
+  String historyRecordCombos(int count);
+
+  /// No description provided for @progressionNudgeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Level up?'**
+  String get progressionNudgeTitle;
+
+  /// No description provided for @progressionNudgeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve completed {count} sessions at {level}. Ready to try {next}?'**
+  String progressionNudgeMessage(int count, String level, String next);
+
+  /// No description provided for @progressionNudgeCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Try {next}'**
+  String progressionNudgeCta(String next);
+
+  /// No description provided for @progressionNudgeDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet'**
+  String get progressionNudgeDismiss;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

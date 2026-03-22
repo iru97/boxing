@@ -28,6 +28,10 @@ mixin _$ComboCalloutConfig {
   bool get includeDefense => throw _privateConstructorUsedError;
   bool get includeFootwork => throw _privateConstructorUsedError;
 
+  /// How combos are announced: 'numbers' (fast: "1 2 3") or 'names'
+  /// (beginner-friendly: "Jab, Cross, Hook").
+  String get calloutStyle => throw _privateConstructorUsedError;
+
   /// Serializes this ComboCalloutConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -52,6 +56,7 @@ abstract class $ComboCalloutConfigCopyWith<$Res> {
     String intensity,
     bool includeDefense,
     bool includeFootwork,
+    String calloutStyle,
   });
 }
 
@@ -76,6 +81,7 @@ class _$ComboCalloutConfigCopyWithImpl<$Res, $Val extends ComboCalloutConfig>
     Object? intensity = null,
     Object? includeDefense = null,
     Object? includeFootwork = null,
+    Object? calloutStyle = null,
   }) {
     return _then(
       _value.copyWith(
@@ -109,6 +115,11 @@ class _$ComboCalloutConfigCopyWithImpl<$Res, $Val extends ComboCalloutConfig>
                     ? _value.includeFootwork
                     : includeFootwork // ignore: cast_nullable_to_non_nullable
                         as bool,
+            calloutStyle:
+                null == calloutStyle
+                    ? _value.calloutStyle
+                    : calloutStyle // ignore: cast_nullable_to_non_nullable
+                        as String,
           )
           as $Val,
     );
@@ -131,6 +142,7 @@ abstract class _$$ComboCalloutConfigImplCopyWith<$Res>
     String intensity,
     bool includeDefense,
     bool includeFootwork,
+    String calloutStyle,
   });
 }
 
@@ -154,6 +166,7 @@ class __$$ComboCalloutConfigImplCopyWithImpl<$Res>
     Object? intensity = null,
     Object? includeDefense = null,
     Object? includeFootwork = null,
+    Object? calloutStyle = null,
   }) {
     return _then(
       _$ComboCalloutConfigImpl(
@@ -187,6 +200,11 @@ class __$$ComboCalloutConfigImplCopyWithImpl<$Res>
                 ? _value.includeFootwork
                 : includeFootwork // ignore: cast_nullable_to_non_nullable
                     as bool,
+        calloutStyle:
+            null == calloutStyle
+                ? _value.calloutStyle
+                : calloutStyle // ignore: cast_nullable_to_non_nullable
+                    as String,
       ),
     );
   }
@@ -202,6 +220,7 @@ class _$ComboCalloutConfigImpl implements _ComboCalloutConfig {
     this.intensity = 'moderate',
     this.includeDefense = true,
     this.includeFootwork = false,
+    this.calloutStyle = 'numbers',
   });
 
   factory _$ComboCalloutConfigImpl.fromJson(Map<String, dynamic> json) =>
@@ -226,9 +245,15 @@ class _$ComboCalloutConfigImpl implements _ComboCalloutConfig {
   @JsonKey()
   final bool includeFootwork;
 
+  /// How combos are announced: 'numbers' (fast: "1 2 3") or 'names'
+  /// (beginner-friendly: "Jab, Cross, Hook").
+  @override
+  @JsonKey()
+  final String calloutStyle;
+
   @override
   String toString() {
-    return 'ComboCalloutConfig(enabled: $enabled, sport: $sport, difficulty: $difficulty, intensity: $intensity, includeDefense: $includeDefense, includeFootwork: $includeFootwork)';
+    return 'ComboCalloutConfig(enabled: $enabled, sport: $sport, difficulty: $difficulty, intensity: $intensity, includeDefense: $includeDefense, includeFootwork: $includeFootwork, calloutStyle: $calloutStyle)';
   }
 
   @override
@@ -245,7 +270,9 @@ class _$ComboCalloutConfigImpl implements _ComboCalloutConfig {
             (identical(other.includeDefense, includeDefense) ||
                 other.includeDefense == includeDefense) &&
             (identical(other.includeFootwork, includeFootwork) ||
-                other.includeFootwork == includeFootwork));
+                other.includeFootwork == includeFootwork) &&
+            (identical(other.calloutStyle, calloutStyle) ||
+                other.calloutStyle == calloutStyle));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -258,6 +285,7 @@ class _$ComboCalloutConfigImpl implements _ComboCalloutConfig {
     intensity,
     includeDefense,
     includeFootwork,
+    calloutStyle,
   );
 
   /// Create a copy of ComboCalloutConfig
@@ -285,6 +313,7 @@ abstract class _ComboCalloutConfig implements ComboCalloutConfig {
     final String intensity,
     final bool includeDefense,
     final bool includeFootwork,
+    final String calloutStyle,
   }) = _$ComboCalloutConfigImpl;
 
   factory _ComboCalloutConfig.fromJson(Map<String, dynamic> json) =
@@ -302,6 +331,11 @@ abstract class _ComboCalloutConfig implements ComboCalloutConfig {
   bool get includeDefense;
   @override
   bool get includeFootwork;
+
+  /// How combos are announced: 'numbers' (fast: "1 2 3") or 'names'
+  /// (beginner-friendly: "Jab, Cross, Hook").
+  @override
+  String get calloutStyle;
 
   /// Create a copy of ComboCalloutConfig
   /// with the given fields replaced by the non-null parameter values.

@@ -52,6 +52,9 @@ class HistoryRepository {
     required int roundsCompleted,
     required int totalRounds,
     required bool completedFully,
+    int? combosCompleted,
+    String? comboDifficulty,
+    String? comboSport,
   }) async {
     final record = TrainingRecord(
       id: _uuid.v4(),
@@ -62,6 +65,9 @@ class HistoryRepository {
       roundsCompleted: roundsCompleted,
       totalRounds: totalRounds,
       completedFully: completedFully,
+      combosCompleted: combosCompleted,
+      comboDifficulty: comboDifficulty,
+      comboSport: comboSport,
     );
     await save(record);
     return record;

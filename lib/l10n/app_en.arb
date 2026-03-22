@@ -426,10 +426,50 @@
   "comboIntensityModerate": "Moderate",
   "comboIntensityIntense": "Intense",
   "comboIntensityHurricane": "Hurricane",
+  "comboIntensityDescription": "How often combos are called",
+  "comboCalloutStyle": "Callout Style",
+  "comboCalloutStyleDescription": "How combos are spoken aloud",
+  "comboCalloutNumbers": "Numbers",
+  "comboCalloutNames": "Names",
+  "comboCalloutNumbersHint": "Fast \u2014 \"1 2 3\" (how coaches call combos)",
+  "comboCalloutNamesHint": "Beginner \u2014 \"Jab, Cross, Hook\"",
   "comboIncludeDefense": "Include defense cues",
+  "comboDefenseDescription": "Slip, roll, block callouts",
   "comboIncludeFootwork": "Include footwork cues",
+  "comboFootworkDescription": "Pivot, angle, cut the ring",
   "comboPoolSize": "{count} combos in pool",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
   "comboPreviewTitle": "Combo Pool Preview",
-  "comboSummaryLabel": "Combo Callouts"
+  "comboSummaryLabel": "Combo Callouts",
+
+  "comboPreviewButton": "Preview Combos",
+  "comboPreviewPlaying": "Playing...",
+  "sessionCompleteCombos": "{count} combos",
+  "@sessionCompleteCombos": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "historyRecordCombos": "{count} combos",
+  "@historyRecordCombos": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "progressionNudgeTitle": "Level up?",
+  "progressionNudgeMessage": "You've completed {count} sessions at {level}. Ready to try {next}?",
+  "@progressionNudgeMessage": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "level": { "type": "String" },
+      "next": { "type": "String" }
+    }
+  },
+  "progressionNudgeCta": "Try {next}",
+  "@progressionNudgeCta": {
+    "placeholders": {
+      "next": { "type": "String" }
+    }
+  },
+  "progressionNudgeDismiss": "Not yet"
 }

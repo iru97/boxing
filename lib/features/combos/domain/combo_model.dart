@@ -48,4 +48,31 @@ class Combo {
       return t?.ttsText[locale] ?? t?.ttsText['en'] ?? id;
     }).join(', ');
   }
+
+  /// Build TTS text based on [style]:
+  /// - `'numbers'`: punches as digits ("1 2 3"), non-punches by name.
+  ///   Joined with spaces for speed — TTS reads "1 2 3" as "one two three".
+  /// - `'names'`: full technique names ("Jab, Cross, Hook").
+  String ttsTextForStyle(
+    Map<String, Technique> techniques,
+    String locale,
+    String style,
+  ) {
+    if (style == 'numbers') {
+      return techniqueIds.map((id) {
+        final t = techniques[id];
+        if (t != null && t.category == TechniqueCategory.punch) {
+          // Body shots: '2b' → '2 body' (not 'two bee')
+          if (id.endsWith('b') && id.length == 2) {
+            const bodyWord = {'en': 'body', 'es': 'cuerpo', 'pt': 'corpo'};
+            final word = bodyWord[locale] ?? bodyWord['en']!;
+            return '${id.substring(0, id.length - 1)} $word';
+          }
+          return id;
+        }
+        return t?.ttsText[locale] ?? t?.ttsText['en'] ?? id;
+      }).join(' ');
+    }
+    return ttsTextForLocale(techniques, locale);
+  }
 }

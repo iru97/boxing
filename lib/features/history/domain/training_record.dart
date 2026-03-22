@@ -14,6 +14,9 @@ class TrainingRecord with _$TrainingRecord {
     required int roundsCompleted,
     required int totalRounds,
     @Default(true) bool completedFully,
+    int? combosCompleted,
+    String? comboDifficulty,
+    String? comboSport,
   }) = _TrainingRecord;
 
   factory TrainingRecord.fromJson(Map<String, dynamic> json) =>

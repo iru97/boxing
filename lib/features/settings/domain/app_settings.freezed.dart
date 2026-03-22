@@ -34,7 +34,8 @@ mixin _$AppSettings {
       throw _privateConstructorUsedError; // dark, light, system
   String get locale => throw _privateConstructorUsedError; // system, en, es, pt
   bool get tapToPause => throw _privateConstructorUsedError; // Monetization
-  bool get isAdFree => throw _privateConstructorUsedError;
+  bool get isAdFree => throw _privateConstructorUsedError; // Progression nudge
+  String get dismissedProgressionNudge => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -66,6 +67,7 @@ abstract class $AppSettingsCopyWith<$Res> {
     String locale,
     bool tapToPause,
     bool isAdFree,
+    String dismissedProgressionNudge,
   });
 }
 
@@ -96,6 +98,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
     Object? locale = null,
     Object? tapToPause = null,
     Object? isAdFree = null,
+    Object? dismissedProgressionNudge = null,
   }) {
     return _then(
       _value.copyWith(
@@ -159,6 +162,11 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
                     ? _value.isAdFree
                     : isAdFree // ignore: cast_nullable_to_non_nullable
                         as bool,
+            dismissedProgressionNudge:
+                null == dismissedProgressionNudge
+                    ? _value.dismissedProgressionNudge
+                    : dismissedProgressionNudge // ignore: cast_nullable_to_non_nullable
+                        as String,
           )
           as $Val,
     );
@@ -187,6 +195,7 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
     String locale,
     bool tapToPause,
     bool isAdFree,
+    String dismissedProgressionNudge,
   });
 }
 
@@ -216,6 +225,7 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
     Object? locale = null,
     Object? tapToPause = null,
     Object? isAdFree = null,
+    Object? dismissedProgressionNudge = null,
   }) {
     return _then(
       _$AppSettingsImpl(
@@ -279,6 +289,11 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
                 ? _value.isAdFree
                 : isAdFree // ignore: cast_nullable_to_non_nullable
                     as bool,
+        dismissedProgressionNudge:
+            null == dismissedProgressionNudge
+                ? _value.dismissedProgressionNudge
+                : dismissedProgressionNudge // ignore: cast_nullable_to_non_nullable
+                    as String,
       ),
     );
   }
@@ -300,6 +315,7 @@ class _$AppSettingsImpl implements _AppSettings {
     this.locale = 'system',
     this.tapToPause = false,
     this.isAdFree = false,
+    this.dismissedProgressionNudge = '',
   });
 
   factory _$AppSettingsImpl.fromJson(Map<String, dynamic> json) =>
@@ -347,10 +363,14 @@ class _$AppSettingsImpl implements _AppSettings {
   @override
   @JsonKey()
   final bool isAdFree;
+  // Progression nudge
+  @override
+  @JsonKey()
+  final String dismissedProgressionNudge;
 
   @override
   String toString() {
-    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause, isAdFree: $isAdFree)';
+    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause, isAdFree: $isAdFree, dismissedProgressionNudge: $dismissedProgressionNudge)';
   }
 
   @override
@@ -380,7 +400,12 @@ class _$AppSettingsImpl implements _AppSettings {
             (identical(other.tapToPause, tapToPause) ||
                 other.tapToPause == tapToPause) &&
             (identical(other.isAdFree, isAdFree) ||
-                other.isAdFree == isAdFree));
+                other.isAdFree == isAdFree) &&
+            (identical(
+                  other.dismissedProgressionNudge,
+                  dismissedProgressionNudge,
+                ) ||
+                other.dismissedProgressionNudge == dismissedProgressionNudge));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -399,6 +424,7 @@ class _$AppSettingsImpl implements _AppSettings {
     locale,
     tapToPause,
     isAdFree,
+    dismissedProgressionNudge,
   );
 
   /// Create a copy of AppSettings
@@ -429,6 +455,7 @@ abstract class _AppSettings implements AppSettings {
     final String locale,
     final bool tapToPause,
     final bool isAdFree,
+    final String dismissedProgressionNudge,
   }) = _$AppSettingsImpl;
 
   factory _AppSettings.fromJson(Map<String, dynamic> json) =
@@ -458,7 +485,9 @@ abstract class _AppSettings implements AppSettings {
   @override
   bool get tapToPause; // Monetization
   @override
-  bool get isAdFree;
+  bool get isAdFree; // Progression nudge
+  @override
+  String get dismissedProgressionNudge;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.

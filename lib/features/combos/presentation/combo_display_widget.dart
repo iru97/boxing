@@ -3,21 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:boxing/features/combos/data/technique_library.dart';
 import 'package:boxing/features/combos/domain/combo_model.dart';
-import 'package:boxing/features/combos/domain/technique.dart';
 import 'package:boxing/features/combos/presentation/combo_callout_provider.dart';
 
-/// Displays the current combo callout as a row of technique badges.
+/// Displays the current combo callout as a two-line stacked display:
+///   Line 1: notation at 28sp bold monospace ("1 - 2 - 3"), white
+///   Line 2: full technique names at 14sp, muted white (60% opacity)
 ///
 /// Positioned below the phase label on the timer screen. When no combo is
 /// active (or during rest) the widget collapses to nothing so it has zero
-/// layout impact.
-///
-/// Badge color is driven by [TechniqueCategory]:
-///   punch    → green  (work phase color — offensive power)
-///   defense  → amber  (warning color — reactive move)
-///   footwork → blue   (movement cue)
-///   kick / elbow / knee → deep orange (power strike)
-///   other    → grey
+/// layout impact. Transitions use a combined scale+fade animation.
 class ComboDisplayWidget extends ConsumerWidget {
   const ComboDisplayWidget({super.key});
 
@@ -35,13 +29,20 @@ class ComboDisplayWidget extends ConsumerWidget {
       duration: const Duration(milliseconds: 300),
       switchInCurve: Curves.easeOut,
       switchOutCurve: Curves.easeIn,
-      transitionBuilder: (child, animation) => FadeTransition(
-        opacity: animation,
-        child: child,
-      ),
+      transitionBuilder: (child, animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.92, end: 1.0).animate(
+              CurvedAnimation(parent: animation, curve: Curves.easeOut),
+            ),
+            child: child,
+          ),
+        );
+      },
       child: callout == null
           ? const SizedBox.shrink(key: ValueKey('empty'))
-          : _ComboBadgeRow(
+          : _ComboStackedDisplay(
               key: ValueKey(callout.combo.id),
               combo: callout.combo,
             ),
@@ -50,13 +51,13 @@ class ComboDisplayWidget extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Badge row — resolves technique categories from the static library
+// Two-line stacked display
 // ---------------------------------------------------------------------------
 
-class _ComboBadgeRow extends StatelessWidget {
+class _ComboStackedDisplay extends StatelessWidget {
   final Combo combo;
 
-  const _ComboBadgeRow({
+  const _ComboStackedDisplay({
     required this.combo,
     super.key,
   });
@@ -65,69 +66,45 @@ class _ComboBadgeRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final techniques = TechniqueLibrary.all;
 
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 320),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 6,
-          runSpacing: 4,
-          children: [
-            for (final id in combo.techniqueIds)
-              _TechniqueBadge(
-                label: techniques[id]?.displayText ?? id,
-                category: techniques[id]?.category ?? TechniqueCategory.other,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+    // Line 1: notation — punch IDs as digits, others as displayText, joined by " - "
+    final notation = combo.techniqueIds
+        .map((id) => techniques[id]?.displayText ?? id)
+        .join(' - ');
 
-// ---------------------------------------------------------------------------
-// Single technique badge
-// ---------------------------------------------------------------------------
+    // Line 2: full technique names from ttsText['en'] or displayText fallback
+    final names = combo.techniqueIds.map((id) {
+      final t = techniques[id];
+      if (t == null) return id;
+      // Use English TTS text for readable names; fall back to displayText
+      return t.ttsText['en'] ?? t.displayText;
+    }).join(', ');
 
-class _TechniqueBadge extends StatelessWidget {
-  final String label;
-  final TechniqueCategory category;
-
-  const _TechniqueBadge({
-    required this.label,
-    required this.category,
-  });
-
-  Color _badgeColor() {
-    return switch (category) {
-      TechniqueCategory.punch => const Color(0xFF00C853),    // green — work
-      TechniqueCategory.defense => const Color(0xFFFFB300),  // amber — warning
-      TechniqueCategory.footwork => const Color(0xFF1E88E5), // blue — movement
-      TechniqueCategory.kick ||
-      TechniqueCategory.elbow ||
-      TechniqueCategory.knee => const Color(0xFFFF5722),     // deep orange
-      TechniqueCategory.grappling => const Color(0xFF7B1FA2), // purple
-      TechniqueCategory.other => const Color(0xFF757575),    // grey
-    };
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(minHeight: 36, minWidth: 36),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: _badgeColor(),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          height: 1.1,
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          Text(
+            notation,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'monospace',
+              color: Colors.white,
+              height: 1.1,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            names,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white.withValues(alpha: 0.6),
+              height: 1.2,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -19,6 +19,9 @@ class ComboCalloutConfig with _$ComboCalloutConfig {
     @Default('moderate') String intensity,
     @Default(true) bool includeDefense,
     @Default(false) bool includeFootwork,
+    /// How combos are announced: 'numbers' (fast: "1 2 3") or 'names'
+    /// (beginner-friendly: "Jab, Cross, Hook").
+    @Default('numbers') String calloutStyle,
   }) = _ComboCalloutConfig;
 
   factory ComboCalloutConfig.fromJson(Map<String, dynamic> json) =>

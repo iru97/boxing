@@ -296,10 +296,50 @@
   "comboIntensityModerate": "Moderado",
   "comboIntensityIntense": "Intenso",
   "comboIntensityHurricane": "Furac\u00e3o",
+  "comboIntensityDescription": "Com que frequ\u00eancia os combos s\u00e3o chamados",
+  "comboCalloutStyle": "Estilo de Chamada",
+  "comboCalloutStyleDescription": "Como os combos s\u00e3o falados em voz alta",
+  "comboCalloutNumbers": "N\u00fameros",
+  "comboCalloutNames": "Nomes",
+  "comboCalloutNumbersHint": "R\u00e1pido \u2014 \"1 2 3\" (como treinadores chamam combos)",
+  "comboCalloutNamesHint": "Iniciante \u2014 \"Jab, Cruz, Gancho\"",
   "comboIncludeDefense": "Incluir defesa",
+  "comboDefenseDescription": "Esquivar, rolar, bloquear",
   "comboIncludeFootwork": "Incluir movimenta\u00e7\u00e3o",
+  "comboFootworkDescription": "Pivotar, \u00e2ngulo, cortar o ringue",
   "comboPoolSize": "{count} combos dispon\u00edveis",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
   "comboPreviewTitle": "Pr\u00e9via dos Combos",
-  "comboSummaryLabel": "Combos por Voz"
+  "comboSummaryLabel": "Combos por Voz",
+
+  "comboPreviewButton": "Pr\u00e9via",
+  "comboPreviewPlaying": "Reproduzindo...",
+  "sessionCompleteCombos": "{count} combos",
+  "@sessionCompleteCombos": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "historyRecordCombos": "{count} combos",
+  "@historyRecordCombos": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "progressionNudgeTitle": "Subir de n\u00edvel?",
+  "progressionNudgeMessage": "Voc\u00ea completou {count} sess\u00f5es no n\u00edvel {level}. Pronto para {next}?",
+  "@progressionNudgeMessage": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "level": { "type": "String" },
+      "next": { "type": "String" }
+    }
+  },
+  "progressionNudgeCta": "Tentar {next}",
+  "@progressionNudgeCta": {
+    "placeholders": {
+      "next": { "type": "String" }
+    }
+  },
+  "progressionNudgeDismiss": "Ainda n\u00e3o"
 }

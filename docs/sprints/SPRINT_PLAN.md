@@ -2,20 +2,28 @@
 
 ## Overview
 
-7 sprints to deliver a production-ready boxing training timer app.
-Each sprint has clear deliverables, research context, and acceptance criteria.
+15 sprints delivering a smart boxing training companion.
+Sprints 0-6 (V1): production-ready timer. Sprints 7-14 (V2): training intelligence and monetization.
 
 ### Sprint Summary
 
-| Sprint | Name | Focus | Key Deliverable |
-|--------|------|-------|-----------------|
-| 0 | Foundation | Project setup, architecture, models | Flutter project compiles and runs |
-| 1 | Timer Engine | Core timer logic + audio service | Timer runs accurately in foreground |
-| 2 | Timer Screen | Active workout UI | Full timer screen with phase colors |
-| 3 | Sessions | Session management + persistence | Create, save, load custom sessions |
-| 4 | Background & Audio | Background execution + audio ducking | Timer survives backgrounding, audio over music |
-| 5 | Polish & UX | Glove-friendly UX, animations, settings | Production-quality UI |
-| 6 | Platform & Release | Platform config, testing, release prep | App store ready builds |
+| Sprint | Name | Focus | Key Deliverable | Status |
+|--------|------|-------|-----------------|--------|
+| 0 | Foundation | Project setup, architecture, models | Flutter project compiles and runs | Complete |
+| 1 | Timer Engine | Core timer logic + audio service | Timer runs accurately in foreground | Complete |
+| 2 | Timer Screen | Active workout UI | Full timer screen with phase colors | Complete |
+| 3 | Sessions | Session management + persistence | Create, save, load custom sessions | Complete |
+| 4 | Background & Audio | Background execution + audio ducking | Timer survives backgrounding, audio over music | Complete |
+| 5 | Polish & UX | Glove-friendly UX, animations, settings | Production-quality UI | Complete |
+| 6 | Platform & Release | Platform config, testing, release prep | App store ready builds | Complete |
+| 7 | Ads & IAP | Monetization foundation | Free with ads + Remove Ads purchase | Complete |
+| 8 | Sport Presets | Sport-specific preset expansion | 70+ presets across 6 sports | Complete |
+| 9 | Combo Callouts | Voice combo callout system | 190+ combos, TTS coaching, 5 sports | Complete |
+| 10 | Guided Programs | Multi-week training programs | 3 programs, progress tracking | Complete |
+| 11 | Combo Premium | Engine intelligence + voice + UX | Coach-quality combo experience | **Current** |
+| 12 | Combo Intelligence | Recency window + stats + progression | Smart selection, data persistence, nudges | Planned |
+| 13 | Coach Voice | Motivational interjections system | 102 coach phrases, 3 locales, audio coaching | Planned |
+| 14 | Premium & Paywall | Entitlement infrastructure + IAP | Combo Pack $3.99, graceful degradation, PRO UI | Planned |
 
 ---
 

@@ -784,10 +784,40 @@ class SPt extends S {
   String get comboIntensityHurricane => 'Furacão';
 
   @override
+  String get comboIntensityDescription =>
+      'Com que frequência os combos são chamados';
+
+  @override
+  String get comboCalloutStyle => 'Estilo de Chamada';
+
+  @override
+  String get comboCalloutStyleDescription =>
+      'Como os combos são falados em voz alta';
+
+  @override
+  String get comboCalloutNumbers => 'Números';
+
+  @override
+  String get comboCalloutNames => 'Nomes';
+
+  @override
+  String get comboCalloutNumbersHint =>
+      'Rápido — \"1 2 3\" (como treinadores chamam combos)';
+
+  @override
+  String get comboCalloutNamesHint => 'Iniciante — \"Jab, Cruz, Gancho\"';
+
+  @override
   String get comboIncludeDefense => 'Incluir defesa';
 
   @override
+  String get comboDefenseDescription => 'Esquivar, rolar, bloquear';
+
+  @override
   String get comboIncludeFootwork => 'Incluir movimentação';
+
+  @override
+  String get comboFootworkDescription => 'Pivotar, ângulo, cortar o ringue';
 
   @override
   String comboPoolSize(int count) {
@@ -799,4 +829,36 @@ class SPt extends S {
 
   @override
   String get comboSummaryLabel => 'Combos por Voz';
+
+  @override
+  String get comboPreviewButton => 'Prévia';
+
+  @override
+  String get comboPreviewPlaying => 'Reproduzindo...';
+
+  @override
+  String sessionCompleteCombos(int count) {
+    return '$count combos';
+  }
+
+  @override
+  String historyRecordCombos(int count) {
+    return '$count combos';
+  }
+
+  @override
+  String get progressionNudgeTitle => 'Subir de nível?';
+
+  @override
+  String progressionNudgeMessage(int count, String level, String next) {
+    return 'Você completou $count sessões no nível $level. Pronto para $next?';
+  }
+
+  @override
+  String progressionNudgeCta(String next) {
+    return 'Tentar $next';
+  }
+
+  @override
+  String get progressionNudgeDismiss => 'Ainda não';
 }

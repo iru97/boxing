@@ -29,6 +29,9 @@ mixin _$TrainingRecord {
   int get roundsCompleted => throw _privateConstructorUsedError;
   int get totalRounds => throw _privateConstructorUsedError;
   bool get completedFully => throw _privateConstructorUsedError;
+  int? get combosCompleted => throw _privateConstructorUsedError;
+  String? get comboDifficulty => throw _privateConstructorUsedError;
+  String? get comboSport => throw _privateConstructorUsedError;
 
   /// Serializes this TrainingRecord to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,6 +59,9 @@ abstract class $TrainingRecordCopyWith<$Res> {
     int roundsCompleted,
     int totalRounds,
     bool completedFully,
+    int? combosCompleted,
+    String? comboDifficulty,
+    String? comboSport,
   });
 }
 
@@ -82,6 +88,9 @@ class _$TrainingRecordCopyWithImpl<$Res, $Val extends TrainingRecord>
     Object? roundsCompleted = null,
     Object? totalRounds = null,
     Object? completedFully = null,
+    Object? combosCompleted = freezed,
+    Object? comboDifficulty = freezed,
+    Object? comboSport = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -125,6 +134,21 @@ class _$TrainingRecordCopyWithImpl<$Res, $Val extends TrainingRecord>
                     ? _value.completedFully
                     : completedFully // ignore: cast_nullable_to_non_nullable
                         as bool,
+            combosCompleted:
+                freezed == combosCompleted
+                    ? _value.combosCompleted
+                    : combosCompleted // ignore: cast_nullable_to_non_nullable
+                        as int?,
+            comboDifficulty:
+                freezed == comboDifficulty
+                    ? _value.comboDifficulty
+                    : comboDifficulty // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            comboSport:
+                freezed == comboSport
+                    ? _value.comboSport
+                    : comboSport // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -149,6 +173,9 @@ abstract class _$$TrainingRecordImplCopyWith<$Res>
     int roundsCompleted,
     int totalRounds,
     bool completedFully,
+    int? combosCompleted,
+    String? comboDifficulty,
+    String? comboSport,
   });
 }
 
@@ -174,6 +201,9 @@ class __$$TrainingRecordImplCopyWithImpl<$Res>
     Object? roundsCompleted = null,
     Object? totalRounds = null,
     Object? completedFully = null,
+    Object? combosCompleted = freezed,
+    Object? comboDifficulty = freezed,
+    Object? comboSport = freezed,
   }) {
     return _then(
       _$TrainingRecordImpl(
@@ -217,6 +247,21 @@ class __$$TrainingRecordImplCopyWithImpl<$Res>
                 ? _value.completedFully
                 : completedFully // ignore: cast_nullable_to_non_nullable
                     as bool,
+        combosCompleted:
+            freezed == combosCompleted
+                ? _value.combosCompleted
+                : combosCompleted // ignore: cast_nullable_to_non_nullable
+                    as int?,
+        comboDifficulty:
+            freezed == comboDifficulty
+                ? _value.comboDifficulty
+                : comboDifficulty // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        comboSport:
+            freezed == comboSport
+                ? _value.comboSport
+                : comboSport // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }
@@ -234,6 +279,9 @@ class _$TrainingRecordImpl implements _TrainingRecord {
     required this.roundsCompleted,
     required this.totalRounds,
     this.completedFully = true,
+    this.combosCompleted,
+    this.comboDifficulty,
+    this.comboSport,
   });
 
   factory _$TrainingRecordImpl.fromJson(Map<String, dynamic> json) =>
@@ -256,10 +304,16 @@ class _$TrainingRecordImpl implements _TrainingRecord {
   @override
   @JsonKey()
   final bool completedFully;
+  @override
+  final int? combosCompleted;
+  @override
+  final String? comboDifficulty;
+  @override
+  final String? comboSport;
 
   @override
   String toString() {
-    return 'TrainingRecord(id: $id, sessionId: $sessionId, sessionName: $sessionName, date: $date, durationCompletedSec: $durationCompletedSec, roundsCompleted: $roundsCompleted, totalRounds: $totalRounds, completedFully: $completedFully)';
+    return 'TrainingRecord(id: $id, sessionId: $sessionId, sessionName: $sessionName, date: $date, durationCompletedSec: $durationCompletedSec, roundsCompleted: $roundsCompleted, totalRounds: $totalRounds, completedFully: $completedFully, combosCompleted: $combosCompleted, comboDifficulty: $comboDifficulty, comboSport: $comboSport)';
   }
 
   @override
@@ -280,7 +334,13 @@ class _$TrainingRecordImpl implements _TrainingRecord {
             (identical(other.totalRounds, totalRounds) ||
                 other.totalRounds == totalRounds) &&
             (identical(other.completedFully, completedFully) ||
-                other.completedFully == completedFully));
+                other.completedFully == completedFully) &&
+            (identical(other.combosCompleted, combosCompleted) ||
+                other.combosCompleted == combosCompleted) &&
+            (identical(other.comboDifficulty, comboDifficulty) ||
+                other.comboDifficulty == comboDifficulty) &&
+            (identical(other.comboSport, comboSport) ||
+                other.comboSport == comboSport));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -295,6 +355,9 @@ class _$TrainingRecordImpl implements _TrainingRecord {
     roundsCompleted,
     totalRounds,
     completedFully,
+    combosCompleted,
+    comboDifficulty,
+    comboSport,
   );
 
   /// Create a copy of TrainingRecord
@@ -324,6 +387,9 @@ abstract class _TrainingRecord implements TrainingRecord {
     required final int roundsCompleted,
     required final int totalRounds,
     final bool completedFully,
+    final int? combosCompleted,
+    final String? comboDifficulty,
+    final String? comboSport,
   }) = _$TrainingRecordImpl;
 
   factory _TrainingRecord.fromJson(Map<String, dynamic> json) =
@@ -345,6 +411,12 @@ abstract class _TrainingRecord implements TrainingRecord {
   int get totalRounds;
   @override
   bool get completedFully;
+  @override
+  int? get combosCompleted;
+  @override
+  String? get comboDifficulty;
+  @override
+  String? get comboSport;
 
   /// Create a copy of TrainingRecord
   /// with the given fields replaced by the non-null parameter values.
