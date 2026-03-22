@@ -307,6 +307,8 @@
   "comboDefenseDescription": "Esquivar, rolar, bloquear",
   "comboIncludeFootwork": "Incluir movimenta\u00e7\u00e3o",
   "comboFootworkDescription": "Pivotar, \u00e2ngulo, cortar o ringue",
+  "comboCoachEncouragement": "Incentivo do treinador",
+  "comboEncouragementDescription": "Frases motivacionais entre combos",
   "comboPoolSize": "{count} combos dispon\u00edveis",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
   "comboPreviewTitle": "Pr\u00e9via dos Combos",

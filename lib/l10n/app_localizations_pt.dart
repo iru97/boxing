@@ -820,6 +820,13 @@ class SPt extends S {
   String get comboFootworkDescription => 'Pivotar, ângulo, cortar o ringue';
 
   @override
+  String get comboCoachEncouragement => 'Incentivo do treinador';
+
+  @override
+  String get comboEncouragementDescription =>
+      'Frases motivacionais entre combos';
+
+  @override
   String comboPoolSize(int count) {
     return '$count combos disponíveis';
   }

@@ -216,6 +216,26 @@ class VoiceService {
     }
   }
 
+  /// Speak a motivational interjection with energetic TTS settings.
+  /// Skipped if already speaking (same skip-if-busy policy as combos).
+  Future<void> speakInterjection(String text) async {
+    if (!_initialized) return;
+    if (_isSpeaking) return; // Same skip-if-busy policy as combos
+    try {
+      _isSpeaking = true;
+      _speakingTimeoutTimer?.cancel();
+      await _tts.setPitch(1.15); // More energetic than combos (1.1)
+      await _tts.setSpeechRate(0.65); // Deliberate cadence, not hurried
+      await _tts.speak(text);
+      _speakingTimeoutTimer = Timer(_maxSpeakingDuration, () {
+        _isSpeaking = false;
+      });
+    } catch (e) {
+      _isSpeaking = false;
+      debugPrint('VoiceService: speakInterjection failed: $e');
+    }
+  }
+
   String _buildText(VoiceEvent event) {
     final phrases = _phrases[_locale] ?? _phrases['en']!;
 

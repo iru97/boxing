@@ -823,6 +823,13 @@ class SEs extends S {
   String get comboFootworkDescription => 'Pivote, ángulo, cortar el ring';
 
   @override
+  String get comboCoachEncouragement => 'Animo del coach';
+
+  @override
+  String get comboEncouragementDescription =>
+      'Frases motivacionales entre combos';
+
+  @override
   String comboPoolSize(int count) {
     return '$count combos disponibles';
   }

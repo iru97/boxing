@@ -307,6 +307,8 @@
   "comboDefenseDescription": "Llamadas de esquivar, rodar, bloquear",
   "comboIncludeFootwork": "Incluir juego de pies",
   "comboFootworkDescription": "Pivote, \u00e1ngulo, cortar el ring",
+  "comboCoachEncouragement": "Animo del coach",
+  "comboEncouragementDescription": "Frases motivacionales entre combos",
   "comboPoolSize": "{count} combos disponibles",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
   "comboPreviewTitle": "Vista Previa de Combos",

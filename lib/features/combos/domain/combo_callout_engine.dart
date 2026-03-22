@@ -5,6 +5,7 @@ import 'dart:math' as math;
 import 'package:boxing/features/combos/domain/combo_model.dart';
 import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 import 'package:boxing/features/combos/domain/technique.dart';
+import 'package:boxing/features/combos/data/interjection_library.dart';
 
 /// A combo selected for callout, with resolved display and TTS text.
 class ComboCallout {
@@ -50,7 +51,12 @@ class ComboCalloutEngine {
   Combo? _lastFiredCombo;
   int _combosFired = 0;
 
+  // Interjection state
+  int _calloutSlotsThisRound = 0;
+  bool _escalationInterjectionFired = false;
+
   final _controller = StreamController<ComboCallout?>.broadcast();
+  final _interjectionController = StreamController<String>.broadcast();
 
   /// Interval ranges per intensity (min seconds, max seconds).
   static const _intervals = {
@@ -92,6 +98,9 @@ class ComboCalloutEngine {
   /// Stream of combo callouts. Emits null when the phase ends to clear the
   /// display. UI and voice service subscribe here.
   Stream<ComboCallout?> get comboStream => _controller.stream;
+
+  /// Stream of motivational interjections (audio-only, no visual display).
+  Stream<String> get interjectionStream => _interjectionController.stream;
 
   /// Total number of combos fired in the current session.
   int get combosFired => _combosFired;
@@ -159,6 +168,8 @@ class ComboCalloutEngine {
     _paused = false;
     _nextCalloutTime = now.add(const Duration(seconds: _initialDelaySec));
     _recentIds.clear();
+    _calloutSlotsThisRound = 0;
+    _escalationInterjectionFired = false;
   }
 
   /// Called on every timer tick (~50ms). [remaining] is time left in the
@@ -179,7 +190,7 @@ class ComboCalloutEngine {
     }
 
     if (now.isAfter(_nextCalloutTime!) || now.isAtSameMomentAs(_nextCalloutTime!)) {
-      _fireCombo();
+      _fireCalloutSlot(remaining, warningTime);
       _scheduleNext(now, remaining, warningTime);
     }
   }
@@ -217,9 +228,92 @@ class ComboCalloutEngine {
   /// Release resources.
   void dispose() {
     _controller.close();
+    _interjectionController.close();
   }
 
   // --- Private ---
+
+  /// Decide whether this callout slot should be a combo or an interjection.
+  void _fireCalloutSlot(Duration remaining, Duration warningTime) {
+    _calloutSlotsThisRound++;
+
+    // Fire escalation interjection (Category D) once per round when entering
+    // the escalation zone — independent of slot allocation.
+    final bufferThreshold = warningTime + const Duration(seconds: _warningBufferSec);
+    final escalationStart = bufferThreshold + const Duration(seconds: _escalationZoneSec);
+    if (!_escalationInterjectionFired &&
+        _config.enableCoachEncouragement &&
+        remaining <= escalationStart &&
+        remaining > bufferThreshold) {
+      _escalationInterjectionFired = true;
+      final text = InterjectionLibrary.pick(
+        _locale,
+        InterjectionCategory.roundContext,
+        _rng,
+      );
+      if (!_interjectionController.isClosed) {
+        _interjectionController.add(text);
+      }
+    }
+
+    // Grace period: first 2 slots are always combos
+    if (!_config.enableCoachEncouragement || _calloutSlotsThisRound <= 2) {
+      _fireCombo();
+      return;
+    }
+
+    final roll = _rng.nextDouble();
+    final threshold = _interjectionProbability();
+
+    if (roll < threshold) {
+      _fireInterjection(remaining, warningTime);
+    } else {
+      _fireCombo();
+    }
+  }
+
+  /// Interjection probability based on configured intensity.
+  double _interjectionProbability() {
+    return switch (_config.intensity) {
+      'relaxed' || 'moderate' => 0.20,
+      'intense' => 0.15,
+      'hurricane' => 0.10,
+      _ => 0.20,
+    };
+  }
+
+  /// Pick and emit a motivational interjection.
+  void _fireInterjection(Duration remaining, Duration warningTime) {
+    final category = _pickInterjectionCategory(remaining, warningTime);
+    final text = InterjectionLibrary.pick(_locale, category, _rng);
+    if (!_interjectionController.isClosed) {
+      _interjectionController.add(text);
+    }
+  }
+
+  /// Select interjection category based on round context.
+  InterjectionCategory _pickInterjectionCategory(
+    Duration remaining,
+    Duration warningTime,
+  ) {
+    final bufferThreshold = warningTime + const Duration(seconds: _warningBufferSec);
+    final escalationStart = bufferThreshold + const Duration(seconds: _escalationZoneSec);
+    final inEscalation = remaining <= escalationStart && remaining > bufferThreshold;
+
+    // Category C (technique) never during escalation zone
+    if (inEscalation) {
+      // 60% encouragement, 40% intensity during escalation
+      return _rng.nextDouble() < 0.6
+          ? InterjectionCategory.encouragement
+          : InterjectionCategory.intensity;
+    }
+
+    // Normal distribution: 50% encouragement, 30% intensity, 20% technique
+    final roll = _rng.nextDouble();
+    if (roll < 0.5) return InterjectionCategory.encouragement;
+    if (roll < 0.8) return InterjectionCategory.intensity;
+    return InterjectionCategory.technique;
+  }
 
   void _fireCombo() {
     final combo = _pickCombo();

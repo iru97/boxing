@@ -72,6 +72,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   bool _programDayMarked = false;
   TimerLifecycleService? _lifecycleService;
   StreamSubscription<ComboCallout?>? _comboSubscription;
+  StreamSubscription<String>? _interjectionSubscription;
 
   @override
   void initState() {
@@ -86,6 +87,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   @override
   void dispose() {
     _comboSubscription?.cancel();
+    _interjectionSubscription?.cancel();
     _lifecycleService?.onSessionEnd();
     _lifecycleService?.dispose();
     super.dispose();
@@ -143,6 +145,11 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
         if (callout != null) {
           voiceService.speakCombo(callout.ttsText, rate: speechRate);
         }
+      });
+      // Subscribe to interjection stream for motivational cues
+      _interjectionSubscription?.cancel();
+      _interjectionSubscription = comboEngine.interjectionStream.listen((text) {
+        voiceService.speakInterjection(text);
       });
     }
 

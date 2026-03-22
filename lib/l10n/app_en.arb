@@ -437,6 +437,8 @@
   "comboDefenseDescription": "Slip, roll, block callouts",
   "comboIncludeFootwork": "Include footwork cues",
   "comboFootworkDescription": "Pivot, angle, cut the ring",
+  "comboCoachEncouragement": "Coach encouragement",
+  "comboEncouragementDescription": "Motivational cues between combos",
   "comboPoolSize": "{count} combos in pool",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
   "comboPreviewTitle": "Combo Pool Preview",

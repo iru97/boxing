@@ -22,6 +22,8 @@ class ComboCalloutConfig with _$ComboCalloutConfig {
     /// How combos are announced: 'numbers' (fast: "1 2 3") or 'names'
     /// (beginner-friendly: "Jab, Cross, Hook").
     @Default('numbers') String calloutStyle,
+    /// Whether motivational interjections play between combos.
+    @Default(true) bool enableCoachEncouragement,
   }) = _ComboCalloutConfig;
 
   factory ComboCalloutConfig.fromJson(Map<String, dynamic> json) =>

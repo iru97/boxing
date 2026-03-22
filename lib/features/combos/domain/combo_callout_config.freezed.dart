@@ -32,6 +32,9 @@ mixin _$ComboCalloutConfig {
   /// (beginner-friendly: "Jab, Cross, Hook").
   String get calloutStyle => throw _privateConstructorUsedError;
 
+  /// Whether motivational interjections play between combos.
+  bool get enableCoachEncouragement => throw _privateConstructorUsedError;
+
   /// Serializes this ComboCalloutConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -57,6 +60,7 @@ abstract class $ComboCalloutConfigCopyWith<$Res> {
     bool includeDefense,
     bool includeFootwork,
     String calloutStyle,
+    bool enableCoachEncouragement,
   });
 }
 
@@ -82,6 +86,7 @@ class _$ComboCalloutConfigCopyWithImpl<$Res, $Val extends ComboCalloutConfig>
     Object? includeDefense = null,
     Object? includeFootwork = null,
     Object? calloutStyle = null,
+    Object? enableCoachEncouragement = null,
   }) {
     return _then(
       _value.copyWith(
@@ -120,6 +125,11 @@ class _$ComboCalloutConfigCopyWithImpl<$Res, $Val extends ComboCalloutConfig>
                     ? _value.calloutStyle
                     : calloutStyle // ignore: cast_nullable_to_non_nullable
                         as String,
+            enableCoachEncouragement:
+                null == enableCoachEncouragement
+                    ? _value.enableCoachEncouragement
+                    : enableCoachEncouragement // ignore: cast_nullable_to_non_nullable
+                        as bool,
           )
           as $Val,
     );
@@ -143,6 +153,7 @@ abstract class _$$ComboCalloutConfigImplCopyWith<$Res>
     bool includeDefense,
     bool includeFootwork,
     String calloutStyle,
+    bool enableCoachEncouragement,
   });
 }
 
@@ -167,6 +178,7 @@ class __$$ComboCalloutConfigImplCopyWithImpl<$Res>
     Object? includeDefense = null,
     Object? includeFootwork = null,
     Object? calloutStyle = null,
+    Object? enableCoachEncouragement = null,
   }) {
     return _then(
       _$ComboCalloutConfigImpl(
@@ -205,6 +217,11 @@ class __$$ComboCalloutConfigImplCopyWithImpl<$Res>
                 ? _value.calloutStyle
                 : calloutStyle // ignore: cast_nullable_to_non_nullable
                     as String,
+        enableCoachEncouragement:
+            null == enableCoachEncouragement
+                ? _value.enableCoachEncouragement
+                : enableCoachEncouragement // ignore: cast_nullable_to_non_nullable
+                    as bool,
       ),
     );
   }
@@ -221,6 +238,7 @@ class _$ComboCalloutConfigImpl implements _ComboCalloutConfig {
     this.includeDefense = true,
     this.includeFootwork = false,
     this.calloutStyle = 'numbers',
+    this.enableCoachEncouragement = true,
   });
 
   factory _$ComboCalloutConfigImpl.fromJson(Map<String, dynamic> json) =>
@@ -251,9 +269,14 @@ class _$ComboCalloutConfigImpl implements _ComboCalloutConfig {
   @JsonKey()
   final String calloutStyle;
 
+  /// Whether motivational interjections play between combos.
+  @override
+  @JsonKey()
+  final bool enableCoachEncouragement;
+
   @override
   String toString() {
-    return 'ComboCalloutConfig(enabled: $enabled, sport: $sport, difficulty: $difficulty, intensity: $intensity, includeDefense: $includeDefense, includeFootwork: $includeFootwork, calloutStyle: $calloutStyle)';
+    return 'ComboCalloutConfig(enabled: $enabled, sport: $sport, difficulty: $difficulty, intensity: $intensity, includeDefense: $includeDefense, includeFootwork: $includeFootwork, calloutStyle: $calloutStyle, enableCoachEncouragement: $enableCoachEncouragement)';
   }
 
   @override
@@ -272,7 +295,12 @@ class _$ComboCalloutConfigImpl implements _ComboCalloutConfig {
             (identical(other.includeFootwork, includeFootwork) ||
                 other.includeFootwork == includeFootwork) &&
             (identical(other.calloutStyle, calloutStyle) ||
-                other.calloutStyle == calloutStyle));
+                other.calloutStyle == calloutStyle) &&
+            (identical(
+                  other.enableCoachEncouragement,
+                  enableCoachEncouragement,
+                ) ||
+                other.enableCoachEncouragement == enableCoachEncouragement));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -286,6 +314,7 @@ class _$ComboCalloutConfigImpl implements _ComboCalloutConfig {
     includeDefense,
     includeFootwork,
     calloutStyle,
+    enableCoachEncouragement,
   );
 
   /// Create a copy of ComboCalloutConfig
@@ -314,6 +343,7 @@ abstract class _ComboCalloutConfig implements ComboCalloutConfig {
     final bool includeDefense,
     final bool includeFootwork,
     final String calloutStyle,
+    final bool enableCoachEncouragement,
   }) = _$ComboCalloutConfigImpl;
 
   factory _ComboCalloutConfig.fromJson(Map<String, dynamic> json) =
@@ -336,6 +366,10 @@ abstract class _ComboCalloutConfig implements ComboCalloutConfig {
   /// (beginner-friendly: "Jab, Cross, Hook").
   @override
   String get calloutStyle;
+
+  /// Whether motivational interjections play between combos.
+  @override
+  bool get enableCoachEncouragement;
 
   /// Create a copy of ComboCalloutConfig
   /// with the given fields replaced by the non-null parameter values.

@@ -817,6 +817,13 @@ class SEn extends S {
   String get comboFootworkDescription => 'Pivot, angle, cut the ring';
 
   @override
+  String get comboCoachEncouragement => 'Coach encouragement';
+
+  @override
+  String get comboEncouragementDescription =>
+      'Motivational cues between combos';
+
+  @override
   String comboPoolSize(int count) {
     return '$count combos in pool';
   }

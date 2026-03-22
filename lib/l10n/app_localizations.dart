@@ -1587,6 +1587,18 @@ abstract class S {
   /// **'Pivot, angle, cut the ring'**
   String get comboFootworkDescription;
 
+  /// No description provided for @comboCoachEncouragement.
+  ///
+  /// In en, this message translates to:
+  /// **'Coach encouragement'**
+  String get comboCoachEncouragement;
+
+  /// No description provided for @comboEncouragementDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Motivational cues between combos'**
+  String get comboEncouragementDescription;
+
   /// No description provided for @comboPoolSize.
   ///
   /// In en, this message translates to:

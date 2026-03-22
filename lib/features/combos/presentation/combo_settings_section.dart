@@ -80,6 +80,14 @@ class ComboSettingsSection extends StatelessWidget {
             value: config.includeFootwork,
             onChanged: (v) => onChanged(config.copyWith(includeFootwork: v)),
           ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(s.comboCoachEncouragement),
+            subtitle: Text(s.comboEncouragementDescription),
+            value: config.enableCoachEncouragement,
+            onChanged: (v) =>
+                onChanged(config.copyWith(enableCoachEncouragement: v)),
+          ),
           const SizedBox(height: 4),
           _PoolSizeIndicator(config: config),
         ],

@@ -16,6 +16,7 @@ _$ComboCalloutConfigImpl _$$ComboCalloutConfigImplFromJson(
   includeDefense: json['includeDefense'] as bool? ?? true,
   includeFootwork: json['includeFootwork'] as bool? ?? false,
   calloutStyle: json['calloutStyle'] as String? ?? 'numbers',
+  enableCoachEncouragement: json['enableCoachEncouragement'] as bool? ?? true,
 );
 
 Map<String, dynamic> _$$ComboCalloutConfigImplToJson(
@@ -28,4 +29,5 @@ Map<String, dynamic> _$$ComboCalloutConfigImplToJson(
   'includeDefense': instance.includeDefense,
   'includeFootwork': instance.includeFootwork,
   'calloutStyle': instance.calloutStyle,
+  'enableCoachEncouragement': instance.enableCoachEncouragement,
 };
