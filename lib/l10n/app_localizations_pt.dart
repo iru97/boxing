@@ -18,10 +18,10 @@ class SPt extends S {
   String get appTagline => 'TREINA COMO LUTAS';
 
   @override
-  String get sectionMySessionsTitle => 'Minhas Sessoes';
+  String get sectionMySessionsTitle => 'Minhas Sessões';
 
   @override
-  String get sectionQuickStartTitle => 'Inicio Rapido';
+  String get sectionQuickStartTitle => 'Início Rápido';
 
   @override
   String get sectionPresetsTitle => 'Presets';
@@ -78,11 +78,11 @@ class SPt extends S {
   String get buttonSaveExit => 'SALVAR E SAIR';
 
   @override
-  String get deleteSessionTitle => 'Excluir sessao?';
+  String get deleteSessionTitle => 'Excluir sessão?';
 
   @override
   String deleteSessionMessage(String name) {
-    return 'Excluir \"$name\"? Isso nao pode ser desfeito.';
+    return 'Excluir \"$name\"? Isso não pode ser desfeito.';
   }
 
   @override
@@ -92,7 +92,7 @@ class SPt extends S {
 
   @override
   String snackbarSessionDeleted(String name) {
-    return '\"$name\" excluida';
+    return '\"$name\" excluída';
   }
 
   @override
@@ -101,7 +101,7 @@ class SPt extends S {
   }
 
   @override
-  String get sessionNotFound => 'Sessao nao encontrada';
+  String get sessionNotFound => 'Sessão não encontrada';
 
   @override
   String sessionCardRoundsFormat(int rounds) {
@@ -124,31 +124,31 @@ class SPt extends S {
   }
 
   @override
-  String get editSessionTitle => 'Editar Sessao';
+  String get editSessionTitle => 'Editar Sessão';
 
   @override
   String get customizePresetTitle => 'Personalizar Preset';
 
   @override
-  String get newSessionTitle => 'Nova Sessao';
+  String get newSessionTitle => 'Nova Sessão';
 
   @override
-  String get labelSessionName => 'Nome da Sessao';
+  String get labelSessionName => 'Nome da Sessão';
 
   @override
   String get hintSessionName => 'ex. Trabalho de Saco';
 
   @override
-  String get validationNameRequired => 'O nome e obrigatorio';
+  String get validationNameRequired => 'O nome é obrigatório';
 
   @override
   String get labelRounds => 'Rounds';
 
   @override
-  String get labelRoundDuration => 'Duracao do Round';
+  String get labelRoundDuration => 'Duração do Round';
 
   @override
-  String get labelRestDuration => 'Duracao do Descanso';
+  String get labelRestDuration => 'Duração do Descanso';
 
   @override
   String get labelRoundStructure => 'Estrutura do Round';
@@ -160,7 +160,7 @@ class SPt extends S {
   String get labelWarmup => 'Aquecimento';
 
   @override
-  String get valueOff => 'Nao';
+  String get valueOff => 'Não';
 
   @override
   String valueSeconds(int seconds) {
@@ -171,10 +171,10 @@ class SPt extends S {
   String get roundStructureSimple => 'Simples';
 
   @override
-  String get labelAutoAdvance => 'Avanco automatico';
+  String get labelAutoAdvance => 'Avanço automático';
 
   @override
-  String get descriptionAutoAdvance => 'Iniciar proximo round apos descanso';
+  String get descriptionAutoAdvance => 'Iniciar próximo round após descanso';
 
   @override
   String get labelKeepScreenOn => 'Manter Tela Ligada';
@@ -184,7 +184,13 @@ class SPt extends S {
       'Evitar que a tela apague durante o treino';
 
   @override
-  String get sessionSummaryTitle => 'Resumo da Sessao';
+  String get labelVoiceAnnounce => 'Anúncios por voz';
+
+  @override
+  String get descriptionVoiceAnnounce => 'Anunciar números de round por voz';
+
+  @override
+  String get sessionSummaryTitle => 'Resumo da Sessão';
 
   @override
   String sessionSummaryRounds(int rounds, String duration) {
@@ -214,7 +220,7 @@ class SPt extends S {
 
   @override
   String timerEndWorkoutMessage(int current, int total) {
-    return 'Voce esta no round $current de $total.';
+    return 'Você está no round $current de $total.';
   }
 
   @override
@@ -258,7 +264,7 @@ class SPt extends S {
   String get phaseLabelComplete => 'COMPLETO';
 
   @override
-  String get sessionCompleteTitle => 'SESSAO COMPLETA';
+  String get sessionCompleteTitle => 'SESSÃO COMPLETA';
 
   @override
   String sessionCompleteRounds(int rounds) {
@@ -285,7 +291,7 @@ class SPt extends S {
   String get a11yPause => 'Pausar';
 
   @override
-  String get a11yNextRound => 'Proximo round';
+  String get a11yNextRound => 'Próximo round';
 
   @override
   String a11yCountdownRemaining(int minutes, int seconds) {
@@ -293,24 +299,24 @@ class SPt extends S {
   }
 
   @override
-  String get settingsScreenTitle => 'Configuracoes';
+  String get settingsScreenTitle => 'Configurações';
 
   @override
-  String get sectionTimerDefaults => 'Padroes do Timer';
+  String get sectionTimerDefaults => 'Padrões do Timer';
 
   @override
-  String get labelDefaultWarmup => 'Aquecimento Padrao';
+  String get labelDefaultWarmup => 'Aquecimento Padrão';
 
   @override
-  String get labelDefaultWarning => 'Aviso Padrao';
+  String get labelDefaultWarning => 'Aviso Padrão';
 
   @override
   String get descriptionAutoAdvanceSettings =>
-      'Iniciar proximo round apos descanso';
+      'Iniciar próximo round após descanso';
 
   @override
   String get descriptionKeepScreenOnSettings =>
-      'Evitar suspensao da tela durante treino';
+      'Evitar suspensão da tela durante treino';
 
   @override
   String get labelResumeCountdown => 'Contagem ao Retomar';
@@ -319,23 +325,23 @@ class SPt extends S {
   String get descriptionResumeCountdown => 'Mostrar 3-2-1 ao retomar';
 
   @override
-  String get sectionAudio => 'Audio';
+  String get sectionAudio => 'Áudio';
 
   @override
-  String get labelDefaultSoundPack => 'Sons Padrao';
+  String get labelDefaultSoundPack => 'Sons Padrão';
 
   @override
-  String get labelVolumeOverride => 'Forcar Volume';
+  String get labelVolumeOverride => 'Forçar Volume';
 
   @override
   String get descriptionVolumeOverride =>
       'Usar canal de alarme para alertas mais altos';
 
   @override
-  String get labelHapticFeedback => 'Vibracao';
+  String get labelHapticFeedback => 'Vibração';
 
   @override
-  String get descriptionHapticFeedback => 'Vibrar no inicio/fim de round';
+  String get descriptionHapticFeedback => 'Vibrar no início/fim de round';
 
   @override
   String get sectionDisplay => 'Tela';
@@ -372,19 +378,19 @@ class SPt extends S {
   String get sectionAbout => 'Sobre';
 
   @override
-  String get labelVersion => 'Versao';
+  String get labelVersion => 'Versão';
 
   @override
-  String get labelLicenses => 'Licencas';
+  String get labelLicenses => 'Licenças';
 
   @override
-  String get soundPackClassicBell => 'Sino Classico';
+  String get soundPackClassicBell => 'Sino Clássico';
 
   @override
   String get soundPackDigitalBuzzer => 'Buzina Digital';
 
   @override
-  String get soundPackMinimalBeep => 'Beep Minimo';
+  String get soundPackMinimalBeep => 'Beep Mínimo';
 
   @override
   String get soundPackPickerTitle => 'Sons';
@@ -492,7 +498,7 @@ class SPt extends S {
   String get segmentAllOut => 'Tudo';
 
   @override
-  String get templatePyramid => 'Piramide';
+  String get templatePyramid => 'Pirâmide';
 
   @override
   String get segmentBuild => 'Subir';
@@ -504,7 +510,7 @@ class SPt extends S {
   String get segmentTaper => 'Descer';
 
   @override
-  String get templateStationRotation => 'Rotacao de Estacoes';
+  String get templateStationRotation => 'Rotação de Estações';
 
   @override
   String get segmentJumpRope => 'Pular Corda';
@@ -522,7 +528,7 @@ class SPt extends S {
   String get templateCreateCustom => 'Personalizada';
 
   @override
-  String get templateEditCopy => 'Editar Copia';
+  String get templateEditCopy => 'Editar Cópia';
 
   @override
   String get templateSimple => 'Simples';
@@ -537,7 +543,7 @@ class SPt extends S {
   String get segmentEditorNameHint => 'ex. Combo de Saco';
 
   @override
-  String get segmentEditorNameRequired => 'O nome e obrigatorio';
+  String get segmentEditorNameRequired => 'O nome é obrigatório';
 
   @override
   String get segmentAdd => 'Adicionar Segmento';
@@ -546,15 +552,15 @@ class SPt extends S {
   String get segmentLabelField => 'Atividade';
 
   @override
-  String get segmentDurationField => 'Duracao';
+  String get segmentDurationField => 'Duração';
 
   @override
   String segmentMaxReached(int max) {
-    return 'Maximo de $max segmentos';
+    return 'Máximo de $max segmentos';
   }
 
   @override
-  String get segmentMinRequired => 'E necessario pelo menos 1 segmento';
+  String get segmentMinRequired => 'É necessário pelo menos 1 segmento';
 
   @override
   String get repeatCountLabel => 'Repetir';
@@ -684,7 +690,13 @@ class SPt extends S {
 
   @override
   String get restorePurchasesDescription =>
-      'Restaurar uma compra anterior de remoção de anúncios';
+      'Restaurar compras anteriores neste dispositivo';
+
+  @override
+  String get comboPackUnlocked => 'Desbloqueado';
+
+  @override
+  String get paywallPurchaseSuccess => 'Tudo pronto! Combos desbloqueados.';
 
   @override
   String get purchaseRestored => 'Compra restaurada com sucesso';
@@ -832,6 +844,11 @@ class SPt extends S {
   }
 
   @override
+  String comboPoolSizeUpsell(int count) {
+    return 'desbloqueie $count+ com PRO';
+  }
+
+  @override
   String get comboPreviewTitle => 'Prévia dos Combos';
 
   @override
@@ -868,4 +885,149 @@ class SPt extends S {
 
   @override
   String get progressionNudgeDismiss => 'Ainda não';
+
+  @override
+  String get paywallComboTitle => 'Pacote de Combos';
+
+  @override
+  String get paywallComboSubtitle => 'Treine como se tivesse um treinador';
+
+  @override
+  String get paywallFreeItem1 => 'Combos para iniciantes (grátis para sempre)';
+
+  @override
+  String get paywallFreeItem2 => 'Números básicos de golpes de boxe';
+
+  @override
+  String get paywallPaidItem1 => '120+ combos intermediários e avançados';
+
+  @override
+  String get paywallPaidItem2 =>
+      'Chamadas de técnicas de Muay Thai, MMA e kickboxing';
+
+  @override
+  String get paywallPaidItem3 => 'Sinais de defesa e movimentação';
+
+  @override
+  String get paywallPaidItem4 => 'Seleção inteligente de combos e progressão';
+
+  @override
+  String get paywallUnlockLabel => 'Desbloquear com o pacote';
+
+  @override
+  String get paywallUnlockButton => 'Desbloquear Agora';
+
+  @override
+  String get paywallRestorePurchases => 'Restaurar Compras';
+
+  @override
+  String get paywallRestoreChecking => 'Verificando compras anteriores...';
+
+  @override
+  String get paywallUpgradeNudge =>
+      'Você treinou com combos iniciantes. Desbloqueie 120+ combos avançados.';
+
+  @override
+  String get programResetTitle => 'Redefinir progresso?';
+
+  @override
+  String programResetMessage(String name) {
+    return 'Isso apagará todo o progresso de \"$name\". Você começará da Semana 1, Dia 1.';
+  }
+
+  @override
+  String get programResetConfirm => 'Redefinir';
+
+  @override
+  String get programResetProgress => 'Redefinir Progresso';
+
+  @override
+  String get programComplete => 'Programa Concluído';
+
+  @override
+  String get programStart => 'Iniciar Programa';
+
+  @override
+  String programContinue(int week, int day) {
+    return 'Continuar - Semana $week, Dia $day';
+  }
+
+  @override
+  String programWeekLabel(int week, String name) {
+    return 'Semana $week: $name';
+  }
+
+  @override
+  String programDayLabel(int day, String name) {
+    return 'Dia $day: $name';
+  }
+
+  @override
+  String programWeekDayTitle(int week, int day) {
+    return 'Semana $week, Dia $day';
+  }
+
+  @override
+  String get programDayCompleted => 'Concluído';
+
+  @override
+  String get programDayRepeat => 'Repetir Treino';
+
+  @override
+  String get programDayStart => 'Iniciar Treino';
+
+  @override
+  String programDayTotalMin(int minutes) {
+    return '~$minutes min total';
+  }
+
+  @override
+  String get programWorkoutDetails => 'DETALHES DO TREINO';
+
+  @override
+  String get programDetailRounds => 'Rounds';
+
+  @override
+  String get programDetailWork => 'Trabalho';
+
+  @override
+  String get programDetailRest => 'Descanso';
+
+  @override
+  String get programComboCallouts => 'Combos por Voz';
+
+  @override
+  String get programComboDefense => 'Defesa';
+
+  @override
+  String get programComboFootwork => 'Movimentação';
+
+  @override
+  String get programNotFound => 'Programa não encontrado';
+
+  @override
+  String get programDayNotFound => 'Dia não encontrado';
+
+  @override
+  String get comboDifficultyBeginnerFree =>
+      'Iniciante é grátis. Desbloqueie 120+ combos intermediários e avançados.';
+
+  @override
+  String get storeUnavailable => 'Loja indisponível';
+
+  @override
+  String get storeRetry => 'Loja indisponível — toque para tentar novamente';
+
+  @override
+  String get paywallSemanticFree => 'Incluído gratuitamente';
+
+  @override
+  String get paywallSemanticPaid => 'Incluído com o pacote';
+
+  @override
+  String get paywallSemanticLoading => 'Carregando';
+
+  @override
+  String get paywallSemanticStoreUnavailable =>
+      'Loja indisponível. Toque para tentar novamente.';
 }

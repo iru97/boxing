@@ -9,6 +9,7 @@ import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/programs/domain/training_program.dart';
 import 'package:boxing/features/programs/presentation/programs_controller.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
+import 'package:boxing/l10n/app_localizations.dart';
 
 class ProgramDayScreen extends ConsumerWidget {
   final String programId;
@@ -28,6 +29,7 @@ class ProgramDayScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final s = S.of(context);
     final program = ref.watch(programByIdProvider(programId));
     final progress = ref.watch(programProgressProvider(programId));
     final (weekNum, dayNum) = _parseWeekDay();
@@ -42,7 +44,7 @@ class ProgramDayScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
         ),
-        body: const Center(child: Text('Program not found')),
+        body: Center(child: Text(s.programNotFound)),
       );
     }
 
@@ -57,7 +59,22 @@ class ProgramDayScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
         ),
-        body: const Center(child: Text('Day not found')),
+        body: Center(child: Text(s.programDayNotFound)),
+      );
+    }
+
+    // L5: bounds-check the weeks array before indexing.
+    if (weekNum < 1 || weekNum > program.weeks.length) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.pop(),
+          ),
+        ),
+        body: Center(child: Text(s.programDayNotFound)),
       );
     }
 
@@ -140,7 +157,7 @@ class ProgramDayScreen extends ConsumerWidget {
                         color: sportColor, size: 18),
                     const SizedBox(width: 8),
                     Text(
-                      'Completed',
+                      s.programDayCompleted,
                       style: Theme.of(context)
                           .textTheme
                           .labelLarge
@@ -158,7 +175,7 @@ class ProgramDayScreen extends ConsumerWidget {
               child: FilledButton.icon(
                 icon: const Icon(Icons.play_arrow, size: 24),
                 label: Text(
-                  isComplete ? 'Repeat Workout' : 'Start Workout',
+                  isComplete ? s.programDayRepeat : s.programDayStart,
                   style: const TextStyle(fontSize: 16),
                 ),
                 style: FilledButton.styleFrom(
@@ -230,6 +247,7 @@ class _SessionDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final comboConfig = session.comboConfig;
 
     return Card(
@@ -240,7 +258,7 @@ class _SessionDetailCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'WORKOUT DETAILS',
+              s.programWorkoutDetails,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: sportColor,
                     letterSpacing: 1.5,
@@ -254,20 +272,20 @@ class _SessionDetailCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: _DetailItem(
-                    label: 'Rounds',
+                    label: s.programDetailRounds,
                     value: '${session.rounds}',
                   ),
                 ),
                 Expanded(
                   child: _DetailItem(
-                    label: 'Work',
+                    label: s.programDetailWork,
                     value: DurationFormatter.formatSeconds(
                         session.roundDurationSec),
                   ),
                 ),
                 Expanded(
                   child: _DetailItem(
-                    label: 'Rest',
+                    label: s.programDetailRest,
                     value: DurationFormatter.formatSeconds(
                         session.restDurationSec),
                   ),
@@ -288,7 +306,7 @@ class _SessionDetailCard extends StatelessWidget {
                   Icon(Icons.mic, size: 14, color: sportColor),
                   const SizedBox(width: 6),
                   Text(
-                    'Combo Callouts',
+                    s.programComboCallouts,
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall
@@ -314,14 +332,14 @@ class _SessionDetailCard extends StatelessWidget {
                   if (comboConfig.includeDefense) ...[
                     const SizedBox(width: 8),
                     _ComboChip(
-                      label: 'Defense',
+                      label: s.programComboDefense,
                       color: sportColor,
                     ),
                   ],
                   if (comboConfig.includeFootwork) ...[
                     const SizedBox(width: 8),
                     _ComboChip(
-                      label: 'Footwork',
+                      label: s.programComboFootwork,
                       color: sportColor,
                     ),
                   ],

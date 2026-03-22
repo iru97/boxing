@@ -5,8 +5,8 @@
   "appBrandName": "BOXING",
   "appTagline": "TREINA COMO LUTAS",
 
-  "sectionMySessionsTitle": "Minhas Sessoes",
-  "sectionQuickStartTitle": "Inicio Rapido",
+  "sectionMySessionsTitle": "Minhas Sess\u00f5es",
+  "sectionQuickStartTitle": "In\u00edcio R\u00e1pido",
   "sectionPresetsTitle": "Presets",
 
   "categoryBoxing": "Boxe",
@@ -29,45 +29,47 @@
   "buttonDone": "PRONTO",
   "buttonSaveExit": "SALVAR E SAIR",
 
-  "deleteSessionTitle": "Excluir sessao?",
-  "deleteSessionMessage": "Excluir \"{name}\"? Isso nao pode ser desfeito.",
+  "deleteSessionTitle": "Excluir sess\u00e3o?",
+  "deleteSessionMessage": "Excluir \"{name}\"? Isso n\u00e3o pode ser desfeito.",
   "snackbarSessionCreated": "\"{name}\" criada",
-  "snackbarSessionDeleted": "\"{name}\" excluida",
+  "snackbarSessionDeleted": "\"{name}\" exclu\u00edda",
   "snackbarSessionSaved": "\"{name}\" salva",
 
-  "sessionNotFound": "Sessao nao encontrada",
+  "sessionNotFound": "Sess\u00e3o n\u00e3o encontrada",
 
   "sessionCardRoundsFormat": "{rounds}R",
   "sessionCardQuickFormat": "{rounds}R  {minutes} min",
   "sessionCardWorkRest": "{work} trabalho \u00B7 {rest} descanso \u00B7 {minutes} min",
   "sessionCardWorkOnly": "{work} trabalho \u00B7 {minutes} min",
 
-  "editSessionTitle": "Editar Sessao",
+  "editSessionTitle": "Editar Sess\u00e3o",
   "customizePresetTitle": "Personalizar Preset",
-  "newSessionTitle": "Nova Sessao",
+  "newSessionTitle": "Nova Sess\u00e3o",
 
-  "labelSessionName": "Nome da Sessao",
+  "labelSessionName": "Nome da Sess\u00e3o",
   "hintSessionName": "ex. Trabalho de Saco",
-  "validationNameRequired": "O nome e obrigatorio",
+  "validationNameRequired": "O nome \u00e9 obrigat\u00f3rio",
 
   "labelRounds": "Rounds",
-  "labelRoundDuration": "Duracao do Round",
-  "labelRestDuration": "Duracao do Descanso",
+  "labelRoundDuration": "Dura\u00e7\u00e3o do Round",
+  "labelRestDuration": "Dura\u00e7\u00e3o do Descanso",
   "labelRoundStructure": "Estrutura do Round",
   "labelWarningTime": "Tempo de Aviso",
   "labelWarmup": "Aquecimento",
 
-  "valueOff": "Nao",
+  "valueOff": "N\u00e3o",
   "valueSeconds": "{seconds}s",
 
   "roundStructureSimple": "Simples",
 
-  "labelAutoAdvance": "Avanco automatico",
-  "descriptionAutoAdvance": "Iniciar proximo round apos descanso",
+  "labelAutoAdvance": "Avan\u00e7o autom\u00e1tico",
+  "descriptionAutoAdvance": "Iniciar pr\u00f3ximo round ap\u00f3s descanso",
   "labelKeepScreenOn": "Manter Tela Ligada",
   "descriptionKeepScreenOn": "Evitar que a tela apague durante o treino",
+  "labelVoiceAnnounce": "An\u00fancios por voz",
+  "descriptionVoiceAnnounce": "Anunciar n\u00fameros de round por voz",
 
-  "sessionSummaryTitle": "Resumo da Sessao",
+  "sessionSummaryTitle": "Resumo da Sess\u00e3o",
   "sessionSummaryRounds": "{rounds} rounds \u00D7 {duration}",
   "sessionSummaryRest": " / {duration} descanso",
   "sessionSummaryTotal": "Total: {duration}",
@@ -75,7 +77,7 @@
 
   "timerScreenTitle": "Temporizador",
   "timerEndWorkoutTitle": "Encerrar Treino?",
-  "timerEndWorkoutMessage": "Voce esta no round {current} de {total}.",
+  "timerEndWorkoutMessage": "Voc\u00ea est\u00e1 no round {current} de {total}.",
   "timerStopConfirmation": "Tem certeza que quer parar?",
 
   "labelWarning": "Aviso",
@@ -91,7 +93,7 @@
   "phaseLabelPaused": "PAUSADO",
   "phaseLabelComplete": "COMPLETO",
 
-  "sessionCompleteTitle": "SESSAO COMPLETA",
+  "sessionCompleteTitle": "SESS\u00c3O COMPLETA",
   "sessionCompleteRounds": "{rounds} rounds completados",
   "sessionCompleteTotalTime": "Tempo total: {duration}",
 
@@ -100,25 +102,25 @@
   "a11yPreviousRound": "Round anterior",
   "a11yResume": "Retomar",
   "a11yPause": "Pausar",
-  "a11yNextRound": "Proximo round",
+  "a11yNextRound": "Pr\u00f3ximo round",
   "a11yCountdownRemaining": "{minutes} minutos {seconds} segundos restantes",
 
-  "settingsScreenTitle": "Configuracoes",
+  "settingsScreenTitle": "Configura\u00e7\u00f5es",
 
-  "sectionTimerDefaults": "Padroes do Timer",
-  "labelDefaultWarmup": "Aquecimento Padrao",
-  "labelDefaultWarning": "Aviso Padrao",
-  "descriptionAutoAdvanceSettings": "Iniciar proximo round apos descanso",
-  "descriptionKeepScreenOnSettings": "Evitar suspensao da tela durante treino",
+  "sectionTimerDefaults": "Padr\u00f5es do Timer",
+  "labelDefaultWarmup": "Aquecimento Padr\u00e3o",
+  "labelDefaultWarning": "Aviso Padr\u00e3o",
+  "descriptionAutoAdvanceSettings": "Iniciar pr\u00f3ximo round ap\u00f3s descanso",
+  "descriptionKeepScreenOnSettings": "Evitar suspens\u00e3o da tela durante treino",
   "labelResumeCountdown": "Contagem ao Retomar",
   "descriptionResumeCountdown": "Mostrar 3-2-1 ao retomar",
 
-  "sectionAudio": "Audio",
-  "labelDefaultSoundPack": "Sons Padrao",
-  "labelVolumeOverride": "Forcar Volume",
+  "sectionAudio": "\u00c1udio",
+  "labelDefaultSoundPack": "Sons Padr\u00e3o",
+  "labelVolumeOverride": "For\u00e7ar Volume",
   "descriptionVolumeOverride": "Usar canal de alarme para alertas mais altos",
-  "labelHapticFeedback": "Vibracao",
-  "descriptionHapticFeedback": "Vibrar no inicio/fim de round",
+  "labelHapticFeedback": "Vibra\u00e7\u00e3o",
+  "descriptionHapticFeedback": "Vibrar no in\u00edcio/fim de round",
 
   "sectionDisplay": "Tela",
   "labelTheme": "Tema",
@@ -132,12 +134,12 @@
   "descriptionTapToPause": "Tocar em qualquer lugar no timer para pausar/retomar",
 
   "sectionAbout": "Sobre",
-  "labelVersion": "Versao",
-  "labelLicenses": "Licencas",
+  "labelVersion": "Vers\u00e3o",
+  "labelLicenses": "Licen\u00e7as",
 
-  "soundPackClassicBell": "Sino Classico",
+  "soundPackClassicBell": "Sino Cl\u00e1ssico",
   "soundPackDigitalBuzzer": "Buzina Digital",
-  "soundPackMinimalBeep": "Beep Minimo",
+  "soundPackMinimalBeep": "Beep M\u00ednimo",
   "soundPackPickerTitle": "Sons",
 
   "themeDark": "Escuro",
@@ -176,28 +178,28 @@
   "segmentNormal": "Normal",
   "segmentHard": "Forte",
   "segmentAllOut": "Tudo",
-  "templatePyramid": "Piramide",
+  "templatePyramid": "Pir\u00e2mide",
   "segmentBuild": "Subir",
   "segmentPeak": "Pico",
   "segmentTaper": "Descer",
-  "templateStationRotation": "Rotacao de Estacoes",
+  "templateStationRotation": "Rota\u00e7\u00e3o de Esta\u00e7\u00f5es",
   "segmentJumpRope": "Pular Corda",
   "segmentShadowBox": "Sombra",
 
   "templateModeAll": "Igual para todos os rounds",
   "templateModePerRound": "Personalizar por round",
   "templateCreateCustom": "Personalizada",
-  "templateEditCopy": "Editar Copia",
+  "templateEditCopy": "Editar C\u00f3pia",
   "templateSimple": "Simples",
   "segmentEditorTitle": "Estrutura do Round",
   "segmentEditorNameLabel": "Nome da Estrutura",
   "segmentEditorNameHint": "ex. Combo de Saco",
-  "segmentEditorNameRequired": "O nome e obrigatorio",
+  "segmentEditorNameRequired": "O nome \u00e9 obrigat\u00f3rio",
   "segmentAdd": "Adicionar Segmento",
   "segmentLabelField": "Atividade",
-  "segmentDurationField": "Duracao",
-  "segmentMaxReached": "Maximo de {max} segmentos",
-  "segmentMinRequired": "E necessario pelo menos 1 segmento",
+  "segmentDurationField": "Dura\u00e7\u00e3o",
+  "segmentMaxReached": "M\u00e1ximo de {max} segmentos",
+  "segmentMinRequired": "\u00c9 necess\u00e1rio pelo menos 1 segmento",
   "repeatCountLabel": "Repetir",
   "totalPerRound": "Total por round: {duration}",
   "roundNLabel": "Round {n}",
@@ -260,7 +262,9 @@
   "adFreeStatus": "Sem An\u00fancios",
   "adFreeDescription": "Obrigado pela sua compra!",
   "restorePurchases": "Restaurar Compras",
-  "restorePurchasesDescription": "Restaurar uma compra anterior de remo\u00e7\u00e3o de an\u00fancios",
+  "restorePurchasesDescription": "Restaurar compras anteriores neste dispositivo",
+  "comboPackUnlocked": "Desbloqueado",
+  "paywallPurchaseSuccess": "Tudo pronto! Combos desbloqueados.",
   "purchaseRestored": "Compra restaurada com sucesso",
   "purchaseRestoredNone": "Nenhuma compra anterior encontrada",
   "purchaseError": "A compra falhou. Tente novamente.",
@@ -311,6 +315,12 @@
   "comboEncouragementDescription": "Frases motivacionais entre combos",
   "comboPoolSize": "{count} combos dispon\u00edveis",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
+  "comboPoolSizeUpsell": "desbloqueie {count}+ com PRO",
+  "@comboPoolSizeUpsell": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "comboPreviewTitle": "Pr\u00e9via dos Combos",
   "comboSummaryLabel": "Combos por Voz",
 
@@ -343,5 +353,86 @@
       "next": { "type": "String" }
     }
   },
-  "progressionNudgeDismiss": "Ainda n\u00e3o"
+  "progressionNudgeDismiss": "Ainda n\u00e3o",
+
+  "paywallComboTitle": "Pacote de Combos",
+  "paywallComboSubtitle": "Treine como se tivesse um treinador",
+  "paywallFreeItem1": "Combos para iniciantes (gr\u00e1tis para sempre)",
+  "paywallFreeItem2": "N\u00fameros b\u00e1sicos de golpes de boxe",
+  "paywallPaidItem1": "120+ combos intermedi\u00e1rios e avan\u00e7ados",
+  "paywallPaidItem2": "Chamadas de t\u00e9cnicas de Muay Thai, MMA e kickboxing",
+  "paywallPaidItem3": "Sinais de defesa e movimenta\u00e7\u00e3o",
+  "paywallPaidItem4": "Sele\u00e7\u00e3o inteligente de combos e progress\u00e3o",
+  "paywallUnlockLabel": "Desbloquear com o pacote",
+  "paywallUnlockButton": "Desbloquear Agora",
+  "paywallRestorePurchases": "Restaurar Compras",
+  "paywallRestoreChecking": "Verificando compras anteriores...",
+  "paywallUpgradeNudge": "Voc\u00ea treinou com combos iniciantes. Desbloqueie 120+ combos avan\u00e7ados.",
+
+  "programResetTitle": "Redefinir progresso?",
+  "programResetMessage": "Isso apagar\u00e1 todo o progresso de \"{name}\". Voc\u00ea come\u00e7ar\u00e1 da Semana 1, Dia 1.",
+  "@programResetMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "programResetConfirm": "Redefinir",
+  "programResetProgress": "Redefinir Progresso",
+  "programComplete": "Programa Conclu\u00eddo",
+  "programStart": "Iniciar Programa",
+  "programContinue": "Continuar - Semana {week}, Dia {day}",
+  "@programContinue": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "day": { "type": "int" }
+    }
+  },
+  "programWeekLabel": "Semana {week}: {name}",
+  "@programWeekLabel": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "name": { "type": "String" }
+    }
+  },
+  "programDayLabel": "Dia {day}: {name}",
+  "@programDayLabel": {
+    "placeholders": {
+      "day": { "type": "int" },
+      "name": { "type": "String" }
+    }
+  },
+  "programWeekDayTitle": "Semana {week}, Dia {day}",
+  "@programWeekDayTitle": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "day": { "type": "int" }
+    }
+  },
+  "programDayCompleted": "Conclu\u00eddo",
+  "programDayRepeat": "Repetir Treino",
+  "programDayStart": "Iniciar Treino",
+  "programDayTotalMin": "~{minutes} min total",
+  "@programDayTotalMin": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "programWorkoutDetails": "DETALHES DO TREINO",
+  "programDetailRounds": "Rounds",
+  "programDetailWork": "Trabalho",
+  "programDetailRest": "Descanso",
+  "programComboCallouts": "Combos por Voz",
+  "programComboDefense": "Defesa",
+  "programComboFootwork": "Movimenta\u00e7\u00e3o",
+  "programNotFound": "Programa n\u00e3o encontrado",
+  "programDayNotFound": "Dia n\u00e3o encontrado",
+  "comboDifficultyBeginnerFree": "Iniciante \u00e9 gr\u00e1tis. Desbloqueie 120+ combos intermedi\u00e1rios e avan\u00e7ados.",
+
+  "storeUnavailable": "Loja indispon\u00edvel",
+  "storeRetry": "Loja indispon\u00edvel \u2014 toque para tentar novamente",
+
+  "paywallSemanticFree": "Inclu\u00eddo gratuitamente",
+  "paywallSemanticPaid": "Inclu\u00eddo com o pacote",
+  "paywallSemanticLoading": "Carregando",
+  "paywallSemanticStoreUnavailable": "Loja indispon\u00edvel. Toque para tentar novamente."
 }

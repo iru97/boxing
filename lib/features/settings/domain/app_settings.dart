@@ -28,6 +28,9 @@ class AppSettings with _$AppSettings {
 
     // Progression nudge
     @Default('') String dismissedProgressionNudge,
+
+    // Upgrade nudge frequency cap (counts downgraded sessions)
+    @Default(0) int upgradeNudgeSessionCount,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>

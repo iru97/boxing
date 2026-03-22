@@ -10,6 +10,7 @@ import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/programs/domain/training_program.dart';
 import 'package:boxing/features/programs/domain/program_progress.dart';
 import 'package:boxing/features/programs/presentation/programs_controller.dart';
+import 'package:boxing/l10n/app_localizations.dart';
 
 class ProgramDetailScreen extends ConsumerWidget {
   final String programId;
@@ -32,7 +33,7 @@ class ProgramDetailScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
         ),
-        body: const Center(child: Text('Program not found')),
+        body: Center(child: Text(S.of(context).programNotFound)),
       );
     }
 
@@ -67,15 +68,15 @@ class ProgramDetailScreen extends ConsumerWidget {
                     }
                   },
                   itemBuilder: (context) => [
-                    const PopupMenuItem(
+                    PopupMenuItem(
                       value: 'reset',
                       child: Row(
                         children: [
-                          Icon(Icons.restart_alt,
+                          const Icon(Icons.restart_alt,
                               size: 20, color: Colors.red),
-                          SizedBox(width: 8),
-                          Text('Reset Progress',
-                              style: TextStyle(color: Colors.red)),
+                          const SizedBox(width: 8),
+                          Text(S.of(context).programResetProgress,
+                              style: const TextStyle(color: Colors.red)),
                         ],
                       ),
                     ),
@@ -121,7 +122,8 @@ class ProgramDetailScreen extends ConsumerWidget {
                           const SizedBox(width: 12),
                           _DetailChip(
                             icon: Icons.signal_cellular_alt,
-                            label: _difficultyLabel(program.difficulty),
+                            label: _difficultyLabel(
+                                context, program.difficulty),
                             color: _difficultyColor(program.difficulty),
                           ),
                           const SizedBox(width: 12),
@@ -216,7 +218,7 @@ class ProgramDetailScreen extends ConsumerWidget {
           child: isComplete
               ? FilledButton.icon(
                   icon: const Icon(Icons.check_circle, size: 20),
-                  label: const Text('Program Complete'),
+                  label: Text(S.of(context).programComplete),
                   style: FilledButton.styleFrom(
                     backgroundColor: sportColor,
                     foregroundColor: Colors.black,
@@ -231,8 +233,9 @@ class ProgramDetailScreen extends ConsumerWidget {
                   ),
                   label: Text(
                     hasStarted
-                        ? 'Continue - Week ${nextDay?.$1 ?? 1}, Day ${nextDay?.$2 ?? 1}'
-                        : 'Start Program',
+                        ? S.of(context).programContinue(
+                            nextDay?.$1 ?? 1, nextDay?.$2 ?? 1)
+                        : S.of(context).programStart,
                   ),
                   style: FilledButton.styleFrom(
                     backgroundColor: sportColor,
@@ -263,15 +266,12 @@ class ProgramDetailScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Reset Progress?'),
-        content: Text(
-          'This will erase all progress for "${program.name}". '
-          'You will start from Week 1, Day 1.',
-        ),
+        title: Text(S.of(ctx).programResetTitle),
+        content: Text(S.of(ctx).programResetMessage(program.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Cancel'),
+            child: Text(S.of(ctx).buttonCancel),
           ),
           TextButton(
             onPressed: () {
@@ -280,9 +280,9 @@ class ProgramDetailScreen extends ConsumerWidget {
                   .resetProgress(program.id);
               Navigator.of(ctx).pop();
             },
-            child: const Text(
-              'Reset',
-              style: TextStyle(color: Colors.red),
+            child: Text(
+              S.of(ctx).programResetConfirm,
+              style: const TextStyle(color: Colors.red),
             ),
           ),
         ],
@@ -290,10 +290,12 @@ class ProgramDetailScreen extends ConsumerWidget {
     );
   }
 
-  static String _difficultyLabel(String difficulty) => switch (difficulty) {
-        'beginner' => 'Beginner',
-        'intermediate' => 'Intermediate',
-        'advanced' => 'Advanced',
+  static String _difficultyLabel(
+          BuildContext context, String difficulty) =>
+      switch (difficulty) {
+        'beginner' => S.of(context).comboDifficultyBeginner,
+        'intermediate' => S.of(context).comboDifficultyIntermediate,
+        'advanced' => S.of(context).comboDifficultyAdvanced,
         _ => difficulty,
       };
 
@@ -392,7 +394,7 @@ class _WeekSection extends StatelessWidget {
                 ),
               ),
         title: Text(
-          'Week ${week.weekNumber}: ${week.name}',
+          S.of(context).programWeekLabel(week.weekNumber, week.name),
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: weekComplete
                     ? Colors.white.withValues(alpha: 0.5)
@@ -493,7 +495,8 @@ class _DayTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Day ${day.dayNumber}: ${day.name}',
+                      S.of(context).programDayLabel(
+                          day.dayNumber, day.name),
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall

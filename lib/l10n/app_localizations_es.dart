@@ -185,6 +185,12 @@ class SEs extends S {
       'Evitar que la pantalla se apague durante el entrenamiento';
 
   @override
+  String get labelVoiceAnnounce => 'Anuncios de voz';
+
+  @override
+  String get descriptionVoiceAnnounce => 'Anunciar números de ronda por voz';
+
+  @override
   String get sessionSummaryTitle => 'Resumen de Sesion';
 
   @override
@@ -687,7 +693,13 @@ class SEs extends S {
 
   @override
   String get restorePurchasesDescription =>
-      'Restaurar una compra anterior de eliminación de anuncios';
+      'Restaurar compras previas en este dispositivo';
+
+  @override
+  String get comboPackUnlocked => 'Desbloqueado';
+
+  @override
+  String get paywallPurchaseSuccess => '¡Listo! Combos desbloqueados.';
 
   @override
   String get purchaseRestored => 'Compra restaurada exitosamente';
@@ -835,6 +847,11 @@ class SEs extends S {
   }
 
   @override
+  String comboPoolSizeUpsell(int count) {
+    return 'desbloquea $count+ con PRO';
+  }
+
+  @override
   String get comboPreviewTitle => 'Vista Previa de Combos';
 
   @override
@@ -871,4 +888,150 @@ class SEs extends S {
 
   @override
   String get progressionNudgeDismiss => 'Todavía no';
+
+  @override
+  String get paywallComboTitle => 'Pack de Combos';
+
+  @override
+  String get paywallComboSubtitle => 'Entrena como si tuvieras un coach';
+
+  @override
+  String get paywallFreeItem1 =>
+      'Combos para principiantes (gratis para siempre)';
+
+  @override
+  String get paywallFreeItem2 => 'Números básicos de golpes de boxeo';
+
+  @override
+  String get paywallPaidItem1 => '120+ combos intermedios y avanzados';
+
+  @override
+  String get paywallPaidItem2 =>
+      'Llamadas de técnicas de Muay Thai, MMA y kickboxing';
+
+  @override
+  String get paywallPaidItem3 => 'Señales de defensa y juego de pies';
+
+  @override
+  String get paywallPaidItem4 => 'Selección inteligente de combos y progresión';
+
+  @override
+  String get paywallUnlockLabel => 'Desbloquear con el pack';
+
+  @override
+  String get paywallUnlockButton => 'Desbloquear Ahora';
+
+  @override
+  String get paywallRestorePurchases => 'Restaurar Compras';
+
+  @override
+  String get paywallRestoreChecking => 'Buscando compras anteriores...';
+
+  @override
+  String get paywallUpgradeNudge =>
+      'Entrenaste con combos de principiante. Desbloquea 120+ combos avanzados.';
+
+  @override
+  String get programResetTitle => '¿Restablecer progreso?';
+
+  @override
+  String programResetMessage(String name) {
+    return 'Esto borrará todo el progreso de \"$name\". Comenzarás desde la Semana 1, Día 1.';
+  }
+
+  @override
+  String get programResetConfirm => 'Restablecer';
+
+  @override
+  String get programResetProgress => 'Restablecer Progreso';
+
+  @override
+  String get programComplete => 'Programa Completo';
+
+  @override
+  String get programStart => 'Iniciar Programa';
+
+  @override
+  String programContinue(int week, int day) {
+    return 'Continuar - Semana $week, Día $day';
+  }
+
+  @override
+  String programWeekLabel(int week, String name) {
+    return 'Semana $week: $name';
+  }
+
+  @override
+  String programDayLabel(int day, String name) {
+    return 'Día $day: $name';
+  }
+
+  @override
+  String programWeekDayTitle(int week, int day) {
+    return 'Semana $week, Día $day';
+  }
+
+  @override
+  String get programDayCompleted => 'Completado';
+
+  @override
+  String get programDayRepeat => 'Repetir Entrenamiento';
+
+  @override
+  String get programDayStart => 'Iniciar Entrenamiento';
+
+  @override
+  String programDayTotalMin(int minutes) {
+    return '~$minutes min total';
+  }
+
+  @override
+  String get programWorkoutDetails => 'DETALLES DEL ENTRENAMIENTO';
+
+  @override
+  String get programDetailRounds => 'Rounds';
+
+  @override
+  String get programDetailWork => 'Trabajo';
+
+  @override
+  String get programDetailRest => 'Descanso';
+
+  @override
+  String get programComboCallouts => 'Combos por Voz';
+
+  @override
+  String get programComboDefense => 'Defensa';
+
+  @override
+  String get programComboFootwork => 'Juego de pies';
+
+  @override
+  String get programNotFound => 'Programa no encontrado';
+
+  @override
+  String get programDayNotFound => 'Día no encontrado';
+
+  @override
+  String get comboDifficultyBeginnerFree =>
+      'Principiante es gratis. Desbloquea 120+ combos intermedios y avanzados.';
+
+  @override
+  String get storeUnavailable => 'Tienda no disponible';
+
+  @override
+  String get storeRetry => 'Tienda no disponible — toca para reintentar';
+
+  @override
+  String get paywallSemanticFree => 'Incluido gratis';
+
+  @override
+  String get paywallSemanticPaid => 'Incluido con el pack';
+
+  @override
+  String get paywallSemanticLoading => 'Cargando';
+
+  @override
+  String get paywallSemanticStoreUnavailable =>
+      'Tienda no disponible. Toca para reintentar.';
 }

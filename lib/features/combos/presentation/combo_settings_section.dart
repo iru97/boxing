@@ -93,7 +93,7 @@ class ComboSettingsSection extends StatelessWidget {
                 onChanged(config.copyWith(enableCoachEncouragement: v)),
           ),
           const SizedBox(height: 4),
-          _PoolSizeIndicator(config: config),
+          _PoolSizeIndicator(config: config, hasComboAccess: hasComboAccess),
         ],
       ],
     );
@@ -210,7 +210,7 @@ class _DifficultySelector extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 6),
             child: Text(
-              'Beginner is free. Unlock 120+ intermediate and advanced combos.',
+              s.comboDifficultyBeginnerFree,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -365,20 +365,24 @@ class _CalloutStyleSelector extends StatelessWidget {
 
 class _PoolSizeIndicator extends StatelessWidget {
   final ComboCalloutConfig config;
+  final bool hasComboAccess;
 
-  const _PoolSizeIndicator({required this.config});
+  const _PoolSizeIndicator({
+    required this.config,
+    this.hasComboAccess = true,
+  });
 
-  int _poolSize() {
+  int _poolSizeForDifficulty(String difficulty) {
     final sport = ComboSport.values.firstWhere(
       (e) => e.name == config.sport,
       orElse: () => ComboSport.boxing,
     );
-    final difficulty = ComboDifficulty.values.firstWhere(
-      (e) => e.name == config.difficulty,
+    final diff = ComboDifficulty.values.firstWhere(
+      (e) => e.name == difficulty,
       orElse: () => ComboDifficulty.beginner,
     );
 
-    var combos = ComboLibrary.filtered(sport: sport, difficulty: difficulty);
+    var combos = ComboLibrary.filtered(sport: sport, difficulty: diff);
 
     if (config.includeDefense) {
       combos = [
@@ -396,20 +400,42 @@ class _PoolSizeIndicator extends StatelessWidget {
     return combos.length;
   }
 
+  int _poolSize() => _poolSizeForDifficulty(config.difficulty);
+
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final count = _poolSize();
     final hasEnough = count >= 3;
 
+    final advancedCount = _poolSizeForDifficulty('advanced');
+    final extraCount = advancedCount - count;
+    final showUpsell = !hasComboAccess && extraCount > 0;
+
     return Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: Text(
-        S.of(context).comboPoolSize(count),
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: hasEnough
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.error,
-            ),
+      child: RichText(
+        text: TextSpan(
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: hasEnough
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.error,
+              ),
+          children: [
+            TextSpan(text: s.comboPoolSize(count)),
+            if (showUpsell) ...[
+              const TextSpan(text: ' ('),
+              TextSpan(
+                text: s.comboPoolSizeUpsell(extraCount),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.tertiary,
+                      fontStyle: FontStyle.italic,
+                    ),
+              ),
+              const TextSpan(text: ')'),
+            ],
+          ],
+        ),
       ),
     );
   }

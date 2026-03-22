@@ -13,8 +13,11 @@ import 'package:boxing/features/entitlements/data/entitlement_config.dart';
 /// Reads from Hive cache on init for instant UI access.
 /// Listens to the IAP purchase stream for live updates.
 /// Store is the source of truth — cache is optimistic.
+///
+/// This is the **sole** listener of [InAppPurchase.purchaseStream] to prevent
+/// double-completion of purchases (audit item C1).
 class EntitlementService {
-  final Box _box;
+  final Box<String> _box;
   static const _cacheKey = 'entitlement_status';
 
   EntitlementStatus _status = EntitlementStatus.empty;
@@ -32,7 +35,7 @@ class EntitlementService {
   /// Initialize from Hive cache and start listening to purchases.
   Future<void> initialize() async {
     // Load from cache
-    final cached = _box.get(_cacheKey) as String?;
+    final cached = _box.get(_cacheKey);
     if (cached != null) {
       try {
         final json = Map<String, dynamic>.from(
@@ -44,8 +47,11 @@ class EntitlementService {
       }
     }
 
-    // Listen to purchase stream
+    // Listen to purchase stream (only if store is available)
     final iap = InAppPurchase.instance;
+    final available = await iap.isAvailable();
+    if (!available) return;
+
     _purchaseSubscription = iap.purchaseStream.listen(
       _handlePurchaseUpdates,
       onError: (error) {
@@ -56,7 +62,11 @@ class EntitlementService {
 
   /// Trigger store restore flow (required by Apple).
   Future<void> restorePurchases() async {
-    await InAppPurchase.instance.restorePurchases();
+    try {
+      await InAppPurchase.instance.restorePurchases();
+    } catch (e) {
+      debugPrint('EntitlementService: restorePurchases failed: $e');
+    }
   }
 
   void _handlePurchaseUpdates(List<PurchaseDetails> purchases) {
@@ -70,7 +80,7 @@ class EntitlementService {
         _saveCache();
         onStatusChanged?.call();
       }
-      // Complete pending purchases
+      // Must complete ALL terminal statuses to clear the purchase queue
       if (purchase.pendingCompletePurchase) {
         InAppPurchase.instance.completePurchase(purchase);
       }

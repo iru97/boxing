@@ -9,7 +9,9 @@ class EntitlementConfig {
   static const String programsPack = 'programs_pack'; // future
   static const String everythingBundle = 'everything_bundle'; // future
 
-  /// All product IDs that should be queried from the store.
+  /// Product IDs to query from the store on launch.
+  /// Only includes currently-sold products. Future products (programsPack,
+  /// everythingBundle) will be added here when they go on sale.
   static const Set<String> allProductIds = {
     removeAds,
     comboPack,

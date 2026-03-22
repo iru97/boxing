@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
@@ -41,6 +42,8 @@ Future<void> main() async {
       await Hive.openBox<String>(AppConstants.checkpointBoxName);
   final programProgressBox =
       await Hive.openBox<String>(AppConstants.programProgressBoxName);
+  final entitlementsBox =
+      await Hive.openBox<String>(AppConstants.entitlementsBoxName);
 
   // Initialize audio service for background playback
   final audioService = BoxingAudioService();
@@ -54,19 +57,21 @@ Future<void> main() async {
   final adService = AdService();
   await adService.initialize();
 
-  // Initialize in-app purchase service
-  final purchaseService = PurchaseService(settingsBox);
+  // Initialize in-app purchase service (product query only — stream is
+  // handled exclusively by EntitlementService to avoid dual listeners).
+  final purchaseService = PurchaseService();
   await purchaseService.initialize();
 
   // Initialize entitlement service (premium feature access)
-  final entitlementService = EntitlementService(settingsBox);
-  await entitlementService.initialize();
+  final entitlementService = EntitlementService(entitlementsBox);
 
-  // Wire ad-free check so ads are suppressed for purchasers
-  adService.setAdFreeCheck(() => purchaseService.isAdFree);
+  // Wire ad-free check so ads are suppressed for purchasers.
+  // EntitlementService is now the single source of truth for purchase state.
+  adService.setAdFreeCheck(() => entitlementService.status.adsRemoved);
 
-  // Pre-load interstitial so it is ready for the first natural break
-  await adService.preloadInterstitial();
+  // Pre-load interstitial so it is ready for the first natural break.
+  // Fire-and-forget — never block app launch on ad network.
+  unawaited(adService.preloadInterstitial());
 
   // Request ATT permission on iOS (improves ad revenue via personalization)
   if (Platform.isIOS) {
@@ -91,15 +96,18 @@ Future<void> main() async {
     voiceServiceProvider.overrideWithValue(voiceService),
     adServiceProvider.overrideWithValue(adService),
     purchaseServiceProvider.overrideWithValue(purchaseService),
-    isAdFreeProvider.overrideWith((ref) => purchaseService.isAdFree),
     entitlementServiceProvider.overrideWithValue(entitlementService),
   ]);
 
-  // Wire entitlement status updates into Riverpod
+  // Wire entitlement status updates into Riverpod BEFORE initialize()
+  // so any pending purchases delivered immediately on stream subscription
+  // are captured by the callback.
   entitlementService.onStatusChanged = () {
     container.read(entitlementStatusProvider.notifier).state =
         entitlementService.status;
   };
+  await entitlementService.initialize();
+  // Sync initial cached state
   container.read(entitlementStatusProvider.notifier).state =
       entitlementService.status;
 

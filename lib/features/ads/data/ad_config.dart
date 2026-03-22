@@ -1,14 +1,17 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 /// Centralized ad configuration: unit IDs, test/production toggle, IAP product ID.
 ///
-/// During development, [testMode] must be `true` to use Google-provided test ad
-/// unit IDs. Set to `false` and replace the production IDs before release.
+/// [testMode] follows [kDebugMode]: `true` in debug builds (test ads),
+/// `false` in release builds (production ads). Override per-run with
+/// `--dart-define=AD_TEST_MODE=true` if needed.
 class AdConfig {
   AdConfig._();
 
-  /// Set to `false` for production builds.
-  static const bool testMode = true;
+  /// Automatically true in debug, false in release.
+  static const bool testMode = kDebugMode;
 
   // --- Test Ad Unit IDs (Google-provided, safe for development) ---
   static const String _testBannerAndroid =
@@ -43,6 +46,22 @@ class AdConfig {
     return Platform.isAndroid
         ? _prodInterstitialAndroid
         : _prodInterstitialIos;
+  }
+
+  /// Debug-mode check: warns if production ad IDs haven't been configured.
+  /// Call from main.dart during app initialization to catch placeholder IDs
+  /// before they slip into a release build.
+  static void validateAdIds() {
+    assert(() {
+      if (_prodBannerAndroid.startsWith('YOUR_') ||
+          _prodBannerIos.startsWith('YOUR_') ||
+          _prodInterstitialAndroid.startsWith('YOUR_') ||
+          _prodInterstitialIos.startsWith('YOUR_')) {
+        debugPrint('WARNING: Ad unit IDs are still placeholders. '
+            'Replace with real IDs before release.');
+      }
+      return true;
+    }());
   }
 
   /// IAP product ID -- must match store configuration exactly.

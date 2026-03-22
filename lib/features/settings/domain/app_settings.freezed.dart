@@ -35,7 +35,9 @@ mixin _$AppSettings {
   String get locale => throw _privateConstructorUsedError; // system, en, es, pt
   bool get tapToPause => throw _privateConstructorUsedError; // Monetization
   bool get isAdFree => throw _privateConstructorUsedError; // Progression nudge
-  String get dismissedProgressionNudge => throw _privateConstructorUsedError;
+  String get dismissedProgressionNudge =>
+      throw _privateConstructorUsedError; // Upgrade nudge frequency cap (counts downgraded sessions)
+  int get upgradeNudgeSessionCount => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettings to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -68,6 +70,7 @@ abstract class $AppSettingsCopyWith<$Res> {
     bool tapToPause,
     bool isAdFree,
     String dismissedProgressionNudge,
+    int upgradeNudgeSessionCount,
   });
 }
 
@@ -99,6 +102,7 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
     Object? tapToPause = null,
     Object? isAdFree = null,
     Object? dismissedProgressionNudge = null,
+    Object? upgradeNudgeSessionCount = null,
   }) {
     return _then(
       _value.copyWith(
@@ -167,6 +171,11 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
                     ? _value.dismissedProgressionNudge
                     : dismissedProgressionNudge // ignore: cast_nullable_to_non_nullable
                         as String,
+            upgradeNudgeSessionCount:
+                null == upgradeNudgeSessionCount
+                    ? _value.upgradeNudgeSessionCount
+                    : upgradeNudgeSessionCount // ignore: cast_nullable_to_non_nullable
+                        as int,
           )
           as $Val,
     );
@@ -196,6 +205,7 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
     bool tapToPause,
     bool isAdFree,
     String dismissedProgressionNudge,
+    int upgradeNudgeSessionCount,
   });
 }
 
@@ -226,6 +236,7 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
     Object? tapToPause = null,
     Object? isAdFree = null,
     Object? dismissedProgressionNudge = null,
+    Object? upgradeNudgeSessionCount = null,
   }) {
     return _then(
       _$AppSettingsImpl(
@@ -294,6 +305,11 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
                 ? _value.dismissedProgressionNudge
                 : dismissedProgressionNudge // ignore: cast_nullable_to_non_nullable
                     as String,
+        upgradeNudgeSessionCount:
+            null == upgradeNudgeSessionCount
+                ? _value.upgradeNudgeSessionCount
+                : upgradeNudgeSessionCount // ignore: cast_nullable_to_non_nullable
+                    as int,
       ),
     );
   }
@@ -316,6 +332,7 @@ class _$AppSettingsImpl implements _AppSettings {
     this.tapToPause = false,
     this.isAdFree = false,
     this.dismissedProgressionNudge = '',
+    this.upgradeNudgeSessionCount = 0,
   });
 
   factory _$AppSettingsImpl.fromJson(Map<String, dynamic> json) =>
@@ -367,10 +384,14 @@ class _$AppSettingsImpl implements _AppSettings {
   @override
   @JsonKey()
   final String dismissedProgressionNudge;
+  // Upgrade nudge frequency cap (counts downgraded sessions)
+  @override
+  @JsonKey()
+  final int upgradeNudgeSessionCount;
 
   @override
   String toString() {
-    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause, isAdFree: $isAdFree, dismissedProgressionNudge: $dismissedProgressionNudge)';
+    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause, isAdFree: $isAdFree, dismissedProgressionNudge: $dismissedProgressionNudge, upgradeNudgeSessionCount: $upgradeNudgeSessionCount)';
   }
 
   @override
@@ -405,7 +426,12 @@ class _$AppSettingsImpl implements _AppSettings {
                   other.dismissedProgressionNudge,
                   dismissedProgressionNudge,
                 ) ||
-                other.dismissedProgressionNudge == dismissedProgressionNudge));
+                other.dismissedProgressionNudge == dismissedProgressionNudge) &&
+            (identical(
+                  other.upgradeNudgeSessionCount,
+                  upgradeNudgeSessionCount,
+                ) ||
+                other.upgradeNudgeSessionCount == upgradeNudgeSessionCount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -425,6 +451,7 @@ class _$AppSettingsImpl implements _AppSettings {
     tapToPause,
     isAdFree,
     dismissedProgressionNudge,
+    upgradeNudgeSessionCount,
   );
 
   /// Create a copy of AppSettings
@@ -456,6 +483,7 @@ abstract class _AppSettings implements AppSettings {
     final bool tapToPause,
     final bool isAdFree,
     final String dismissedProgressionNudge,
+    final int upgradeNudgeSessionCount,
   }) = _$AppSettingsImpl;
 
   factory _AppSettings.fromJson(Map<String, dynamic> json) =
@@ -487,7 +515,9 @@ abstract class _AppSettings implements AppSettings {
   @override
   bool get isAdFree; // Progression nudge
   @override
-  String get dismissedProgressionNudge;
+  String get dismissedProgressionNudge; // Upgrade nudge frequency cap (counts downgraded sessions)
+  @override
+  int get upgradeNudgeSessionCount;
 
   /// Create a copy of AppSettings
   /// with the given fields replaced by the non-null parameter values.

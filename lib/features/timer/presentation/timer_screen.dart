@@ -72,7 +72,9 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   bool _recordSaved = false;
   bool _nudgeDismissed = false;
   bool _wasDowngraded = false;
+  bool _nudgeScheduled = false;
   bool _programDayMarked = false;
+  String? _effectiveDifficulty;
   TimerLifecycleService? _lifecycleService;
   StreamSubscription<ComboCallout?>? _comboSubscription;
   StreamSubscription<String>? _interjectionSubscription;
@@ -139,6 +141,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
           effectiveConfig.difficulty != session.comboConfig!.difficulty;
 
       final configForEngine = effectiveConfig ?? session.comboConfig!;
+      _effectiveDifficulty = configForEngine.difficulty;
       comboEngine.resetStats();
       comboEngine.configure(
         configForEngine,
@@ -471,7 +474,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
         totalRounds: timerState.totalRounds,
         completedFully: true,
         combosCompleted: ref.read(comboCalloutEngineProvider)?.combosFired,
-        comboDifficulty: _session!.comboConfig?.difficulty,
+        comboDifficulty: _effectiveDifficulty ?? _session!.comboConfig?.difficulty,
         comboSport: _session!.comboConfig?.sport,
       );
 
@@ -489,23 +492,31 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
       }
 
       // Post-session nudge: suggest upgrading if combos were downgraded
-      if (_wasDowngraded &&
+      // Frequency-capped: only show every 3rd downgraded session
+      if (_wasDowngraded && !_nudgeScheduled &&
           !ref.read(entitlementStatusProvider).hasComboAccess) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text(
-                'You trained with beginner combos. Unlock 120+ advanced combos.',
+        _nudgeScheduled = true;
+        final settings = ref.read(appSettingsProvider);
+        final nudgeCount = settings.upgradeNudgeSessionCount + 1;
+        ref.read(appSettingsProvider.notifier).updateField(
+          (s) => s.copyWith(upgradeNudgeSessionCount: nudgeCount),
+        );
+        // Show nudge on sessions 1, 4, 7, 10... (every 3rd, starting first)
+        if (nudgeCount % 3 == 1) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(S.of(context).paywallUpgradeNudge),
+                duration: const Duration(seconds: 6),
+                action: SnackBarAction(
+                  label: S.of(context).paywallUnlockButton,
+                  onPressed: () => ComboPackPaywallSheet.show(context),
+                ),
               ),
-              duration: const Duration(seconds: 6),
-              action: SnackBarAction(
-                label: 'Upgrade',
-                onPressed: () => ComboPackPaywallSheet.show(context),
-              ),
-            ),
-          );
-        });
+            );
+          });
+        }
       }
     }
 
@@ -520,6 +531,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
     // D2: Progression nudge logic
     var showNudge = false;
     String? nextDiff;
+    var sessionsAtCurrentLevel = 3; // default shown in message
     if (!_nudgeDismissed &&
         _session!.comboConfig != null &&
         _session!.comboConfig!.enabled &&
@@ -536,6 +548,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
             r.combosCompleted != null &&
             r.combosCompleted! > 0
           ).length;
+          sessionsAtCurrentLevel = count;
           showNudge = count >= 3;
         }
       }
@@ -550,6 +563,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
       comboDifficulty: _session!.comboConfig?.difficulty,
       showProgressionNudge: showNudge,
       nextDifficulty: nextDiff,
+      sessionsAtLevel: sessionsAtCurrentLevel,
       onDismissNudge: () {
         setState(() => _nudgeDismissed = true);
         final currentDiff = _session!.comboConfig?.difficulty ?? '';
@@ -706,11 +720,18 @@ class _SessionSummaryViewState extends ConsumerState<_SessionSummaryView> {
                   S.of(context).labelWarmup,
                   DurationFormatter.formatSeconds(session.warmupDurationSec),
                 ),
-              if (session.comboConfig != null && session.comboConfig!.enabled)
-                _SummaryRow(
-                  S.of(context).comboSummaryLabel,
-                  '${_capitalizeFirst(session.comboConfig!.sport)} - ${_capitalizeFirst(session.comboConfig!.difficulty)}',
-                ),
+              if (session.comboConfig != null && session.comboConfig!.enabled) ...[
+                Builder(builder: (context) {
+                  final effectiveConfig = ref.read(
+                    effectiveComboConfigProvider(session.comboConfig),
+                  );
+                  final displayConfig = effectiveConfig ?? session.comboConfig!;
+                  return _SummaryRow(
+                    S.of(context).comboSummaryLabel,
+                    '${_capitalizeFirst(displayConfig.sport)} - ${_capitalizeFirst(displayConfig.difficulty)}',
+                  );
+                }),
+              ],
               if (session.comboConfig?.enabled == true)
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
@@ -809,6 +830,7 @@ class _ActiveTimerView extends StatefulWidget {
   final bool showProgressionNudge;
   final String? nextDifficulty;
   final VoidCallback? onDismissNudge;
+  final int sessionsAtLevel;
 
   const _ActiveTimerView({
     required this.session,
@@ -827,6 +849,7 @@ class _ActiveTimerView extends StatefulWidget {
     this.showProgressionNudge = false,
     this.nextDifficulty,
     this.onDismissNudge,
+    this.sessionsAtLevel = 3,
   });
 
   @override
@@ -960,6 +983,7 @@ class _ActiveTimerViewState extends State<_ActiveTimerView>
         showProgressionNudge: widget.showProgressionNudge,
         nextDifficulty: widget.nextDifficulty,
         onDismissNudge: widget.onDismissNudge,
+        sessionsAtLevel: widget.sessionsAtLevel,
       );
     }
 
@@ -1261,6 +1285,7 @@ class _SessionCompleteView extends StatefulWidget {
   final bool showProgressionNudge;
   final String? nextDifficulty;
   final VoidCallback? onDismissNudge;
+  final int sessionsAtLevel;
 
   const _SessionCompleteView({
     required this.sessionName,
@@ -1273,6 +1298,7 @@ class _SessionCompleteView extends StatefulWidget {
     this.showProgressionNudge = false,
     this.nextDifficulty,
     this.onDismissNudge,
+    this.sessionsAtLevel = 3,
   });
 
   @override
@@ -1397,7 +1423,7 @@ class _SessionCompleteViewState extends State<_SessionCompleteView>
                       const SizedBox(height: 8),
                       Text(
                         S.of(context).progressionNudgeMessage(
-                          3,
+                          widget.sessionsAtLevel,
                           _localizedDifficulty(context, widget.comboDifficulty ?? 'beginner'),
                           _localizedDifficulty(context, widget.nextDifficulty!),
                         ),
@@ -1417,7 +1443,7 @@ class _SessionCompleteViewState extends State<_SessionCompleteView>
                           FilledButton(
                             onPressed: () {
                               widget.onDismissNudge?.call();
-                              widget.onDone();
+                              ComboPackPaywallSheet.show(context);
                             },
                             style: FilledButton.styleFrom(
                               backgroundColor: Colors.amber,

@@ -66,6 +66,8 @@
   "descriptionAutoAdvance": "Iniciar siguiente round despues del descanso",
   "labelKeepScreenOn": "Mantener Pantalla",
   "descriptionKeepScreenOn": "Evitar que la pantalla se apague durante el entrenamiento",
+  "labelVoiceAnnounce": "Anuncios de voz",
+  "descriptionVoiceAnnounce": "Anunciar n\u00fameros de ronda por voz",
 
   "sessionSummaryTitle": "Resumen de Sesion",
   "sessionSummaryRounds": "{rounds} rounds \u00D7 {duration}",
@@ -260,7 +262,9 @@
   "adFreeStatus": "Sin Anuncios",
   "adFreeDescription": "\u00a1Gracias por tu compra!",
   "restorePurchases": "Restaurar Compras",
-  "restorePurchasesDescription": "Restaurar una compra anterior de eliminaci\u00f3n de anuncios",
+  "restorePurchasesDescription": "Restaurar compras previas en este dispositivo",
+  "comboPackUnlocked": "Desbloqueado",
+  "paywallPurchaseSuccess": "\u00a1Listo! Combos desbloqueados.",
   "purchaseRestored": "Compra restaurada exitosamente",
   "purchaseRestoredNone": "No se encontraron compras anteriores",
   "purchaseError": "La compra fall\u00f3. Int\u00e9ntalo de nuevo.",
@@ -311,6 +315,12 @@
   "comboEncouragementDescription": "Frases motivacionales entre combos",
   "comboPoolSize": "{count} combos disponibles",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
+  "comboPoolSizeUpsell": "desbloquea {count}+ con PRO",
+  "@comboPoolSizeUpsell": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "comboPreviewTitle": "Vista Previa de Combos",
   "comboSummaryLabel": "Combos por Voz",
 
@@ -343,5 +353,86 @@
       "next": { "type": "String" }
     }
   },
-  "progressionNudgeDismiss": "Todav\u00eda no"
+  "progressionNudgeDismiss": "Todav\u00eda no",
+
+  "paywallComboTitle": "Pack de Combos",
+  "paywallComboSubtitle": "Entrena como si tuvieras un coach",
+  "paywallFreeItem1": "Combos para principiantes (gratis para siempre)",
+  "paywallFreeItem2": "N\u00fameros b\u00e1sicos de golpes de boxeo",
+  "paywallPaidItem1": "120+ combos intermedios y avanzados",
+  "paywallPaidItem2": "Llamadas de t\u00e9cnicas de Muay Thai, MMA y kickboxing",
+  "paywallPaidItem3": "Se\u00f1ales de defensa y juego de pies",
+  "paywallPaidItem4": "Selecci\u00f3n inteligente de combos y progresi\u00f3n",
+  "paywallUnlockLabel": "Desbloquear con el pack",
+  "paywallUnlockButton": "Desbloquear Ahora",
+  "paywallRestorePurchases": "Restaurar Compras",
+  "paywallRestoreChecking": "Buscando compras anteriores...",
+  "paywallUpgradeNudge": "Entrenaste con combos de principiante. Desbloquea 120+ combos avanzados.",
+
+  "programResetTitle": "\u00bfRestablecer progreso?",
+  "programResetMessage": "Esto borrar\u00e1 todo el progreso de \"{name}\". Comenzar\u00e1s desde la Semana 1, D\u00eda 1.",
+  "@programResetMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "programResetConfirm": "Restablecer",
+  "programResetProgress": "Restablecer Progreso",
+  "programComplete": "Programa Completo",
+  "programStart": "Iniciar Programa",
+  "programContinue": "Continuar - Semana {week}, D\u00eda {day}",
+  "@programContinue": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "day": { "type": "int" }
+    }
+  },
+  "programWeekLabel": "Semana {week}: {name}",
+  "@programWeekLabel": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "name": { "type": "String" }
+    }
+  },
+  "programDayLabel": "D\u00eda {day}: {name}",
+  "@programDayLabel": {
+    "placeholders": {
+      "day": { "type": "int" },
+      "name": { "type": "String" }
+    }
+  },
+  "programWeekDayTitle": "Semana {week}, D\u00eda {day}",
+  "@programWeekDayTitle": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "day": { "type": "int" }
+    }
+  },
+  "programDayCompleted": "Completado",
+  "programDayRepeat": "Repetir Entrenamiento",
+  "programDayStart": "Iniciar Entrenamiento",
+  "programDayTotalMin": "~{minutes} min total",
+  "@programDayTotalMin": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "programWorkoutDetails": "DETALLES DEL ENTRENAMIENTO",
+  "programDetailRounds": "Rounds",
+  "programDetailWork": "Trabajo",
+  "programDetailRest": "Descanso",
+  "programComboCallouts": "Combos por Voz",
+  "programComboDefense": "Defensa",
+  "programComboFootwork": "Juego de pies",
+  "programNotFound": "Programa no encontrado",
+  "programDayNotFound": "D\u00eda no encontrado",
+  "comboDifficultyBeginnerFree": "Principiante es gratis. Desbloquea 120+ combos intermedios y avanzados.",
+
+  "storeUnavailable": "Tienda no disponible",
+  "storeRetry": "Tienda no disponible — toca para reintentar",
+
+  "paywallSemanticFree": "Incluido gratis",
+  "paywallSemanticPaid": "Incluido con el pack",
+  "paywallSemanticLoading": "Cargando",
+  "paywallSemanticStoreUnavailable": "Tienda no disponible. Toca para reintentar."
 }

@@ -185,6 +185,12 @@ class SEn extends S {
       'Prevent screen from sleeping during workout';
 
   @override
+  String get labelVoiceAnnounce => 'Voice Announcements';
+
+  @override
+  String get descriptionVoiceAnnounce => 'Announce round numbers by voice';
+
+  @override
   String get sessionSummaryTitle => 'Session Summary';
 
   @override
@@ -683,7 +689,13 @@ class SEn extends S {
 
   @override
   String get restorePurchasesDescription =>
-      'Restore a previous ad removal purchase';
+      'Restore previous purchases on this device';
+
+  @override
+  String get comboPackUnlocked => 'Unlocked';
+
+  @override
+  String get paywallPurchaseSuccess => 'You\'re all set! Combos unlocked.';
 
   @override
   String get purchaseRestored => 'Purchase restored successfully';
@@ -829,6 +841,11 @@ class SEn extends S {
   }
 
   @override
+  String comboPoolSizeUpsell(int count) {
+    return 'unlock $count+ with PRO';
+  }
+
+  @override
   String get comboPreviewTitle => 'Combo Pool Preview';
 
   @override
@@ -865,4 +882,149 @@ class SEn extends S {
 
   @override
   String get progressionNudgeDismiss => 'Not yet';
+
+  @override
+  String get paywallComboTitle => 'Combo Callouts Pack';
+
+  @override
+  String get paywallComboSubtitle => 'Train like you have a coach';
+
+  @override
+  String get paywallFreeItem1 => 'Beginner combos (free forever)';
+
+  @override
+  String get paywallFreeItem2 => 'Basic boxing punch numbers';
+
+  @override
+  String get paywallPaidItem1 => '120+ intermediate & advanced combos';
+
+  @override
+  String get paywallPaidItem2 =>
+      'Muay Thai, MMA & kickboxing technique callouts';
+
+  @override
+  String get paywallPaidItem3 => 'Defense & footwork cues';
+
+  @override
+  String get paywallPaidItem4 => 'Smart combo selection & progression';
+
+  @override
+  String get paywallUnlockLabel => 'Unlock with pack';
+
+  @override
+  String get paywallUnlockButton => 'Unlock Now';
+
+  @override
+  String get paywallRestorePurchases => 'Restore Purchases';
+
+  @override
+  String get paywallRestoreChecking => 'Checking for previous purchases...';
+
+  @override
+  String get paywallUpgradeNudge =>
+      'You trained with beginner combos. Unlock 120+ advanced combos.';
+
+  @override
+  String get programResetTitle => 'Reset Progress?';
+
+  @override
+  String programResetMessage(String name) {
+    return 'This will erase all progress for \"$name\". You will start from Week 1, Day 1.';
+  }
+
+  @override
+  String get programResetConfirm => 'Reset';
+
+  @override
+  String get programResetProgress => 'Reset Progress';
+
+  @override
+  String get programComplete => 'Program Complete';
+
+  @override
+  String get programStart => 'Start Program';
+
+  @override
+  String programContinue(int week, int day) {
+    return 'Continue - Week $week, Day $day';
+  }
+
+  @override
+  String programWeekLabel(int week, String name) {
+    return 'Week $week: $name';
+  }
+
+  @override
+  String programDayLabel(int day, String name) {
+    return 'Day $day: $name';
+  }
+
+  @override
+  String programWeekDayTitle(int week, int day) {
+    return 'Week $week, Day $day';
+  }
+
+  @override
+  String get programDayCompleted => 'Completed';
+
+  @override
+  String get programDayRepeat => 'Repeat Workout';
+
+  @override
+  String get programDayStart => 'Start Workout';
+
+  @override
+  String programDayTotalMin(int minutes) {
+    return '~$minutes min total';
+  }
+
+  @override
+  String get programWorkoutDetails => 'WORKOUT DETAILS';
+
+  @override
+  String get programDetailRounds => 'Rounds';
+
+  @override
+  String get programDetailWork => 'Work';
+
+  @override
+  String get programDetailRest => 'Rest';
+
+  @override
+  String get programComboCallouts => 'Combo Callouts';
+
+  @override
+  String get programComboDefense => 'Defense';
+
+  @override
+  String get programComboFootwork => 'Footwork';
+
+  @override
+  String get programNotFound => 'Program not found';
+
+  @override
+  String get programDayNotFound => 'Day not found';
+
+  @override
+  String get comboDifficultyBeginnerFree =>
+      'Beginner is free. Unlock 120+ intermediate and advanced combos.';
+
+  @override
+  String get storeUnavailable => 'Store unavailable';
+
+  @override
+  String get storeRetry => 'Store unavailable — tap to retry';
+
+  @override
+  String get paywallSemanticFree => 'Included free';
+
+  @override
+  String get paywallSemanticPaid => 'Included with pack';
+
+  @override
+  String get paywallSemanticLoading => 'Loading';
+
+  @override
+  String get paywallSemanticStoreUnavailable =>
+      'Store unavailable. Tap to retry.';
 }

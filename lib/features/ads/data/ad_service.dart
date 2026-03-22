@@ -119,6 +119,7 @@ class AdService {
         ad.dispose();
         _interstitialAd = null;
         _isInterstitialLoaded = false;
+        _lastInterstitialShown = DateTime.now();
         preloadInterstitial();
       },
       onAdFailedToShowFullScreenContent: (ad, error) {
@@ -131,7 +132,6 @@ class AdService {
     );
 
     await _interstitialAd!.show();
-    _lastInterstitialShown = DateTime.now();
     return true;
   }
 

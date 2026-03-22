@@ -34,6 +34,7 @@ class AppConstants {
   static const historyBoxName = 'history';
   static const checkpointBoxName = 'checkpoint';
   static const programProgressBoxName = 'program_progress';
+  static const entitlementsBoxName = 'entitlements';
 
   // Display
   static const timerFontSize = 80.0;

@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import 'package:boxing/core/constants/app_constants.dart';
 import 'package:boxing/features/ads/presentation/ads_controller.dart';
+import 'package:boxing/features/entitlements/presentation/combo_pack_paywall_sheet.dart';
+import 'package:boxing/features/entitlements/presentation/entitlement_provider.dart';
 import 'package:boxing/features/settings/presentation/settings_controller.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
@@ -141,20 +143,17 @@ class SettingsScreen extends ConsumerWidget {
           _SectionHeader(s.sectionSubscription),
 
           if (!ref.watch(isAdFreeProvider))
-            ListTile(
-              leading: const Icon(Icons.remove_circle_outline),
-              title: Text(s.removeAdsTitle),
-              subtitle: Text(s.removeAdsSubtitle),
-              trailing: FilledButton(
-                onPressed: () async {
-                  final purchaseService = ref.read(purchaseServiceProvider);
-                  await purchaseService.purchaseRemoveAds();
-                },
-                child: Text(
-                  ref.read(purchaseServiceProvider).removeAdsProduct?.price ??
-                      '\$2.99',
-                ),
-              ),
+            _RemoveAdsListTile(
+              // Fallback price for Remove Ads ($2.99). The combo pack uses $3.99.
+              // Both are overridden by actual store prices when available.
+              price: ref.read(purchaseServiceProvider).removeAdsProduct?.price ??
+                  '\$2.99',
+              onPurchase: () async {
+                final purchaseService = ref.read(purchaseServiceProvider);
+                final success = await purchaseService.purchaseRemoveAds();
+                if (!success) throw Exception('Store unavailable');
+              },
+              s: s,
             )
           else
             ListTile(
@@ -163,16 +162,45 @@ class SettingsScreen extends ConsumerWidget {
               subtitle: Text(s.adFreeDescription),
             ),
 
+          if (!ref.watch(entitlementStatusProvider).hasComboAccess)
+            ListTile(
+              leading: const Icon(Icons.record_voice_over_rounded),
+              title: Text(s.paywallComboTitle),
+              subtitle: Text(s.paywallComboSubtitle),
+              trailing: FilledButton(
+                onPressed: () => ComboPackPaywallSheet.show(context),
+                // M5 fix: real price is shown inside the paywall sheet.
+                // Using localized "Unlock Now" avoids a hardcoded $3.99.
+                child: Text(s.paywallUnlockButton),
+              ),
+            )
+          else
+            ListTile(
+              leading: const Icon(Icons.check_circle, color: Colors.green),
+              title: Text(s.paywallComboTitle),
+              subtitle: Text(s.comboPackUnlocked),
+            ),
+
           ListTile(
             leading: const Icon(Icons.restore),
             title: Text(s.restorePurchases),
             subtitle: Text(s.restorePurchasesDescription),
             onTap: () async {
-              final purchaseService = ref.read(purchaseServiceProvider);
-              await purchaseService.restorePurchases();
+              final entitlementService = ref.read(entitlementServiceProvider);
+              final messenger = ScaffoldMessenger.of(context);
+              final statusBefore = ref.read(entitlementStatusProvider);
+              await entitlementService.restorePurchases();
+              // Brief wait for purchase stream to process restored purchases.
+              await Future.delayed(const Duration(seconds: 2));
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(s.purchaseRestored)),
+                final statusAfter = ref.read(entitlementStatusProvider);
+                final restored = statusAfter != statusBefore;
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      restored ? s.purchaseRestored : s.purchaseRestoredNone,
+                    ),
+                  ),
                 );
               }
             },
@@ -330,6 +358,64 @@ class _ChipSetting extends StatelessWidget {
             );
           }).toList(),
         ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Remove Ads list tile with local loading / double-tap guard
+// ---------------------------------------------------------------------------
+
+class _RemoveAdsListTile extends StatefulWidget {
+  final String price;
+  final Future<void> Function() onPurchase;
+  final S s;
+
+  const _RemoveAdsListTile({
+    required this.price,
+    required this.onPurchase,
+    required this.s,
+  });
+
+  @override
+  State<_RemoveAdsListTile> createState() => _RemoveAdsListTileState();
+}
+
+class _RemoveAdsListTileState extends State<_RemoveAdsListTile> {
+  bool _purchasing = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.remove_circle_outline),
+      title: Text(widget.s.removeAdsTitle),
+      subtitle: Text(widget.s.removeAdsSubtitle),
+      trailing: FilledButton(
+        onPressed: _purchasing
+            ? null
+            : () async {
+                final messenger = ScaffoldMessenger.of(context);
+                setState(() => _purchasing = true);
+                try {
+                  await widget.onPurchase();
+                } catch (_) {
+                  if (mounted) {
+                    messenger.showSnackBar(
+                      SnackBar(content: Text(widget.s.purchaseError)),
+                    );
+                  }
+                } finally {
+                  if (mounted) setState(() => _purchasing = false);
+                }
+              },
+        child: _purchasing
+            ? const SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : Text(widget.price),
       ),
     );
   }

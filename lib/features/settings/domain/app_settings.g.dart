@@ -22,6 +22,8 @@ _$AppSettingsImpl _$$AppSettingsImplFromJson(Map<String, dynamic> json) =>
       isAdFree: json['isAdFree'] as bool? ?? false,
       dismissedProgressionNudge:
           json['dismissedProgressionNudge'] as String? ?? '',
+      upgradeNudgeSessionCount:
+          (json['upgradeNudgeSessionCount'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
@@ -39,4 +41,5 @@ Map<String, dynamic> _$$AppSettingsImplToJson(_$AppSettingsImpl instance) =>
       'tapToPause': instance.tapToPause,
       'isAdFree': instance.isAdFree,
       'dismissedProgressionNudge': instance.dismissedProgressionNudge,
+      'upgradeNudgeSessionCount': instance.upgradeNudgeSessionCount,
     };

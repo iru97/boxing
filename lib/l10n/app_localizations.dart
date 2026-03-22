@@ -411,6 +411,18 @@ abstract class S {
   /// **'Prevent screen from sleeping during workout'**
   String get descriptionKeepScreenOn;
 
+  /// No description provided for @labelVoiceAnnounce.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice Announcements'**
+  String get labelVoiceAnnounce;
+
+  /// No description provided for @descriptionVoiceAnnounce.
+  ///
+  /// In en, this message translates to:
+  /// **'Announce round numbers by voice'**
+  String get descriptionVoiceAnnounce;
+
   /// No description provided for @sessionSummaryTitle.
   ///
   /// In en, this message translates to:
@@ -1326,8 +1338,20 @@ abstract class S {
   /// No description provided for @restorePurchasesDescription.
   ///
   /// In en, this message translates to:
-  /// **'Restore a previous ad removal purchase'**
+  /// **'Restore previous purchases on this device'**
   String get restorePurchasesDescription;
+
+  /// No description provided for @comboPackUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked'**
+  String get comboPackUnlocked;
+
+  /// No description provided for @paywallPurchaseSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all set! Combos unlocked.'**
+  String get paywallPurchaseSuccess;
 
   /// No description provided for @purchaseRestored.
   ///
@@ -1605,6 +1629,12 @@ abstract class S {
   /// **'{count} combos in pool'**
   String comboPoolSize(int count);
 
+  /// No description provided for @comboPoolSizeUpsell.
+  ///
+  /// In en, this message translates to:
+  /// **'unlock {count}+ with PRO'**
+  String comboPoolSizeUpsell(int count);
+
   /// No description provided for @comboPreviewTitle.
   ///
   /// In en, this message translates to:
@@ -1664,6 +1694,264 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Not yet'**
   String get progressionNudgeDismiss;
+
+  /// No description provided for @paywallComboTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Combo Callouts Pack'**
+  String get paywallComboTitle;
+
+  /// No description provided for @paywallComboSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Train like you have a coach'**
+  String get paywallComboSubtitle;
+
+  /// No description provided for @paywallFreeItem1.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner combos (free forever)'**
+  String get paywallFreeItem1;
+
+  /// No description provided for @paywallFreeItem2.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic boxing punch numbers'**
+  String get paywallFreeItem2;
+
+  /// No description provided for @paywallPaidItem1.
+  ///
+  /// In en, this message translates to:
+  /// **'120+ intermediate & advanced combos'**
+  String get paywallPaidItem1;
+
+  /// No description provided for @paywallPaidItem2.
+  ///
+  /// In en, this message translates to:
+  /// **'Muay Thai, MMA & kickboxing technique callouts'**
+  String get paywallPaidItem2;
+
+  /// No description provided for @paywallPaidItem3.
+  ///
+  /// In en, this message translates to:
+  /// **'Defense & footwork cues'**
+  String get paywallPaidItem3;
+
+  /// No description provided for @paywallPaidItem4.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart combo selection & progression'**
+  String get paywallPaidItem4;
+
+  /// No description provided for @paywallUnlockLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock with pack'**
+  String get paywallUnlockLabel;
+
+  /// No description provided for @paywallUnlockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Now'**
+  String get paywallUnlockButton;
+
+  /// No description provided for @paywallRestorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchases'**
+  String get paywallRestorePurchases;
+
+  /// No description provided for @paywallRestoreChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking for previous purchases...'**
+  String get paywallRestoreChecking;
+
+  /// No description provided for @paywallUpgradeNudge.
+  ///
+  /// In en, this message translates to:
+  /// **'You trained with beginner combos. Unlock 120+ advanced combos.'**
+  String get paywallUpgradeNudge;
+
+  /// No description provided for @programResetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Progress?'**
+  String get programResetTitle;
+
+  /// No description provided for @programResetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will erase all progress for \"{name}\". You will start from Week 1, Day 1.'**
+  String programResetMessage(String name);
+
+  /// No description provided for @programResetConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get programResetConfirm;
+
+  /// No description provided for @programResetProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Progress'**
+  String get programResetProgress;
+
+  /// No description provided for @programComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Program Complete'**
+  String get programComplete;
+
+  /// No description provided for @programStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Program'**
+  String get programStart;
+
+  /// No description provided for @programContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue - Week {week}, Day {day}'**
+  String programContinue(int week, int day);
+
+  /// No description provided for @programWeekLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Week {week}: {name}'**
+  String programWeekLabel(int week, String name);
+
+  /// No description provided for @programDayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day}: {name}'**
+  String programDayLabel(int day, String name);
+
+  /// No description provided for @programWeekDayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Week {week}, Day {day}'**
+  String programWeekDayTitle(int week, int day);
+
+  /// No description provided for @programDayCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get programDayCompleted;
+
+  /// No description provided for @programDayRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat Workout'**
+  String get programDayRepeat;
+
+  /// No description provided for @programDayStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Workout'**
+  String get programDayStart;
+
+  /// No description provided for @programDayTotalMin.
+  ///
+  /// In en, this message translates to:
+  /// **'~{minutes} min total'**
+  String programDayTotalMin(int minutes);
+
+  /// No description provided for @programWorkoutDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'WORKOUT DETAILS'**
+  String get programWorkoutDetails;
+
+  /// No description provided for @programDetailRounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounds'**
+  String get programDetailRounds;
+
+  /// No description provided for @programDetailWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get programDetailWork;
+
+  /// No description provided for @programDetailRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get programDetailRest;
+
+  /// No description provided for @programComboCallouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Combo Callouts'**
+  String get programComboCallouts;
+
+  /// No description provided for @programComboDefense.
+  ///
+  /// In en, this message translates to:
+  /// **'Defense'**
+  String get programComboDefense;
+
+  /// No description provided for @programComboFootwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Footwork'**
+  String get programComboFootwork;
+
+  /// No description provided for @programNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Program not found'**
+  String get programNotFound;
+
+  /// No description provided for @programDayNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Day not found'**
+  String get programDayNotFound;
+
+  /// No description provided for @comboDifficultyBeginnerFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner is free. Unlock 120+ intermediate and advanced combos.'**
+  String get comboDifficultyBeginnerFree;
+
+  /// No description provided for @storeUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Store unavailable'**
+  String get storeUnavailable;
+
+  /// No description provided for @storeRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Store unavailable — tap to retry'**
+  String get storeRetry;
+
+  /// No description provided for @paywallSemanticFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Included free'**
+  String get paywallSemanticFree;
+
+  /// No description provided for @paywallSemanticPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Included with pack'**
+  String get paywallSemanticPaid;
+
+  /// No description provided for @paywallSemanticLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading'**
+  String get paywallSemanticLoading;
+
+  /// No description provided for @paywallSemanticStoreUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Store unavailable. Tap to retry.'**
+  String get paywallSemanticStoreUnavailable;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -360,15 +360,14 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
               onChanged: (v) => setState(() => _keepScreenOn = v),
             ),
             SwitchListTile(
-              title: const Text('Voice Announcements'),
-              subtitle: const Text('Announce round numbers by voice'),
+              title: Text(S.of(context).labelVoiceAnnounce),
+              subtitle: Text(S.of(context).descriptionVoiceAnnounce),
               value: _voiceAnnounce,
               onChanged: (v) => setState(() => _voiceAnnounce = v),
             ),
             SwitchListTile(
-              title: const Text('Volume Override'),
-              subtitle: const Text(
-                  'Use alarm channel for louder audio (ignores silent mode)'),
+              title: Text(S.of(context).labelVolumeOverride),
+              subtitle: Text(S.of(context).descriptionVolumeOverride),
               value: _volumeOverride,
               onChanged: (v) => setState(() => _volumeOverride = v),
             ),

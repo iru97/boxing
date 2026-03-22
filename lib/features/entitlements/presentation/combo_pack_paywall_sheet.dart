@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'package:boxing/features/entitlements/data/entitlement_config.dart';
+import 'package:boxing/features/entitlements/presentation/entitlement_provider.dart';
+import 'package:boxing/l10n/app_localizations.dart';
 
 /// Bottom sheet paywall for the Combo Callouts Pack.
 ///
@@ -14,14 +17,22 @@ import 'package:boxing/features/entitlements/data/entitlement_config.dart';
 ///   ComboPackPaywallSheet.show(context);
 /// }
 /// ```
-class ComboPackPaywallSheet extends StatefulWidget {
+///
+/// The [hasAccess] parameter is a defense-in-depth guard — callers should
+/// already be gating on entitlement state, but passing `true` prevents an
+/// accidental double-show if call sites change in the future.
+class ComboPackPaywallSheet extends ConsumerStatefulWidget {
   const ComboPackPaywallSheet({super.key});
 
   /// Show the paywall as a modal bottom sheet.
   ///
-  /// Caller is responsible for the ownership guard — this sheet does not
-  /// check entitlements itself, it only handles store interaction.
-  static Future<void> show(BuildContext context) {
+  /// Returns immediately (no-op) when [hasAccess] is true — the user
+  /// already owns the pack, so there is nothing to show.
+  ///
+  /// Caller is still responsible for the primary ownership guard; [hasAccess]
+  /// is defense-in-depth only.
+  static Future<void> show(BuildContext context, {bool hasAccess = false}) {
+    if (hasAccess) return Future.value();
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -35,13 +46,16 @@ class ComboPackPaywallSheet extends StatefulWidget {
   }
 
   @override
-  State<ComboPackPaywallSheet> createState() => _ComboPackPaywallSheetState();
+  ConsumerState<ComboPackPaywallSheet> createState() =>
+      _ComboPackPaywallSheetState();
 }
 
-class _ComboPackPaywallSheetState extends State<ComboPackPaywallSheet> {
+class _ComboPackPaywallSheetState extends ConsumerState<ComboPackPaywallSheet> {
   ProductDetails? _product;
   bool _loading = true;
   bool _purchasing = false;
+  bool _storeError = false;
+  bool _autoClosePending = false;
 
   @override
   void initState() {
@@ -56,13 +70,19 @@ class _ComboPackPaywallSheetState extends State<ComboPackPaywallSheet> {
       );
       if (response.productDetails.isNotEmpty) {
         _product = response.productDetails.first;
+      } else {
+        _storeError = true;
       }
     } catch (_) {
-      // Store unavailable — fall back to hardcoded price string.
+      _storeError = true;
     }
     if (mounted) setState(() => _loading = false);
   }
 
+  // H2 fix: do NOT pop after initiating purchase. The purchase result arrives
+  // via InAppPurchase.instance.purchaseStream → EntitlementService. The sheet
+  // stays open so the user can see the system purchase dialog and try again if
+  // it fails. The sheet only closes when the user dismisses it manually.
   Future<void> _purchase() async {
     if (_product == null || _purchasing) return;
     setState(() => _purchasing = true);
@@ -70,20 +90,36 @@ class _ComboPackPaywallSheetState extends State<ComboPackPaywallSheet> {
       await InAppPurchase.instance.buyNonConsumable(
         purchaseParam: PurchaseParam(productDetails: _product!),
       );
-    } catch (_) {
-      // Purchase errors surface via the InAppPurchase.instance.purchaseStream.
-      // The EntitlementService listener handles final state updates.
+      // buyNonConsumable returns after initiating the OS purchase dialog.
+      // Keep sheet open — the result arrives asynchronously via purchaseStream.
+    } catch (e) {
+      // Synchronous errors (e.g. another purchase already in progress).
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(S.of(context).purchaseError)),
+        );
+      }
     } finally {
       if (mounted) setState(() => _purchasing = false);
     }
-    if (mounted) Navigator.of(context).pop();
+    // Do NOT pop here. User can dismiss manually or the parent rebuilds.
   }
 
+  // H4 fix: show loading state and wait briefly for the stream to process
+  // any restored purchases before closing the sheet.
   Future<void> _restore() async {
-    await InAppPurchase.instance.restorePurchases();
+    setState(() => _purchasing = true);
+    try {
+      await InAppPurchase.instance.restorePurchases();
+      // Brief wait for EntitlementService to process the restore stream event.
+      await Future.delayed(const Duration(seconds: 2));
+    } catch (_) {
+      // Ignore — EntitlementService handles stream errors.
+    }
     if (mounted) {
+      setState(() => _purchasing = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Checking for previous purchases...')),
+        SnackBar(content: Text(S.of(context).paywallRestoreChecking)),
       );
       Navigator.of(context).pop();
     }
@@ -91,8 +127,24 @@ class _ComboPackPaywallSheetState extends State<ComboPackPaywallSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final theme = Theme.of(context);
     final price = _product?.price ?? '\$3.99';
+
+    // Auto-close and confirm when purchase completes successfully.
+    // Guard with _autoClosePending to prevent double-pop on repeated rebuilds.
+    final hasAccess = ref.watch(entitlementStatusProvider).hasComboAccess;
+    if (hasAccess && !_autoClosePending) {
+      _autoClosePending = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(s.paywallPurchaseSuccess)),
+          );
+        }
+      });
+    }
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
@@ -101,21 +153,35 @@ class _ComboPackPaywallSheetState extends State<ComboPackPaywallSheet> {
         children: [
           const _DragHandle(),
           const SizedBox(height: 20),
-          _Header(theme: theme),
+          _Header(theme: theme, s: s),
           const SizedBox(height: 24),
-          const _FeatureList(),
+          _FeatureList(s: s),
           const SizedBox(height: 28),
-          _PurchaseButton(
-            price: price,
-            loading: _loading,
-            purchasing: _purchasing,
-            onTap: _purchase,
-          ),
+          // M3 fix: show retry button when the store query failed instead of
+          // a silently-dead purchase button.
+          if (_storeError)
+            _RetryButton(
+              onTap: () {
+                setState(() {
+                  _storeError = false;
+                  _loading = true;
+                });
+                _loadProduct();
+              },
+            )
+          else
+            _PurchaseButton(
+              price: price,
+              loading: _loading,
+              purchasing: _purchasing,
+              unlockLabel: s.paywallUnlockButton,
+              onTap: _purchase,
+            ),
           const SizedBox(height: 4),
           TextButton(
-            onPressed: _restore,
+            onPressed: _purchasing ? null : _restore,
             child: Text(
-              'Restore Purchases',
+              s.paywallRestorePurchases,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withAlpha(153),
               ),
@@ -153,8 +219,9 @@ class _DragHandle extends StatelessWidget {
 
 class _Header extends StatelessWidget {
   final ThemeData theme;
+  final S s;
 
-  const _Header({required this.theme});
+  const _Header({required this.theme, required this.s});
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +242,7 @@ class _Header extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         Text(
-          'Combo Callouts Pack',
+          s.paywallComboTitle,
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
             letterSpacing: 1,
@@ -184,7 +251,7 @@ class _Header extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          'Train like you have a coach',
+          s.paywallComboSubtitle,
           style: theme.textTheme.bodyLarge?.copyWith(
             color: theme.colorScheme.onSurface.withAlpha(179),
           ),
@@ -200,22 +267,24 @@ class _Header extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _FeatureList extends StatelessWidget {
-  const _FeatureList();
+  final S s;
+
+  const _FeatureList({required this.s});
 
   @override
   Widget build(BuildContext context) {
-    const freeItems = [
-      'Beginner combos (free forever)',
-      'Basic boxing punch numbers',
-    ];
-    const paidItems = [
-      '120+ intermediate & advanced combos',
-      'Muay Thai, MMA & kickboxing technique callouts',
-      'Defense & footwork cues',
-      'Coach encouragement phrases',
-    ];
-
     final theme = Theme.of(context);
+
+    final freeItems = [
+      s.paywallFreeItem1,
+      s.paywallFreeItem2,
+    ];
+    final paidItems = [
+      s.paywallPaidItem1,
+      s.paywallPaidItem2,
+      s.paywallPaidItem3,
+      s.paywallPaidItem4,
+    ];
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -232,12 +301,13 @@ class _FeatureList extends StatelessWidget {
               iconColor: const Color(0xFF00C853), // TimerColors.work
               text: item,
               theme: theme,
+              semanticPrefix: s.paywallSemanticFree,
             ),
             const SizedBox(height: 10),
           ],
           const Divider(height: 16, color: Color(0xFF2A2A2A)),
           Text(
-            'Unlock with pack',
+            s.paywallUnlockLabel,
             style: theme.textTheme.labelSmall?.copyWith(
               color: theme.colorScheme.primary.withAlpha(204),
               letterSpacing: 1,
@@ -250,6 +320,7 @@ class _FeatureList extends StatelessWidget {
               iconColor: theme.colorScheme.primary,
               text: paidItems[i],
               theme: theme,
+              semanticPrefix: s.paywallSemanticPaid,
             ),
             if (i < paidItems.length - 1) const SizedBox(height: 10),
           ],
@@ -268,28 +339,34 @@ class _FeatureRow extends StatelessWidget {
   final Color iconColor;
   final String text;
   final ThemeData theme;
+  final String? semanticPrefix;
 
   const _FeatureRow({
     required this.icon,
     required this.iconColor,
     required this.text,
     required this.theme,
+    this.semanticPrefix,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 18, color: iconColor),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Text(
-            text,
-            style: theme.textTheme.bodyMedium,
+    return Semantics(
+      label: semanticPrefix != null ? '$semanticPrefix: $text' : text,
+      excludeSemantics: true,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 18, color: iconColor),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              text,
+              style: theme.textTheme.bodyMedium,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -302,12 +379,14 @@ class _PurchaseButton extends StatelessWidget {
   final String price;
   final bool loading;
   final bool purchasing;
+  final String unlockLabel;
   final VoidCallback onTap;
 
   const _PurchaseButton({
     required this.price,
     required this.loading,
     required this.purchasing,
+    required this.unlockLabel,
     required this.onTap,
   });
 
@@ -326,18 +405,58 @@ class _PurchaseButton extends StatelessWidget {
           ),
         ),
         child: isDisabled
-            ? const SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(strokeWidth: 2.5),
+            ? Semantics(
+                label: S.of(context).paywallSemanticLoading,
+                child: const SizedBox(
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(strokeWidth: 2.5),
+                ),
               )
             : Text(
-                '$price  —  Unlock Now',
+                '$price  \u2014  $unlockLabel',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       color: Theme.of(context).colorScheme.onPrimary,
                       letterSpacing: 0.5,
                     ),
               ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Store unavailable / retry button (M3)
+// ---------------------------------------------------------------------------
+
+class _RetryButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _RetryButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final s = S.of(context);
+
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: Semantics(
+        label: s.paywallSemanticStoreUnavailable,
+        child: OutlinedButton.icon(
+          onPressed: onTap,
+          icon: const Icon(Icons.refresh_rounded, size: 20),
+          label: Text(s.storeRetry),
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            side: BorderSide(
+              color: theme.colorScheme.onSurface.withAlpha(77),
+            ),
+          ),
+        ),
       ),
     );
   }

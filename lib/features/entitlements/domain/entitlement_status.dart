@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 /// Entitlement status representing which premium features the user owns.
 ///
 /// Plain Dart class (not Freezed — no code-gen overhead needed).
@@ -74,9 +76,16 @@ class EntitlementStatus {
           adsRemoved == other.adsRemoved &&
           comboPack == other.comboPack &&
           programsPack == other.programsPack &&
+          mapEquals(sportPacks, other.sportPacks) &&
           everythingBundle == other.everythingBundle;
 
   @override
-  int get hashCode =>
-      Object.hash(adsRemoved, comboPack, programsPack, everythingBundle);
+  int get hashCode => Object.hash(
+        adsRemoved,
+        comboPack,
+        programsPack,
+        Object.hashAll(sportPacks.entries
+            .map((e) => Object.hash(e.key, e.value))),
+        everythingBundle,
+      );
 }

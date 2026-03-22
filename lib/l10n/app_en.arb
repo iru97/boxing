@@ -116,6 +116,8 @@
   "descriptionAutoAdvance": "Automatically start next round after rest",
   "labelKeepScreenOn": "Keep Screen On",
   "descriptionKeepScreenOn": "Prevent screen from sleeping during workout",
+  "labelVoiceAnnounce": "Voice Announcements",
+  "descriptionVoiceAnnounce": "Announce round numbers by voice",
 
   "sessionSummaryTitle": "Session Summary",
   "sessionSummaryRounds": "{rounds} rounds \u00D7 {duration}",
@@ -390,7 +392,9 @@
   "adFreeStatus": "Ad-Free",
   "adFreeDescription": "Thank you for your purchase!",
   "restorePurchases": "Restore Purchases",
-  "restorePurchasesDescription": "Restore a previous ad removal purchase",
+  "restorePurchasesDescription": "Restore previous purchases on this device",
+  "comboPackUnlocked": "Unlocked",
+  "paywallPurchaseSuccess": "You're all set! Combos unlocked.",
   "purchaseRestored": "Purchase restored successfully",
   "purchaseRestoredNone": "No previous purchases found",
   "purchaseError": "Purchase failed. Please try again.",
@@ -441,6 +445,12 @@
   "comboEncouragementDescription": "Motivational cues between combos",
   "comboPoolSize": "{count} combos in pool",
   "@comboPoolSize": { "placeholders": { "count": { "type": "int" } } },
+  "comboPoolSizeUpsell": "unlock {count}+ with PRO",
+  "@comboPoolSizeUpsell": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "comboPreviewTitle": "Combo Pool Preview",
   "comboSummaryLabel": "Combo Callouts",
 
@@ -473,5 +483,86 @@
       "next": { "type": "String" }
     }
   },
-  "progressionNudgeDismiss": "Not yet"
+  "progressionNudgeDismiss": "Not yet",
+
+  "paywallComboTitle": "Combo Callouts Pack",
+  "paywallComboSubtitle": "Train like you have a coach",
+  "paywallFreeItem1": "Beginner combos (free forever)",
+  "paywallFreeItem2": "Basic boxing punch numbers",
+  "paywallPaidItem1": "120+ intermediate & advanced combos",
+  "paywallPaidItem2": "Muay Thai, MMA & kickboxing technique callouts",
+  "paywallPaidItem3": "Defense & footwork cues",
+  "paywallPaidItem4": "Smart combo selection & progression",
+  "paywallUnlockLabel": "Unlock with pack",
+  "paywallUnlockButton": "Unlock Now",
+  "paywallRestorePurchases": "Restore Purchases",
+  "paywallRestoreChecking": "Checking for previous purchases...",
+  "paywallUpgradeNudge": "You trained with beginner combos. Unlock 120+ advanced combos.",
+
+  "programResetTitle": "Reset Progress?",
+  "programResetMessage": "This will erase all progress for \"{name}\". You will start from Week 1, Day 1.",
+  "@programResetMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "programResetConfirm": "Reset",
+  "programResetProgress": "Reset Progress",
+  "programComplete": "Program Complete",
+  "programStart": "Start Program",
+  "programContinue": "Continue - Week {week}, Day {day}",
+  "@programContinue": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "day": { "type": "int" }
+    }
+  },
+  "programWeekLabel": "Week {week}: {name}",
+  "@programWeekLabel": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "name": { "type": "String" }
+    }
+  },
+  "programDayLabel": "Day {day}: {name}",
+  "@programDayLabel": {
+    "placeholders": {
+      "day": { "type": "int" },
+      "name": { "type": "String" }
+    }
+  },
+  "programWeekDayTitle": "Week {week}, Day {day}",
+  "@programWeekDayTitle": {
+    "placeholders": {
+      "week": { "type": "int" },
+      "day": { "type": "int" }
+    }
+  },
+  "programDayCompleted": "Completed",
+  "programDayRepeat": "Repeat Workout",
+  "programDayStart": "Start Workout",
+  "programDayTotalMin": "~{minutes} min total",
+  "@programDayTotalMin": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "programWorkoutDetails": "WORKOUT DETAILS",
+  "programDetailRounds": "Rounds",
+  "programDetailWork": "Work",
+  "programDetailRest": "Rest",
+  "programComboCallouts": "Combo Callouts",
+  "programComboDefense": "Defense",
+  "programComboFootwork": "Footwork",
+  "programNotFound": "Program not found",
+  "programDayNotFound": "Day not found",
+  "comboDifficultyBeginnerFree": "Beginner is free. Unlock 120+ intermediate and advanced combos.",
+
+  "storeUnavailable": "Store unavailable",
+  "storeRetry": "Store unavailable — tap to retry",
+
+  "paywallSemanticFree": "Included free",
+  "paywallSemanticPaid": "Included with pack",
+  "paywallSemanticLoading": "Loading",
+  "paywallSemanticStoreUnavailable": "Store unavailable. Tap to retry."
 }
