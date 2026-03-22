@@ -20,10 +20,10 @@ Sprints 0-6 (V1): production-ready timer. Sprints 7-14 (V2): training intelligen
 | 8 | Sport Presets | Sport-specific preset expansion | 70+ presets across 6 sports | Complete |
 | 9 | Combo Callouts | Voice combo callout system | 190+ combos, TTS coaching, 5 sports | Complete |
 | 10 | Guided Programs | Multi-week training programs | 3 programs, progress tracking | Complete |
-| 11 | Combo Premium | Engine intelligence + voice + UX | Coach-quality combo experience | **Current** |
-| 12 | Combo Intelligence | Recency window + stats + progression | Smart selection, data persistence, nudges | Planned |
-| 13 | Coach Voice | Motivational interjections system | 102 coach phrases, 3 locales, audio coaching | Planned |
-| 14 | Premium & Paywall | Entitlement infrastructure + IAP | Combo Pack $3.99, graceful degradation, PRO UI | Planned |
+| 11 | Combo Premium | Engine intelligence + voice + UX | Coach-quality combo experience | Complete |
+| 12 | Combo Intelligence | Recency window + stats + progression | Smart selection, data persistence, nudges | Complete |
+| 13 | Coach Voice | Motivational interjections system | 102 coach phrases, 3 locales, audio coaching | Complete |
+| 14 | Premium & Paywall | Entitlement infrastructure + IAP | Combo Pack $3.99, graceful degradation, PRO UI | Complete |
 
 ---
 

@@ -13,6 +13,8 @@ import 'package:boxing/features/ads/data/purchase_service.dart';
 import 'package:boxing/features/ads/presentation/ads_controller.dart';
 import 'package:boxing/features/audio/data/audio_player_service.dart';
 import 'package:boxing/features/audio/data/voice_service.dart';
+import 'package:boxing/features/entitlements/data/entitlement_service.dart';
+import 'package:boxing/features/entitlements/presentation/entitlement_provider.dart';
 import 'package:boxing/features/history/presentation/history_controller.dart';
 import 'package:boxing/features/sessions/presentation/template_controller.dart';
 import 'package:boxing/features/timer/presentation/checkpoint_controller.dart';
@@ -56,6 +58,10 @@ Future<void> main() async {
   final purchaseService = PurchaseService(settingsBox);
   await purchaseService.initialize();
 
+  // Initialize entitlement service (premium feature access)
+  final entitlementService = EntitlementService(settingsBox);
+  await entitlementService.initialize();
+
   // Wire ad-free check so ads are suppressed for purchasers
   adService.setAdFreeCheck(() => purchaseService.isAdFree);
 
@@ -72,21 +78,34 @@ Future<void> main() async {
     }
   }
 
+  // Use UncontrolledProviderScope so EntitlementService can push updates
+  // into the provider container via callback.
+  final container = ProviderContainer(overrides: [
+    sessionsBoxProvider.overrideWithValue(sessionsBox),
+    settingsBoxProvider.overrideWithValue(settingsBox),
+    templateBoxProvider.overrideWithValue(templatesBox),
+    historyBoxProvider.overrideWithValue(historyBox),
+    checkpointBoxProvider.overrideWithValue(checkpointBox),
+    programProgressBoxProvider.overrideWithValue(programProgressBox),
+    audioServiceProvider.overrideWithValue(audioService),
+    voiceServiceProvider.overrideWithValue(voiceService),
+    adServiceProvider.overrideWithValue(adService),
+    purchaseServiceProvider.overrideWithValue(purchaseService),
+    isAdFreeProvider.overrideWith((ref) => purchaseService.isAdFree),
+    entitlementServiceProvider.overrideWithValue(entitlementService),
+  ]);
+
+  // Wire entitlement status updates into Riverpod
+  entitlementService.onStatusChanged = () {
+    container.read(entitlementStatusProvider.notifier).state =
+        entitlementService.status;
+  };
+  container.read(entitlementStatusProvider.notifier).state =
+      entitlementService.status;
+
   runApp(
-    ProviderScope(
-      overrides: [
-        sessionsBoxProvider.overrideWithValue(sessionsBox),
-        settingsBoxProvider.overrideWithValue(settingsBox),
-        templateBoxProvider.overrideWithValue(templatesBox),
-        historyBoxProvider.overrideWithValue(historyBox),
-        checkpointBoxProvider.overrideWithValue(checkpointBox),
-        programProgressBoxProvider.overrideWithValue(programProgressBox),
-        audioServiceProvider.overrideWithValue(audioService),
-        voiceServiceProvider.overrideWithValue(voiceService),
-        adServiceProvider.overrideWithValue(adService),
-        purchaseServiceProvider.overrideWithValue(purchaseService),
-        isAdFreeProvider.overrideWith((ref) => purchaseService.isAdFree),
-      ],
+    UncontrolledProviderScope(
+      container: container,
       child: const BoxingApp(),
     ),
   );

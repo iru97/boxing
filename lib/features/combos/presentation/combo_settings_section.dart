@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:boxing/features/combos/data/combo_library.dart';
 import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 import 'package:boxing/features/combos/domain/combo_model.dart';
+import 'package:boxing/features/entitlements/presentation/combo_pack_paywall_sheet.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
 /// A section for the session editor that configures combo callouts.
@@ -14,11 +15,13 @@ import 'package:boxing/l10n/app_localizations.dart';
 class ComboSettingsSection extends StatelessWidget {
   final ComboCalloutConfig config;
   final ValueChanged<ComboCalloutConfig> onChanged;
+  final bool hasComboAccess;
 
   const ComboSettingsSection({
     super.key,
     required this.config,
     required this.onChanged,
+    this.hasComboAccess = true,
   });
 
   @override
@@ -54,6 +57,7 @@ class ComboSettingsSection extends StatelessWidget {
           _DifficultySelector(
             selected: config.difficulty,
             onChanged: (v) => onChanged(config.copyWith(difficulty: v)),
+            hasComboAccess: hasComboAccess,
           ),
           const SizedBox(height: 16),
           _IntensitySelector(
@@ -147,10 +151,12 @@ class _SportSelector extends StatelessWidget {
 class _DifficultySelector extends StatelessWidget {
   final String selected;
   final ValueChanged<String> onChanged;
+  final bool hasComboAccess;
 
   const _DifficultySelector({
     required this.selected,
     required this.onChanged,
+    this.hasComboAccess = true,
   });
 
   @override
@@ -170,14 +176,50 @@ class _DifficultySelector extends StatelessWidget {
             ),
             showSelectedIcon: false,
             segments: [
-              ButtonSegment(value: 'beginner', label: Text(s.comboDifficultyBeginner)),
-              ButtonSegment(value: 'intermediate', label: Text(s.comboDifficultyIntermediate)),
-              ButtonSegment(value: 'advanced', label: Text(s.comboDifficultyAdvanced)),
+              ButtonSegment(
+                value: 'beginner',
+                label: Text(s.comboDifficultyBeginner),
+              ),
+              ButtonSegment(
+                value: 'intermediate',
+                label: Text(s.comboDifficultyIntermediate),
+                icon: hasComboAccess
+                    ? null
+                    : const Icon(Icons.lock_outline, size: 14),
+              ),
+              ButtonSegment(
+                value: 'advanced',
+                label: Text(s.comboDifficultyAdvanced),
+                icon: hasComboAccess
+                    ? null
+                    : const Icon(Icons.lock_outline, size: 14),
+              ),
             ],
             selected: {selected},
-            onSelectionChanged: (sel) => onChanged(sel.first),
+            onSelectionChanged: (sel) {
+              final value = sel.first;
+              if (!hasComboAccess && value != 'beginner') {
+                ComboPackPaywallSheet.show(context);
+                return;
+              }
+              onChanged(value);
+            },
           ),
         ),
+        if (!hasComboAccess)
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: Text(
+              'Beginner is free. Unlock 120+ intermediate and advanced combos.',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withAlpha(128),
+                    fontStyle: FontStyle.italic,
+                  ),
+            ),
+          ),
       ],
     );
   }

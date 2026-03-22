@@ -15,6 +15,7 @@ import 'package:boxing/features/sessions/presentation/template_controller.dart';
 import 'package:boxing/features/settings/presentation/settings_controller.dart';
 import 'package:boxing/features/combos/domain/combo_callout_config.dart';
 import 'package:boxing/features/combos/presentation/combo_settings_section.dart';
+import 'package:boxing/features/entitlements/presentation/entitlement_provider.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
 class SessionEditorScreen extends ConsumerStatefulWidget {
@@ -309,6 +310,8 @@ class _SessionEditorScreenState extends ConsumerState<SessionEditorScreen> {
             ComboSettingsSection(
               config: _comboConfig,
               onChanged: (config) => setState(() => _comboConfig = config),
+              hasComboAccess:
+                  ref.watch(entitlementStatusProvider).hasComboAccess,
             ),
             const SizedBox(height: 16),
 

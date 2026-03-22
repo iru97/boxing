@@ -31,6 +31,8 @@ import 'package:boxing/features/timer/presentation/widgets/phase_label.dart';
 import 'package:boxing/features/timer/presentation/widgets/progress_ring.dart';
 import 'package:boxing/features/timer/presentation/widgets/round_indicator.dart';
 import 'package:boxing/features/timer/presentation/widgets/timer_controls.dart';
+import 'package:boxing/features/entitlements/presentation/combo_pack_paywall_sheet.dart';
+import 'package:boxing/features/entitlements/presentation/entitlement_provider.dart';
 import 'package:boxing/features/history/presentation/history_controller.dart';
 import 'package:boxing/features/timer/presentation/checkpoint_controller.dart';
 import 'package:boxing/features/programs/presentation/programs_controller.dart';
@@ -69,6 +71,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   bool _started = false;
   bool _recordSaved = false;
   bool _nudgeDismissed = false;
+  bool _wasDowngraded = false;
   bool _programDayMarked = false;
   TimerLifecycleService? _lifecycleService;
   StreamSubscription<ComboCallout?>? _comboSubscription;
@@ -128,14 +131,22 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
     _comboSubscription?.cancel();
     final comboEngine = ref.read(comboCalloutEngineProvider);
     if (comboEngine != null && session.comboConfig != null) {
+      // Apply entitlement-based degradation (intermediate/advanced → beginner
+      // if user doesn't own the combo pack)
+      final effectiveConfig =
+          ref.read(effectiveComboConfigProvider(session.comboConfig));
+      _wasDowngraded = effectiveConfig != null &&
+          effectiveConfig.difficulty != session.comboConfig!.difficulty;
+
+      final configForEngine = effectiveConfig ?? session.comboConfig!;
       comboEngine.resetStats();
       comboEngine.configure(
-        session.comboConfig!,
-        ref.read(filteredCombosProvider(session.comboConfig!)),
+        configForEngine,
+        ref.read(filteredCombosProvider(configForEngine)),
         locale: voiceLocale,
       );
       // Subscribe to combo stream to speak callouts via TTS
-      final speechRate = switch (session.comboConfig!.intensity) {
+      final speechRate = switch (configForEngine.intensity) {
         'relaxed' => 0.6,
         'intense' => 0.8,
         'hurricane' => 0.9,
@@ -475,6 +486,26 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
               widget.programWeekNum!,
               widget.programDayNum!,
             );
+      }
+
+      // Post-session nudge: suggest upgrading if combos were downgraded
+      if (_wasDowngraded &&
+          !ref.read(entitlementStatusProvider).hasComboAccess) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text(
+                'You trained with beginner combos. Unlock 120+ advanced combos.',
+              ),
+              duration: const Duration(seconds: 6),
+              action: SnackBarAction(
+                label: 'Upgrade',
+                onPressed: () => ComboPackPaywallSheet.show(context),
+              ),
+            ),
+          );
+        });
       }
     }
 
