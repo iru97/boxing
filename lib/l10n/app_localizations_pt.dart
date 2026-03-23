@@ -708,9 +708,6 @@ class SPt extends S {
   String get purchaseError => 'A compra falhou. Tente novamente.';
 
   @override
-  String get purchasePending => 'Compra pendente...';
-
-  @override
   String get sportFilterAll => 'Todos';
 
   @override
@@ -1003,6 +1000,16 @@ class SPt extends S {
   String get programComboFootwork => 'Movimentação';
 
   @override
+  String programDurationChip(int weeks, int days) {
+    return '$weeks semanas  /  $days dias';
+  }
+
+  @override
+  String programDayTileFormat(int rounds, String duration, int totalMin) {
+    return '$rounds rds x $duration  |  ~$totalMin min';
+  }
+
+  @override
   String get programNotFound => 'Programa não encontrado';
 
   @override
@@ -1011,9 +1018,6 @@ class SPt extends S {
   @override
   String get comboDifficultyBeginnerFree =>
       'Iniciante é grátis. Desbloqueie 120+ combos intermediários e avançados.';
-
-  @override
-  String get storeUnavailable => 'Loja indisponível';
 
   @override
   String get storeRetry => 'Loja indisponível — toque para tentar novamente';

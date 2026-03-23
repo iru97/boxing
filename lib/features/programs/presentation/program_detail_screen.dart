@@ -129,8 +129,8 @@ class ProgramDetailScreen extends ConsumerWidget {
                           const SizedBox(width: 12),
                           _DetailChip(
                             icon: Icons.calendar_today,
-                            label:
-                                '${program.durationWeeks} weeks  /  ${program.totalDays} days',
+                            label: S.of(context).programDurationChip(
+                                program.durationWeeks, program.totalDays),
                             color: Colors.white.withValues(alpha: 0.7),
                           ),
                         ],
@@ -508,8 +508,12 @@ class _DayTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${session.rounds} rds x ${DurationFormatter.formatSeconds(session.roundDurationSec)}'
-                      '  |  ~$totalMin min',
+                      S.of(context).programDayTileFormat(
+                        session.rounds,
+                        DurationFormatter.formatSeconds(
+                            session.roundDurationSec),
+                        totalMin,
+                      ),
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall

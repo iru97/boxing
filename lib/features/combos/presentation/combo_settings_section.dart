@@ -21,7 +21,7 @@ class ComboSettingsSection extends StatelessWidget {
     super.key,
     required this.config,
     required this.onChanged,
-    this.hasComboAccess = true,
+    this.hasComboAccess = false,
   });
 
   @override
@@ -156,7 +156,7 @@ class _DifficultySelector extends StatelessWidget {
   const _DifficultySelector({
     required this.selected,
     required this.onChanged,
-    this.hasComboAccess = true,
+    this.hasComboAccess = false,
   });
 
   @override
@@ -369,7 +369,7 @@ class _PoolSizeIndicator extends StatelessWidget {
 
   const _PoolSizeIndicator({
     required this.config,
-    this.hasComboAccess = true,
+    this.hasComboAccess = false,
   });
 
   int _poolSizeForDifficulty(String difficulty) {

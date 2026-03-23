@@ -6,7 +6,7 @@
   "appTagline": "ENTRENA COMO PELEAS",
 
   "sectionMySessionsTitle": "Mis Sesiones",
-  "sectionQuickStartTitle": "Inicio Rapido",
+  "sectionQuickStartTitle": "Inicio R\u00e1pido",
   "sectionPresetsTitle": "Presets",
 
   "categoryBoxing": "Boxeo",
@@ -29,30 +29,30 @@
   "buttonDone": "LISTO",
   "buttonSaveExit": "GUARDAR Y SALIR",
 
-  "deleteSessionTitle": "\u00BFEliminar sesion?",
-  "deleteSessionMessage": "\u00BFEliminar \"{name}\"? Esta accion no se puede deshacer.",
+  "deleteSessionTitle": "\u00BFEliminar sesi\u00f3n?",
+  "deleteSessionMessage": "\u00BFEliminar \"{name}\"? Esta acci\u00f3n no se puede deshacer.",
   "snackbarSessionCreated": "\"{name}\" creada",
   "snackbarSessionDeleted": "\"{name}\" eliminada",
   "snackbarSessionSaved": "\"{name}\" guardada",
 
-  "sessionNotFound": "Sesion no encontrada",
+  "sessionNotFound": "Sesi\u00f3n no encontrada",
 
   "sessionCardRoundsFormat": "{rounds}R",
   "sessionCardQuickFormat": "{rounds}R  {minutes} min",
   "sessionCardWorkRest": "{work} trabajo \u00B7 {rest} descanso \u00B7 {minutes} min",
   "sessionCardWorkOnly": "{work} trabajo \u00B7 {minutes} min",
 
-  "editSessionTitle": "Editar Sesion",
+  "editSessionTitle": "Editar Sesi\u00f3n",
   "customizePresetTitle": "Personalizar Preset",
-  "newSessionTitle": "Nueva Sesion",
+  "newSessionTitle": "Nueva Sesi\u00f3n",
 
-  "labelSessionName": "Nombre de la Sesion",
+  "labelSessionName": "Nombre de la Sesi\u00f3n",
   "hintSessionName": "ej. Trabajo de Saco",
   "validationNameRequired": "El nombre es obligatorio",
 
   "labelRounds": "Rounds",
-  "labelRoundDuration": "Duracion del Round",
-  "labelRestDuration": "Duracion del Descanso",
+  "labelRoundDuration": "Duraci\u00f3n del Round",
+  "labelRestDuration": "Duraci\u00f3n del Descanso",
   "labelRoundStructure": "Estructura del Round",
   "labelWarningTime": "Tiempo de Aviso",
   "labelWarmup": "Calentamiento",
@@ -62,14 +62,14 @@
 
   "roundStructureSimple": "Simple",
 
-  "labelAutoAdvance": "Avance automatico",
-  "descriptionAutoAdvance": "Iniciar siguiente round despues del descanso",
+  "labelAutoAdvance": "Avance autom\u00e1tico",
+  "descriptionAutoAdvance": "Iniciar siguiente round despu\u00e9s del descanso",
   "labelKeepScreenOn": "Mantener Pantalla",
   "descriptionKeepScreenOn": "Evitar que la pantalla se apague durante el entrenamiento",
   "labelVoiceAnnounce": "Anuncios de voz",
   "descriptionVoiceAnnounce": "Anunciar n\u00fameros de ronda por voz",
 
-  "sessionSummaryTitle": "Resumen de Sesion",
+  "sessionSummaryTitle": "Resumen de Sesi\u00f3n",
   "sessionSummaryRounds": "{rounds} rounds \u00D7 {duration}",
   "sessionSummaryRest": " / {duration} descanso",
   "sessionSummaryTotal": "Total: {duration}",
@@ -77,7 +77,7 @@
 
   "timerScreenTitle": "Temporizador",
   "timerEndWorkoutTitle": "\u00BFTerminar Entrenamiento?",
-  "timerEndWorkoutMessage": "Estas en el round {current} de {total}.",
+  "timerEndWorkoutMessage": "Est\u00e1s en el round {current} de {total}.",
   "timerStopConfirmation": "\u00BFSeguro que quieres parar?",
 
   "labelWarning": "Aviso",
@@ -93,7 +93,7 @@
   "phaseLabelPaused": "PAUSADO",
   "phaseLabelComplete": "COMPLETO",
 
-  "sessionCompleteTitle": "SESION COMPLETA",
+  "sessionCompleteTitle": "SESI\u00d3N COMPLETA",
   "sessionCompleteRounds": "{rounds} rounds completados",
   "sessionCompleteTotalTime": "Tiempo total: {duration}",
 
@@ -110,16 +110,16 @@
   "sectionTimerDefaults": "Valores por Defecto",
   "labelDefaultWarmup": "Calentamiento por Defecto",
   "labelDefaultWarning": "Aviso por Defecto",
-  "descriptionAutoAdvanceSettings": "Iniciar siguiente round despues del descanso",
-  "descriptionKeepScreenOnSettings": "Evitar suspension de pantalla durante entrenamiento",
+  "descriptionAutoAdvanceSettings": "Iniciar siguiente round despu\u00e9s del descanso",
+  "descriptionKeepScreenOnSettings": "Evitar suspensi\u00f3n de pantalla durante entrenamiento",
   "labelResumeCountdown": "Cuenta Regresiva al Reanudar",
   "descriptionResumeCountdown": "Mostrar 3-2-1 al reanudar",
 
   "sectionAudio": "Audio",
   "labelDefaultSoundPack": "Sonidos por Defecto",
   "labelVolumeOverride": "Forzar Volumen",
-  "descriptionVolumeOverride": "Usar canal de alarma para alertas mas fuertes",
-  "labelHapticFeedback": "Vibracion",
+  "descriptionVolumeOverride": "Usar canal de alarma para alertas m\u00e1s fuertes",
+  "labelHapticFeedback": "Vibraci\u00f3n",
   "descriptionHapticFeedback": "Vibrar al inicio/fin de round",
 
   "sectionDisplay": "Pantalla",
@@ -134,10 +134,10 @@
   "descriptionTapToPause": "Tocar en cualquier parte del temporizador para pausar/reanudar",
 
   "sectionAbout": "Acerca de",
-  "labelVersion": "Version",
+  "labelVersion": "Versi\u00f3n",
   "labelLicenses": "Licencias",
 
-  "soundPackClassicBell": "Campana Clasica",
+  "soundPackClassicBell": "Campana Cl\u00e1sica",
   "soundPackDigitalBuzzer": "Timbre Digital",
   "soundPackMinimalBeep": "Beep Minimo",
   "soundPackPickerTitle": "Sonidos",
@@ -268,7 +268,6 @@
   "purchaseRestored": "Compra restaurada exitosamente",
   "purchaseRestoredNone": "No se encontraron compras anteriores",
   "purchaseError": "La compra fall\u00f3. Int\u00e9ntalo de nuevo.",
-  "purchasePending": "Compra pendiente...",
 
   "sportFilterAll": "Todos",
   "sportBoxing": "Boxeo",
@@ -424,11 +423,25 @@
   "programComboCallouts": "Combos por Voz",
   "programComboDefense": "Defensa",
   "programComboFootwork": "Juego de pies",
+  "programDurationChip": "{weeks} semanas  /  {days} d\u00edas",
+  "@programDurationChip": {
+    "placeholders": {
+      "weeks": { "type": "int" },
+      "days": { "type": "int" }
+    }
+  },
+  "programDayTileFormat": "{rounds} rds x {duration}  |  ~{totalMin} min",
+  "@programDayTileFormat": {
+    "placeholders": {
+      "rounds": { "type": "int" },
+      "duration": { "type": "String" },
+      "totalMin": { "type": "int" }
+    }
+  },
   "programNotFound": "Programa no encontrado",
   "programDayNotFound": "D\u00eda no encontrado",
   "comboDifficultyBeginnerFree": "Principiante es gratis. Desbloquea 120+ combos intermedios y avanzados.",
 
-  "storeUnavailable": "Tienda no disponible",
   "storeRetry": "Tienda no disponible — toca para reintentar",
 
   "paywallSemanticFree": "Incluido gratis",

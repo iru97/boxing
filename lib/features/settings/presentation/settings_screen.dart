@@ -415,7 +415,7 @@ class _RemoveAdsListTileState extends State<_RemoveAdsListTile> {
                 height: 18,
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
-            : Text(widget.price),
+            : Text(S.of(context).removeAdsPrice(widget.price)),
       ),
     );
   }

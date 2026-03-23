@@ -268,7 +268,6 @@
   "purchaseRestored": "Compra restaurada com sucesso",
   "purchaseRestoredNone": "Nenhuma compra anterior encontrada",
   "purchaseError": "A compra falhou. Tente novamente.",
-  "purchasePending": "Compra pendente...",
 
   "sportFilterAll": "Todos",
   "sportBoxing": "Boxe",
@@ -424,11 +423,25 @@
   "programComboCallouts": "Combos por Voz",
   "programComboDefense": "Defesa",
   "programComboFootwork": "Movimenta\u00e7\u00e3o",
+  "programDurationChip": "{weeks} semanas  /  {days} dias",
+  "@programDurationChip": {
+    "placeholders": {
+      "weeks": { "type": "int" },
+      "days": { "type": "int" }
+    }
+  },
+  "programDayTileFormat": "{rounds} rds x {duration}  |  ~{totalMin} min",
+  "@programDayTileFormat": {
+    "placeholders": {
+      "rounds": { "type": "int" },
+      "duration": { "type": "String" },
+      "totalMin": { "type": "int" }
+    }
+  },
   "programNotFound": "Programa n\u00e3o encontrado",
   "programDayNotFound": "Dia n\u00e3o encontrado",
   "comboDifficultyBeginnerFree": "Iniciante \u00e9 gr\u00e1tis. Desbloqueie 120+ combos intermedi\u00e1rios e avan\u00e7ados.",
 
-  "storeUnavailable": "Loja indispon\u00edvel",
   "storeRetry": "Loja indispon\u00edvel \u2014 toque para tentar novamente",
 
   "paywallSemanticFree": "Inclu\u00eddo gratuitamente",

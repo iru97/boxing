@@ -398,7 +398,6 @@
   "purchaseRestored": "Purchase restored successfully",
   "purchaseRestoredNone": "No previous purchases found",
   "purchaseError": "Purchase failed. Please try again.",
-  "purchasePending": "Purchase pending...",
 
   "sportFilterAll": "All",
   "sportBoxing": "Boxing",
@@ -554,11 +553,25 @@
   "programComboCallouts": "Combo Callouts",
   "programComboDefense": "Defense",
   "programComboFootwork": "Footwork",
+  "programDurationChip": "{weeks} weeks  /  {days} days",
+  "@programDurationChip": {
+    "placeholders": {
+      "weeks": { "type": "int" },
+      "days": { "type": "int" }
+    }
+  },
+  "programDayTileFormat": "{rounds} rds x {duration}  |  ~{totalMin} min",
+  "@programDayTileFormat": {
+    "placeholders": {
+      "rounds": { "type": "int" },
+      "duration": { "type": "String" },
+      "totalMin": { "type": "int" }
+    }
+  },
   "programNotFound": "Program not found",
   "programDayNotFound": "Day not found",
   "comboDifficultyBeginnerFree": "Beginner is free. Unlock 120+ intermediate and advanced combos.",
 
-  "storeUnavailable": "Store unavailable",
   "storeRetry": "Store unavailable — tap to retry",
 
   "paywallSemanticFree": "Included free",

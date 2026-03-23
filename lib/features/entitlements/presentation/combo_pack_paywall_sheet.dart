@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/features/entitlements/data/entitlement_config.dart';
 import 'package:boxing/features/entitlements/presentation/entitlement_provider.dart';
 import 'package:boxing/l10n/app_localizations.dart';
@@ -37,7 +38,7 @@ class ComboPackPaywallSheet extends ConsumerStatefulWidget {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      backgroundColor: const Color(0xFF111111), // AppColors.cardSurface
+      backgroundColor: AppColors.cardSurface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -105,23 +106,32 @@ class _ComboPackPaywallSheetState extends ConsumerState<ComboPackPaywallSheet> {
     // Do NOT pop here. User can dismiss manually or the parent rebuilds.
   }
 
-  // H4 fix: show loading state and wait briefly for the stream to process
-  // any restored purchases before closing the sheet.
   Future<void> _restore() async {
     setState(() => _purchasing = true);
+    final statusBefore = ref.read(entitlementStatusProvider);
     try {
-      await InAppPurchase.instance.restorePurchases();
+      await ref.read(entitlementServiceProvider).restorePurchases();
       // Brief wait for EntitlementService to process the restore stream event.
       await Future.delayed(const Duration(seconds: 2));
     } catch (_) {
-      // Ignore — EntitlementService handles stream errors.
+      // EntitlementService handles errors internally.
     }
     if (mounted) {
       setState(() => _purchasing = false);
+      final statusAfter = ref.read(entitlementStatusProvider);
+      final restored = statusAfter != statusBefore;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(S.of(context).paywallRestoreChecking)),
+        SnackBar(
+          content: Text(
+            restored
+                ? S.of(context).purchaseRestored
+                : S.of(context).purchaseRestoredNone,
+          ),
+        ),
       );
-      Navigator.of(context).pop();
+      if (restored) {
+        Navigator.of(context).pop();
+      }
     }
   }
 

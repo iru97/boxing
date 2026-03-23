@@ -33,8 +33,7 @@ mixin _$AppSettings {
   String get themeMode =>
       throw _privateConstructorUsedError; // dark, light, system
   String get locale => throw _privateConstructorUsedError; // system, en, es, pt
-  bool get tapToPause => throw _privateConstructorUsedError; // Monetization
-  bool get isAdFree => throw _privateConstructorUsedError; // Progression nudge
+  bool get tapToPause => throw _privateConstructorUsedError; // Progression nudge
   String get dismissedProgressionNudge =>
       throw _privateConstructorUsedError; // Upgrade nudge frequency cap (counts downgraded sessions)
   int get upgradeNudgeSessionCount => throw _privateConstructorUsedError;
@@ -68,7 +67,6 @@ abstract class $AppSettingsCopyWith<$Res> {
     String themeMode,
     String locale,
     bool tapToPause,
-    bool isAdFree,
     String dismissedProgressionNudge,
     int upgradeNudgeSessionCount,
   });
@@ -100,7 +98,6 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
     Object? themeMode = null,
     Object? locale = null,
     Object? tapToPause = null,
-    Object? isAdFree = null,
     Object? dismissedProgressionNudge = null,
     Object? upgradeNudgeSessionCount = null,
   }) {
@@ -161,11 +158,6 @@ class _$AppSettingsCopyWithImpl<$Res, $Val extends AppSettings>
                     ? _value.tapToPause
                     : tapToPause // ignore: cast_nullable_to_non_nullable
                         as bool,
-            isAdFree:
-                null == isAdFree
-                    ? _value.isAdFree
-                    : isAdFree // ignore: cast_nullable_to_non_nullable
-                        as bool,
             dismissedProgressionNudge:
                 null == dismissedProgressionNudge
                     ? _value.dismissedProgressionNudge
@@ -203,7 +195,6 @@ abstract class _$$AppSettingsImplCopyWith<$Res>
     String themeMode,
     String locale,
     bool tapToPause,
-    bool isAdFree,
     String dismissedProgressionNudge,
     int upgradeNudgeSessionCount,
   });
@@ -234,7 +225,6 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
     Object? themeMode = null,
     Object? locale = null,
     Object? tapToPause = null,
-    Object? isAdFree = null,
     Object? dismissedProgressionNudge = null,
     Object? upgradeNudgeSessionCount = null,
   }) {
@@ -295,11 +285,6 @@ class __$$AppSettingsImplCopyWithImpl<$Res>
                 ? _value.tapToPause
                 : tapToPause // ignore: cast_nullable_to_non_nullable
                     as bool,
-        isAdFree:
-            null == isAdFree
-                ? _value.isAdFree
-                : isAdFree // ignore: cast_nullable_to_non_nullable
-                    as bool,
         dismissedProgressionNudge:
             null == dismissedProgressionNudge
                 ? _value.dismissedProgressionNudge
@@ -330,7 +315,6 @@ class _$AppSettingsImpl implements _AppSettings {
     this.themeMode = 'dark',
     this.locale = 'system',
     this.tapToPause = false,
-    this.isAdFree = false,
     this.dismissedProgressionNudge = '',
     this.upgradeNudgeSessionCount = 0,
   });
@@ -376,10 +360,6 @@ class _$AppSettingsImpl implements _AppSettings {
   @override
   @JsonKey()
   final bool tapToPause;
-  // Monetization
-  @override
-  @JsonKey()
-  final bool isAdFree;
   // Progression nudge
   @override
   @JsonKey()
@@ -391,7 +371,7 @@ class _$AppSettingsImpl implements _AppSettings {
 
   @override
   String toString() {
-    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause, isAdFree: $isAdFree, dismissedProgressionNudge: $dismissedProgressionNudge, upgradeNudgeSessionCount: $upgradeNudgeSessionCount)';
+    return 'AppSettings(defaultWarmupSec: $defaultWarmupSec, defaultWarningSec: $defaultWarningSec, defaultAutoAdvance: $defaultAutoAdvance, defaultKeepScreenOn: $defaultKeepScreenOn, resumeCountdown: $resumeCountdown, defaultSoundPack: $defaultSoundPack, volumeOverride: $volumeOverride, hapticFeedback: $hapticFeedback, themeMode: $themeMode, locale: $locale, tapToPause: $tapToPause, dismissedProgressionNudge: $dismissedProgressionNudge, upgradeNudgeSessionCount: $upgradeNudgeSessionCount)';
   }
 
   @override
@@ -420,8 +400,6 @@ class _$AppSettingsImpl implements _AppSettings {
             (identical(other.locale, locale) || other.locale == locale) &&
             (identical(other.tapToPause, tapToPause) ||
                 other.tapToPause == tapToPause) &&
-            (identical(other.isAdFree, isAdFree) ||
-                other.isAdFree == isAdFree) &&
             (identical(
                   other.dismissedProgressionNudge,
                   dismissedProgressionNudge,
@@ -449,7 +427,6 @@ class _$AppSettingsImpl implements _AppSettings {
     themeMode,
     locale,
     tapToPause,
-    isAdFree,
     dismissedProgressionNudge,
     upgradeNudgeSessionCount,
   );
@@ -481,7 +458,6 @@ abstract class _AppSettings implements AppSettings {
     final String themeMode,
     final String locale,
     final bool tapToPause,
-    final bool isAdFree,
     final String dismissedProgressionNudge,
     final int upgradeNudgeSessionCount,
   }) = _$AppSettingsImpl;
@@ -511,9 +487,7 @@ abstract class _AppSettings implements AppSettings {
   @override
   String get locale; // system, en, es, pt
   @override
-  bool get tapToPause; // Monetization
-  @override
-  bool get isAdFree; // Progression nudge
+  bool get tapToPause; // Progression nudge
   @override
   String get dismissedProgressionNudge; // Upgrade nudge frequency cap (counts downgraded sessions)
   @override

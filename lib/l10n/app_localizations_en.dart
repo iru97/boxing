@@ -707,9 +707,6 @@ class SEn extends S {
   String get purchaseError => 'Purchase failed. Please try again.';
 
   @override
-  String get purchasePending => 'Purchase pending...';
-
-  @override
   String get sportFilterAll => 'All';
 
   @override
@@ -1000,6 +997,16 @@ class SEn extends S {
   String get programComboFootwork => 'Footwork';
 
   @override
+  String programDurationChip(int weeks, int days) {
+    return '$weeks weeks  /  $days days';
+  }
+
+  @override
+  String programDayTileFormat(int rounds, String duration, int totalMin) {
+    return '$rounds rds x $duration  |  ~$totalMin min';
+  }
+
+  @override
   String get programNotFound => 'Program not found';
 
   @override
@@ -1008,9 +1015,6 @@ class SEn extends S {
   @override
   String get comboDifficultyBeginnerFree =>
       'Beginner is free. Unlock 120+ intermediate and advanced combos.';
-
-  @override
-  String get storeUnavailable => 'Store unavailable';
 
   @override
   String get storeRetry => 'Store unavailable — tap to retry';

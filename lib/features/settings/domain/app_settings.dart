@@ -23,9 +23,6 @@ class AppSettings with _$AppSettings {
     @Default('system') String locale, // system, en, es, pt
     @Default(false) bool tapToPause,
 
-    // Monetization
-    @Default(false) bool isAdFree,
-
     // Progression nudge
     @Default('') String dismissedProgressionNudge,
 

@@ -1371,12 +1371,6 @@ abstract class S {
   /// **'Purchase failed. Please try again.'**
   String get purchaseError;
 
-  /// No description provided for @purchasePending.
-  ///
-  /// In en, this message translates to:
-  /// **'Purchase pending...'**
-  String get purchasePending;
-
   /// No description provided for @sportFilterAll.
   ///
   /// In en, this message translates to:
@@ -1899,6 +1893,18 @@ abstract class S {
   /// **'Footwork'**
   String get programComboFootwork;
 
+  /// No description provided for @programDurationChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks} weeks  /  {days} days'**
+  String programDurationChip(int weeks, int days);
+
+  /// No description provided for @programDayTileFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{rounds} rds x {duration}  |  ~{totalMin} min'**
+  String programDayTileFormat(int rounds, String duration, int totalMin);
+
   /// No description provided for @programNotFound.
   ///
   /// In en, this message translates to:
@@ -1916,12 +1922,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Beginner is free. Unlock 120+ intermediate and advanced combos.'**
   String get comboDifficultyBeginnerFree;
-
-  /// No description provided for @storeUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Store unavailable'**
-  String get storeUnavailable;
 
   /// No description provided for @storeRetry.
   ///

@@ -40,6 +40,7 @@ final filteredCombosProvider = Provider.family<List<Combo>, ComboCalloutConfig>(
 /// Provides the combo callout engine for the active session.
 /// Returns null if combos are disabled.
 final comboCalloutEngineProvider = Provider<ComboCalloutEngine?>((ref) {
+  ref.keepAlive();
   final session = ref.watch(activeSessionProvider);
   if (session == null) return null;
 

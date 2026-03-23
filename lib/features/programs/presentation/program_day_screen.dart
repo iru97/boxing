@@ -95,7 +95,7 @@ class ProgramDayScreen extends ConsumerWidget {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          'Week $weekNum, Day $dayNum',
+          s.programWeekDayTitle(weekNum, dayNum),
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Colors.white.withValues(alpha: 0.7),
               ),
@@ -121,7 +121,7 @@ class ProgramDayScreen extends ConsumerWidget {
 
             // Week context
             Text(
-              'Week $weekNum: ${week.name}',
+              s.programWeekLabel(weekNum, week.name),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: sportColor.withValues(alpha: 0.8),
                   ),
@@ -197,7 +197,7 @@ class ProgramDayScreen extends ConsumerWidget {
             // Total time hint
             Center(
               child: Text(
-                '~$totalMin min total',
+                s.programDayTotalMin(totalMin),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Colors.white.withValues(alpha: 0.4),
                     ),
@@ -321,12 +321,12 @@ class _SessionDetailCard extends StatelessWidget {
               Row(
                 children: [
                   _ComboChip(
-                    label: _capitalize(comboConfig.difficulty),
+                    label: _localizedDifficulty(context, comboConfig.difficulty),
                     color: sportColor,
                   ),
                   const SizedBox(width: 8),
                   _ComboChip(
-                    label: _capitalize(comboConfig.intensity),
+                    label: _localizedIntensity(context, comboConfig.intensity),
                     color: sportColor,
                   ),
                   if (comboConfig.includeDefense) ...[
@@ -350,6 +350,27 @@ class _SessionDetailCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  static String _localizedDifficulty(BuildContext context, String d) {
+    final s = S.of(context);
+    return switch (d) {
+      'beginner' => s.comboDifficultyBeginner,
+      'intermediate' => s.comboDifficultyIntermediate,
+      'advanced' => s.comboDifficultyAdvanced,
+      _ => _capitalize(d),
+    };
+  }
+
+  static String _localizedIntensity(BuildContext context, String i) {
+    final s = S.of(context);
+    return switch (i) {
+      'relaxed' => s.comboIntensityRelaxed,
+      'moderate' => s.comboIntensityModerate,
+      'intense' => s.comboIntensityIntense,
+      'hurricane' => s.comboIntensityHurricane,
+      _ => _capitalize(i),
+    };
   }
 
   static String _capitalize(String s) =>

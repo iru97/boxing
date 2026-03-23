@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:boxing/core/constants/sport.dart';
 import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/core/theme/app_typography.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
@@ -726,9 +727,12 @@ class _SessionSummaryViewState extends ConsumerState<_SessionSummaryView> {
                     effectiveComboConfigProvider(session.comboConfig),
                   );
                   final displayConfig = effectiveConfig ?? session.comboConfig!;
+                  final sportLabel = Sport.fromId(displayConfig.sport)?.label
+                      ?? _capitalizeFirst(displayConfig.sport);
+                  final diffLabel = _localizedDifficulty(context, displayConfig.difficulty);
                   return _SummaryRow(
                     S.of(context).comboSummaryLabel,
-                    '${_capitalizeFirst(displayConfig.sport)} - ${_capitalizeFirst(displayConfig.difficulty)}',
+                    '$sportLabel - $diffLabel',
                   );
                 }),
               ],

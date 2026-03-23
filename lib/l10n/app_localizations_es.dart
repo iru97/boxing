@@ -21,7 +21,7 @@ class SEs extends S {
   String get sectionMySessionsTitle => 'Mis Sesiones';
 
   @override
-  String get sectionQuickStartTitle => 'Inicio Rapido';
+  String get sectionQuickStartTitle => 'Inicio Rápido';
 
   @override
   String get sectionPresetsTitle => 'Presets';
@@ -78,11 +78,11 @@ class SEs extends S {
   String get buttonSaveExit => 'GUARDAR Y SALIR';
 
   @override
-  String get deleteSessionTitle => '¿Eliminar sesion?';
+  String get deleteSessionTitle => '¿Eliminar sesión?';
 
   @override
   String deleteSessionMessage(String name) {
-    return '¿Eliminar \"$name\"? Esta accion no se puede deshacer.';
+    return '¿Eliminar \"$name\"? Esta acción no se puede deshacer.';
   }
 
   @override
@@ -101,7 +101,7 @@ class SEs extends S {
   }
 
   @override
-  String get sessionNotFound => 'Sesion no encontrada';
+  String get sessionNotFound => 'Sesión no encontrada';
 
   @override
   String sessionCardRoundsFormat(int rounds) {
@@ -124,16 +124,16 @@ class SEs extends S {
   }
 
   @override
-  String get editSessionTitle => 'Editar Sesion';
+  String get editSessionTitle => 'Editar Sesión';
 
   @override
   String get customizePresetTitle => 'Personalizar Preset';
 
   @override
-  String get newSessionTitle => 'Nueva Sesion';
+  String get newSessionTitle => 'Nueva Sesión';
 
   @override
-  String get labelSessionName => 'Nombre de la Sesion';
+  String get labelSessionName => 'Nombre de la Sesión';
 
   @override
   String get hintSessionName => 'ej. Trabajo de Saco';
@@ -145,10 +145,10 @@ class SEs extends S {
   String get labelRounds => 'Rounds';
 
   @override
-  String get labelRoundDuration => 'Duracion del Round';
+  String get labelRoundDuration => 'Duración del Round';
 
   @override
-  String get labelRestDuration => 'Duracion del Descanso';
+  String get labelRestDuration => 'Duración del Descanso';
 
   @override
   String get labelRoundStructure => 'Estructura del Round';
@@ -171,11 +171,11 @@ class SEs extends S {
   String get roundStructureSimple => 'Simple';
 
   @override
-  String get labelAutoAdvance => 'Avance automatico';
+  String get labelAutoAdvance => 'Avance automático';
 
   @override
   String get descriptionAutoAdvance =>
-      'Iniciar siguiente round despues del descanso';
+      'Iniciar siguiente round después del descanso';
 
   @override
   String get labelKeepScreenOn => 'Mantener Pantalla';
@@ -191,7 +191,7 @@ class SEs extends S {
   String get descriptionVoiceAnnounce => 'Anunciar números de ronda por voz';
 
   @override
-  String get sessionSummaryTitle => 'Resumen de Sesion';
+  String get sessionSummaryTitle => 'Resumen de Sesión';
 
   @override
   String sessionSummaryRounds(int rounds, String duration) {
@@ -221,7 +221,7 @@ class SEs extends S {
 
   @override
   String timerEndWorkoutMessage(int current, int total) {
-    return 'Estas en el round $current de $total.';
+    return 'Estás en el round $current de $total.';
   }
 
   @override
@@ -265,7 +265,7 @@ class SEs extends S {
   String get phaseLabelComplete => 'COMPLETO';
 
   @override
-  String get sessionCompleteTitle => 'SESION COMPLETA';
+  String get sessionCompleteTitle => 'SESIÓN COMPLETA';
 
   @override
   String sessionCompleteRounds(int rounds) {
@@ -313,11 +313,11 @@ class SEs extends S {
 
   @override
   String get descriptionAutoAdvanceSettings =>
-      'Iniciar siguiente round despues del descanso';
+      'Iniciar siguiente round después del descanso';
 
   @override
   String get descriptionKeepScreenOnSettings =>
-      'Evitar suspension de pantalla durante entrenamiento';
+      'Evitar suspensión de pantalla durante entrenamiento';
 
   @override
   String get labelResumeCountdown => 'Cuenta Regresiva al Reanudar';
@@ -336,10 +336,10 @@ class SEs extends S {
 
   @override
   String get descriptionVolumeOverride =>
-      'Usar canal de alarma para alertas mas fuertes';
+      'Usar canal de alarma para alertas más fuertes';
 
   @override
-  String get labelHapticFeedback => 'Vibracion';
+  String get labelHapticFeedback => 'Vibración';
 
   @override
   String get descriptionHapticFeedback => 'Vibrar al inicio/fin de round';
@@ -379,13 +379,13 @@ class SEs extends S {
   String get sectionAbout => 'Acerca de';
 
   @override
-  String get labelVersion => 'Version';
+  String get labelVersion => 'Versión';
 
   @override
   String get labelLicenses => 'Licencias';
 
   @override
-  String get soundPackClassicBell => 'Campana Clasica';
+  String get soundPackClassicBell => 'Campana Clásica';
 
   @override
   String get soundPackDigitalBuzzer => 'Timbre Digital';
@@ -711,9 +711,6 @@ class SEs extends S {
   String get purchaseError => 'La compra falló. Inténtalo de nuevo.';
 
   @override
-  String get purchasePending => 'Compra pendiente...';
-
-  @override
   String get sportFilterAll => 'Todos';
 
   @override
@@ -1007,6 +1004,16 @@ class SEs extends S {
   String get programComboFootwork => 'Juego de pies';
 
   @override
+  String programDurationChip(int weeks, int days) {
+    return '$weeks semanas  /  $days días';
+  }
+
+  @override
+  String programDayTileFormat(int rounds, String duration, int totalMin) {
+    return '$rounds rds x $duration  |  ~$totalMin min';
+  }
+
+  @override
   String get programNotFound => 'Programa no encontrado';
 
   @override
@@ -1015,9 +1022,6 @@ class SEs extends S {
   @override
   String get comboDifficultyBeginnerFree =>
       'Principiante es gratis. Desbloquea 120+ combos intermedios y avanzados.';
-
-  @override
-  String get storeUnavailable => 'Tienda no disponible';
 
   @override
   String get storeRetry => 'Tienda no disponible — toca para reintentar';
