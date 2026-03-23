@@ -1038,4 +1038,93 @@ class SEs extends S {
   @override
   String get paywallSemanticStoreUnavailable =>
       'Tienda no disponible. Toca para reintentar.';
+
+  @override
+  String get glossaryTitle => 'Glosario de Técnicas';
+
+  @override
+  String get glossarySearchHint => 'Buscar técnicas...';
+
+  @override
+  String get glossaryEmptySearch => 'No se encontraron técnicas';
+
+  @override
+  String glossaryEmptySearchQuery(String query) {
+    return 'No se encontraron técnicas para \"$query\"';
+  }
+
+  @override
+  String get glossaryAllCategories => 'Todas';
+
+  @override
+  String get techniqueDetailDescription => 'DESCRIPCIÓN';
+
+  @override
+  String get techniqueDetailKeyPoints => 'PUNTOS CLAVE';
+
+  @override
+  String get techniqueDetailRelated => 'TÉCNICAS RELACIONADAS';
+
+  @override
+  String get techniqueDetailWatchVideo => 'Ver Tutorial';
+
+  @override
+  String get preWorkoutReviewTitle => 'Revisar Técnicas';
+
+  @override
+  String get preWorkoutReviewSubtitle => 'Técnicas que practicarás';
+
+  @override
+  String get preWorkoutReviewDismiss => 'Entendido';
+
+  @override
+  String get glossaryCategoryPunch => 'Golpe';
+
+  @override
+  String get glossaryCategoryDefense => 'Defensa';
+
+  @override
+  String get glossaryCategoryFootwork => 'Juego de Pies';
+
+  @override
+  String get glossaryCategoryKick => 'Patada';
+
+  @override
+  String get glossaryCategoryElbow => 'Codo';
+
+  @override
+  String get glossaryCategoryKnee => 'Rodilla';
+
+  @override
+  String get glossaryCategoryGrappling => 'Agarre';
+
+  @override
+  String get glossaryCategoryOther => 'Otro';
+
+  @override
+  String get glossaryCategoryPunchHeader => 'GOLPES';
+
+  @override
+  String get glossaryCategoryDefenseHeader => 'DEFENSA';
+
+  @override
+  String get glossaryCategoryFootworkHeader => 'JUEGO DE PIES';
+
+  @override
+  String get glossaryCategoryKickHeader => 'PATADAS';
+
+  @override
+  String get glossaryCategoryElbowHeader => 'CODOS';
+
+  @override
+  String get glossaryCategoryKneeHeader => 'RODILLAS';
+
+  @override
+  String get glossaryCategoryGrapplingHeader => 'AGARRE';
+
+  @override
+  String get glossaryCategoryOtherHeader => 'OTRO';
+
+  @override
+  String get browseTechniques => 'Explorar Técnicas';
 }

@@ -53,6 +53,12 @@ class SessionListScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton(
+                          icon: Icon(Icons.menu_book,
+                              color: Colors.white.withValues(alpha: 0.5)),
+                          tooltip: 'Technique Glossary',
+                          onPressed: () => context.push('/glossary'),
+                        ),
+                        IconButton(
                           icon: Icon(Icons.history,
                               color: Colors.white.withValues(alpha: 0.5)),
                           onPressed: () => context.push('/history'),

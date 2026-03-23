@@ -1034,4 +1034,93 @@ class SPt extends S {
   @override
   String get paywallSemanticStoreUnavailable =>
       'Loja indisponível. Toque para tentar novamente.';
+
+  @override
+  String get glossaryTitle => 'Glossário de Técnicas';
+
+  @override
+  String get glossarySearchHint => 'Buscar técnicas...';
+
+  @override
+  String get glossaryEmptySearch => 'Nenhuma técnica encontrada';
+
+  @override
+  String glossaryEmptySearchQuery(String query) {
+    return 'Nenhuma técnica encontrada para \"$query\"';
+  }
+
+  @override
+  String get glossaryAllCategories => 'Todas';
+
+  @override
+  String get techniqueDetailDescription => 'DESCRIÇÃO';
+
+  @override
+  String get techniqueDetailKeyPoints => 'PONTOS-CHAVE';
+
+  @override
+  String get techniqueDetailRelated => 'TÉCNICAS RELACIONADAS';
+
+  @override
+  String get techniqueDetailWatchVideo => 'Ver Tutorial';
+
+  @override
+  String get preWorkoutReviewTitle => 'Revisar Técnicas';
+
+  @override
+  String get preWorkoutReviewSubtitle => 'Técnicas que você vai praticar';
+
+  @override
+  String get preWorkoutReviewDismiss => 'Entendi';
+
+  @override
+  String get glossaryCategoryPunch => 'Soco';
+
+  @override
+  String get glossaryCategoryDefense => 'Defesa';
+
+  @override
+  String get glossaryCategoryFootwork => 'Movimentação';
+
+  @override
+  String get glossaryCategoryKick => 'Chute';
+
+  @override
+  String get glossaryCategoryElbow => 'Cotovelo';
+
+  @override
+  String get glossaryCategoryKnee => 'Joelho';
+
+  @override
+  String get glossaryCategoryGrappling => 'Agarramento';
+
+  @override
+  String get glossaryCategoryOther => 'Outro';
+
+  @override
+  String get glossaryCategoryPunchHeader => 'SOCOS';
+
+  @override
+  String get glossaryCategoryDefenseHeader => 'DEFESA';
+
+  @override
+  String get glossaryCategoryFootworkHeader => 'MOVIMENTAÇÃO';
+
+  @override
+  String get glossaryCategoryKickHeader => 'CHUTES';
+
+  @override
+  String get glossaryCategoryElbowHeader => 'COTOVELOS';
+
+  @override
+  String get glossaryCategoryKneeHeader => 'JOELHOS';
+
+  @override
+  String get glossaryCategoryGrapplingHeader => 'AGARRAMENTO';
+
+  @override
+  String get glossaryCategoryOtherHeader => 'OUTRO';
+
+  @override
+  String get browseTechniques => 'Explorar Técnicas';
 }

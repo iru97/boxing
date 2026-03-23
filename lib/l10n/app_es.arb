@@ -447,5 +447,40 @@
   "paywallSemanticFree": "Incluido gratis",
   "paywallSemanticPaid": "Incluido con el pack",
   "paywallSemanticLoading": "Cargando",
-  "paywallSemanticStoreUnavailable": "Tienda no disponible. Toca para reintentar."
+  "paywallSemanticStoreUnavailable": "Tienda no disponible. Toca para reintentar.",
+
+  "glossaryTitle": "Glosario de T\u00e9cnicas",
+  "glossarySearchHint": "Buscar t\u00e9cnicas...",
+  "glossaryEmptySearch": "No se encontraron t\u00e9cnicas",
+  "glossaryEmptySearchQuery": "No se encontraron t\u00e9cnicas para \"{query}\"",
+  "@glossaryEmptySearchQuery": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "glossaryAllCategories": "Todas",
+  "techniqueDetailDescription": "DESCRIPCI\u00d3N",
+  "techniqueDetailKeyPoints": "PUNTOS CLAVE",
+  "techniqueDetailRelated": "T\u00c9CNICAS RELACIONADAS",
+  "techniqueDetailWatchVideo": "Ver Tutorial",
+  "preWorkoutReviewTitle": "Revisar T\u00e9cnicas",
+  "preWorkoutReviewSubtitle": "T\u00e9cnicas que practicar\u00e1s",
+  "preWorkoutReviewDismiss": "Entendido",
+  "glossaryCategoryPunch": "Golpe",
+  "glossaryCategoryDefense": "Defensa",
+  "glossaryCategoryFootwork": "Juego de Pies",
+  "glossaryCategoryKick": "Patada",
+  "glossaryCategoryElbow": "Codo",
+  "glossaryCategoryKnee": "Rodilla",
+  "glossaryCategoryGrappling": "Agarre",
+  "glossaryCategoryOther": "Otro",
+  "glossaryCategoryPunchHeader": "GOLPES",
+  "glossaryCategoryDefenseHeader": "DEFENSA",
+  "glossaryCategoryFootworkHeader": "JUEGO DE PIES",
+  "glossaryCategoryKickHeader": "PATADAS",
+  "glossaryCategoryElbowHeader": "CODOS",
+  "glossaryCategoryKneeHeader": "RODILLAS",
+  "glossaryCategoryGrapplingHeader": "AGARRE",
+  "glossaryCategoryOtherHeader": "OTRO",
+  "browseTechniques": "Explorar T\u00e9cnicas"
 }

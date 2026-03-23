@@ -1031,4 +1031,93 @@ class SEn extends S {
   @override
   String get paywallSemanticStoreUnavailable =>
       'Store unavailable. Tap to retry.';
+
+  @override
+  String get glossaryTitle => 'Technique Glossary';
+
+  @override
+  String get glossarySearchHint => 'Search techniques...';
+
+  @override
+  String get glossaryEmptySearch => 'No techniques found';
+
+  @override
+  String glossaryEmptySearchQuery(String query) {
+    return 'No techniques found for \"$query\"';
+  }
+
+  @override
+  String get glossaryAllCategories => 'All';
+
+  @override
+  String get techniqueDetailDescription => 'DESCRIPTION';
+
+  @override
+  String get techniqueDetailKeyPoints => 'KEY POINTS';
+
+  @override
+  String get techniqueDetailRelated => 'RELATED TECHNIQUES';
+
+  @override
+  String get techniqueDetailWatchVideo => 'Watch Tutorial';
+
+  @override
+  String get preWorkoutReviewTitle => 'Review Techniques';
+
+  @override
+  String get preWorkoutReviewSubtitle => 'Techniques you\'ll practice';
+
+  @override
+  String get preWorkoutReviewDismiss => 'Got it';
+
+  @override
+  String get glossaryCategoryPunch => 'Punch';
+
+  @override
+  String get glossaryCategoryDefense => 'Defense';
+
+  @override
+  String get glossaryCategoryFootwork => 'Footwork';
+
+  @override
+  String get glossaryCategoryKick => 'Kick';
+
+  @override
+  String get glossaryCategoryElbow => 'Elbow';
+
+  @override
+  String get glossaryCategoryKnee => 'Knee';
+
+  @override
+  String get glossaryCategoryGrappling => 'Grappling';
+
+  @override
+  String get glossaryCategoryOther => 'Other';
+
+  @override
+  String get glossaryCategoryPunchHeader => 'PUNCHES';
+
+  @override
+  String get glossaryCategoryDefenseHeader => 'DEFENSE';
+
+  @override
+  String get glossaryCategoryFootworkHeader => 'FOOTWORK';
+
+  @override
+  String get glossaryCategoryKickHeader => 'KICKS';
+
+  @override
+  String get glossaryCategoryElbowHeader => 'ELBOWS';
+
+  @override
+  String get glossaryCategoryKneeHeader => 'KNEES';
+
+  @override
+  String get glossaryCategoryGrapplingHeader => 'GRAPPLING';
+
+  @override
+  String get glossaryCategoryOtherHeader => 'OTHER';
+
+  @override
+  String get browseTechniques => 'Browse Techniques';
 }

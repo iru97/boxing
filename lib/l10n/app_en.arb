@@ -577,5 +577,40 @@
   "paywallSemanticFree": "Included free",
   "paywallSemanticPaid": "Included with pack",
   "paywallSemanticLoading": "Loading",
-  "paywallSemanticStoreUnavailable": "Store unavailable. Tap to retry."
+  "paywallSemanticStoreUnavailable": "Store unavailable. Tap to retry.",
+
+  "glossaryTitle": "Technique Glossary",
+  "glossarySearchHint": "Search techniques...",
+  "glossaryEmptySearch": "No techniques found",
+  "glossaryEmptySearchQuery": "No techniques found for \"{query}\"",
+  "@glossaryEmptySearchQuery": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "glossaryAllCategories": "All",
+  "techniqueDetailDescription": "DESCRIPTION",
+  "techniqueDetailKeyPoints": "KEY POINTS",
+  "techniqueDetailRelated": "RELATED TECHNIQUES",
+  "techniqueDetailWatchVideo": "Watch Tutorial",
+  "preWorkoutReviewTitle": "Review Techniques",
+  "preWorkoutReviewSubtitle": "Techniques you'll practice",
+  "preWorkoutReviewDismiss": "Got it",
+  "glossaryCategoryPunch": "Punch",
+  "glossaryCategoryDefense": "Defense",
+  "glossaryCategoryFootwork": "Footwork",
+  "glossaryCategoryKick": "Kick",
+  "glossaryCategoryElbow": "Elbow",
+  "glossaryCategoryKnee": "Knee",
+  "glossaryCategoryGrappling": "Grappling",
+  "glossaryCategoryOther": "Other",
+  "glossaryCategoryPunchHeader": "PUNCHES",
+  "glossaryCategoryDefenseHeader": "DEFENSE",
+  "glossaryCategoryFootworkHeader": "FOOTWORK",
+  "glossaryCategoryKickHeader": "KICKS",
+  "glossaryCategoryElbowHeader": "ELBOWS",
+  "glossaryCategoryKneeHeader": "KNEES",
+  "glossaryCategoryGrapplingHeader": "GRAPPLING",
+  "glossaryCategoryOtherHeader": "OTHER",
+  "browseTechniques": "Browse Techniques"
 }

@@ -447,5 +447,40 @@
   "paywallSemanticFree": "Inclu\u00eddo gratuitamente",
   "paywallSemanticPaid": "Inclu\u00eddo com o pacote",
   "paywallSemanticLoading": "Carregando",
-  "paywallSemanticStoreUnavailable": "Loja indispon\u00edvel. Toque para tentar novamente."
+  "paywallSemanticStoreUnavailable": "Loja indispon\u00edvel. Toque para tentar novamente.",
+
+  "glossaryTitle": "Gloss\u00e1rio de T\u00e9cnicas",
+  "glossarySearchHint": "Buscar t\u00e9cnicas...",
+  "glossaryEmptySearch": "Nenhuma t\u00e9cnica encontrada",
+  "glossaryEmptySearchQuery": "Nenhuma t\u00e9cnica encontrada para \"{query}\"",
+  "@glossaryEmptySearchQuery": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "glossaryAllCategories": "Todas",
+  "techniqueDetailDescription": "DESCRI\u00c7\u00c3O",
+  "techniqueDetailKeyPoints": "PONTOS-CHAVE",
+  "techniqueDetailRelated": "T\u00c9CNICAS RELACIONADAS",
+  "techniqueDetailWatchVideo": "Ver Tutorial",
+  "preWorkoutReviewTitle": "Revisar T\u00e9cnicas",
+  "preWorkoutReviewSubtitle": "T\u00e9cnicas que voc\u00ea vai praticar",
+  "preWorkoutReviewDismiss": "Entendi",
+  "glossaryCategoryPunch": "Soco",
+  "glossaryCategoryDefense": "Defesa",
+  "glossaryCategoryFootwork": "Movimenta\u00e7\u00e3o",
+  "glossaryCategoryKick": "Chute",
+  "glossaryCategoryElbow": "Cotovelo",
+  "glossaryCategoryKnee": "Joelho",
+  "glossaryCategoryGrappling": "Agarramento",
+  "glossaryCategoryOther": "Outro",
+  "glossaryCategoryPunchHeader": "SOCOS",
+  "glossaryCategoryDefenseHeader": "DEFESA",
+  "glossaryCategoryFootworkHeader": "MOVIMENTA\u00c7\u00c3O",
+  "glossaryCategoryKickHeader": "CHUTES",
+  "glossaryCategoryElbowHeader": "COTOVELOS",
+  "glossaryCategoryKneeHeader": "JOELHOS",
+  "glossaryCategoryGrapplingHeader": "AGARRAMENTO",
+  "glossaryCategoryOtherHeader": "OUTRO",
+  "browseTechniques": "Explorar T\u00e9cnicas"
 }

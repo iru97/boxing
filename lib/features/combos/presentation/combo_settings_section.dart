@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:boxing/features/combos/data/combo_library.dart';
 import 'package:boxing/features/combos/domain/combo_callout_config.dart';
@@ -94,6 +95,17 @@ class ComboSettingsSection extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           _PoolSizeIndicator(config: config, hasComboAccess: hasComboAccess),
+          TextButton.icon(
+            icon: const Icon(Icons.menu_book, size: 16),
+            label: const Text('Browse Techniques'),
+            onPressed: () => context.push('/glossary'),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white.withValues(alpha: 0.5),
+              textStyle: const TextStyle(fontSize: 12),
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+          ),
         ],
       ],
     );

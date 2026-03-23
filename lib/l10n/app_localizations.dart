@@ -1952,6 +1952,180 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Store unavailable. Tap to retry.'**
   String get paywallSemanticStoreUnavailable;
+
+  /// No description provided for @glossaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Technique Glossary'**
+  String get glossaryTitle;
+
+  /// No description provided for @glossarySearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search techniques...'**
+  String get glossarySearchHint;
+
+  /// No description provided for @glossaryEmptySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No techniques found'**
+  String get glossaryEmptySearch;
+
+  /// No description provided for @glossaryEmptySearchQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'No techniques found for \"{query}\"'**
+  String glossaryEmptySearchQuery(String query);
+
+  /// No description provided for @glossaryAllCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get glossaryAllCategories;
+
+  /// No description provided for @techniqueDetailDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'DESCRIPTION'**
+  String get techniqueDetailDescription;
+
+  /// No description provided for @techniqueDetailKeyPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'KEY POINTS'**
+  String get techniqueDetailKeyPoints;
+
+  /// No description provided for @techniqueDetailRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'RELATED TECHNIQUES'**
+  String get techniqueDetailRelated;
+
+  /// No description provided for @techniqueDetailWatchVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch Tutorial'**
+  String get techniqueDetailWatchVideo;
+
+  /// No description provided for @preWorkoutReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Techniques'**
+  String get preWorkoutReviewTitle;
+
+  /// No description provided for @preWorkoutReviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Techniques you\'ll practice'**
+  String get preWorkoutReviewSubtitle;
+
+  /// No description provided for @preWorkoutReviewDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get preWorkoutReviewDismiss;
+
+  /// No description provided for @glossaryCategoryPunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Punch'**
+  String get glossaryCategoryPunch;
+
+  /// No description provided for @glossaryCategoryDefense.
+  ///
+  /// In en, this message translates to:
+  /// **'Defense'**
+  String get glossaryCategoryDefense;
+
+  /// No description provided for @glossaryCategoryFootwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Footwork'**
+  String get glossaryCategoryFootwork;
+
+  /// No description provided for @glossaryCategoryKick.
+  ///
+  /// In en, this message translates to:
+  /// **'Kick'**
+  String get glossaryCategoryKick;
+
+  /// No description provided for @glossaryCategoryElbow.
+  ///
+  /// In en, this message translates to:
+  /// **'Elbow'**
+  String get glossaryCategoryElbow;
+
+  /// No description provided for @glossaryCategoryKnee.
+  ///
+  /// In en, this message translates to:
+  /// **'Knee'**
+  String get glossaryCategoryKnee;
+
+  /// No description provided for @glossaryCategoryGrappling.
+  ///
+  /// In en, this message translates to:
+  /// **'Grappling'**
+  String get glossaryCategoryGrappling;
+
+  /// No description provided for @glossaryCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get glossaryCategoryOther;
+
+  /// No description provided for @glossaryCategoryPunchHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'PUNCHES'**
+  String get glossaryCategoryPunchHeader;
+
+  /// No description provided for @glossaryCategoryDefenseHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'DEFENSE'**
+  String get glossaryCategoryDefenseHeader;
+
+  /// No description provided for @glossaryCategoryFootworkHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'FOOTWORK'**
+  String get glossaryCategoryFootworkHeader;
+
+  /// No description provided for @glossaryCategoryKickHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'KICKS'**
+  String get glossaryCategoryKickHeader;
+
+  /// No description provided for @glossaryCategoryElbowHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'ELBOWS'**
+  String get glossaryCategoryElbowHeader;
+
+  /// No description provided for @glossaryCategoryKneeHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'KNEES'**
+  String get glossaryCategoryKneeHeader;
+
+  /// No description provided for @glossaryCategoryGrapplingHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'GRAPPLING'**
+  String get glossaryCategoryGrapplingHeader;
+
+  /// No description provided for @glossaryCategoryOtherHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'OTHER'**
+  String get glossaryCategoryOtherHeader;
+
+  /// No description provided for @browseTechniques.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Techniques'**
+  String get browseTechniques;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

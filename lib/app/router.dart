@@ -9,6 +9,7 @@ import 'package:boxing/features/settings/presentation/settings_screen.dart';
 import 'package:boxing/features/programs/presentation/program_browse_screen.dart';
 import 'package:boxing/features/programs/presentation/program_detail_screen.dart';
 import 'package:boxing/features/programs/presentation/program_day_screen.dart';
+import 'package:boxing/features/glossary/presentation/glossary_screen.dart';
 
 final goRouter = GoRouter(
   initialLocation: '/',
@@ -81,6 +82,10 @@ final goRouter = GoRouter(
         programId: state.pathParameters['programId']!,
         weekDay: state.pathParameters['weekDay']!,
       ),
+    ),
+    GoRoute(
+      path: '/glossary',
+      builder: (context, state) => const GlossaryScreen(),
     ),
   ],
 );

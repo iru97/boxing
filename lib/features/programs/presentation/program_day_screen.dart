@@ -8,6 +8,7 @@ import 'package:boxing/core/theme/app_colors.dart';
 import 'package:boxing/core/utils/duration_formatter.dart';
 import 'package:boxing/features/programs/domain/training_program.dart';
 import 'package:boxing/features/programs/presentation/programs_controller.dart';
+import 'package:boxing/features/glossary/presentation/pre_workout_review_sheet.dart';
 import 'package:boxing/features/sessions/domain/session_model.dart';
 import 'package:boxing/l10n/app_localizations.dart';
 
@@ -143,6 +144,22 @@ class ProgramDayScreen extends ConsumerWidget {
               session: session,
               sportColor: sportColor,
             ),
+
+            // Review techniques button — only when combo callouts are active
+            if (session.comboConfig != null && session.comboConfig!.enabled)
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: OutlinedButton.icon(
+                  icon: const Icon(Icons.menu_book, size: 18),
+                  label: const Text('Review Techniques'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: sportColor,
+                    side: BorderSide(color: sportColor.withValues(alpha: 0.3)),
+                    minimumSize: const Size.fromHeight(44),
+                  ),
+                  onPressed: () => PreWorkoutReviewSheet.show(context, session),
+                ),
+              ),
 
             const Spacer(),
 
